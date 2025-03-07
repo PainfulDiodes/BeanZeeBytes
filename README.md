@@ -3,7 +3,7 @@ Example programs for the [BeanZee](https://github.com/PainfulDiodes/BeanZee) Z80
 
 Written for BeanZee 1.0 and Marvin 1.0
 
-Marvin can interpret Intel HEX format inputs to load programs into RAM. Programs can be built from Z80 assembly language, or a higher-level language such as C.
+Marvin can interpret Intel HEX format inputs to load machine code programs into RAM. Programs can be built from Z80 assembly language, or a higher-level language such as C.
 
 BeanZeeBytes example programs have been prepared using the [Z88DK](https://github.com/z88dk/z88dk):
 
