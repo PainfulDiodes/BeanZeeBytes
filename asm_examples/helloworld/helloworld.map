@@ -1,0 +1,12 @@
+RAMSTART                        = $8000 ; const, local, , helloworld, , ../lib/marvin.asm:4
+RESET                           = $0000 ; const, local, , helloworld, , ../lib/marvin.asm:8
+__head                          = $8000 ; const, public, def, , ,
+__size                          = $002A ; const, public, def, , ,
+__tail                          = $802A ; const, public, def, , ,
+end                             = $8009 ; addr, local, , helloworld, , helloworld.asm:12
+getchar                         = $0006 ; const, local, , helloworld, , ../lib/marvin.asm:11
+message                         = $800C ; addr, local, , helloworld, , helloworld.asm:15
+print                           = $8003 ; addr, local, , helloworld, , helloworld.asm:7
+puts                            = $001C ; const, local, , helloworld, , ../lib/marvin.asm:13
+start                           = $8000 ; addr, local, , helloworld, , helloworld.asm:5
+wait                            = $8006 ; addr, local, , helloworld, , helloworld.asm:9

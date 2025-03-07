@@ -1,6 +1,6 @@
 set -x #echo on
 
-f="hello_world"
+f="helloworld"
 marvin="../lib/marvin.c"
 org=0x8000
 reset=0x0000

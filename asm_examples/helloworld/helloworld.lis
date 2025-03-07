@@ -1,4 +1,4 @@
-hello_world.asm:
+helloworld.asm:
      1                          include "../lib/marvin.asm"     ; load all the definitions needed to interact with the monitor program
 ../lib/marvin.asm:
      1                          ; Marvin 1.0 definitions
@@ -15,7 +15,7 @@ hello_world.asm:
     12                          putchar equ $000f       ; send character in A to the console
     13                          puts equ    $001c       ; print a zero-terminated string pointed to by HL to the console
     14                          
-hello_world.asm:
+helloworld.asm:
      2                          
      3                          org RAMSTART                    ; this is the default location for a BeanZee standalone assembly program
      4                          
