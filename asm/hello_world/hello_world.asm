@@ -13,4 +13,5 @@ end:
     jp RESET                    ; jump to the reset address - will jump back to the monitor
 
 message: 
-    db "\nHello world!\n\n",0   ; message to be printed - must be terminated by a 0
+    db "\nHello world!\n"     ; message to be printed 
+    db "(hit any key)\n\n",0    ; must be terminated by a 0
