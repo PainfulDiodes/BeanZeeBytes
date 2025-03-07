@@ -11,7 +11,7 @@ BeanZeeBytes example programs have been prepared using the [Z88DK](https://githu
 
 Examples are provided in C and Z80 assembly.
 
-The easiest way to build these programs is to install an use the Z88DK tool chain and generate Intel HEX files. Shell scripts are provided to build the programs using Z88DK. 
+The easiest way to build these programs is to install an use the Z88DK tool chain and generate Intel HEX files. Shell scripts are provided to build the programs using Z88DK (these were written for MacOS but should be easy enough to adapt).
 
 However, Intel HEX files (with an .ihx extension) are also provided so that you can load and run them "as is" without needing to build them.
 
