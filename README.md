@@ -19,3 +19,4 @@ Use your terminal emulator to send the ihx file to BeanZee, and then run the pro
 
     x8000
 
+eXecute without an address will execute from the beginning of user RAM (RAMSTART) = 0x8000, which is the default for loading programs.
