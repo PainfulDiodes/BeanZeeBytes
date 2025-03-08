@@ -1,4 +1,4 @@
-// Marvin 1.0.2->
+// Marvin 1.0.1
 
 #include <stdio.h>
 
@@ -10,7 +10,7 @@ __asm
     push    hl
     push    bc
     ld      a,l
-    call    $0020 ; marvin putchar
+    call    $000f ; marvin putchar
     ret
 __endasm;
 } 
@@ -18,7 +18,7 @@ __endasm;
 int fgetc_cons() __naked
 {
 __asm
-    call    $0010 ; marvin getchar
+    call    $0006 ; marvin getchar
     ld      l,a     ;Return the result in hl
     ld      h,0
     ret
