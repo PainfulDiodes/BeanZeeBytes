@@ -4,3 +4,7 @@
 *.map
 *.rom
 .vscode/*.*
+*.hex
+*.lis
+*.map
+*.sym
