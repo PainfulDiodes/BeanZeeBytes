@@ -3,3 +3,7 @@
 *.o
 *.rom
 .vscode/*.*
+*.hex
+*.lis
+*.map
+*.sym
