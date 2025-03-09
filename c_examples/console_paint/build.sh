@@ -1,7 +1,7 @@
 set -x #echo on
 
 f="console_paint"
-marvin="../lib/marvin.c"
+marvin="../lib/marvin.asm"
 org=0x8000
 reset=0x0000
 
