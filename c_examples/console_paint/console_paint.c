@@ -9,6 +9,8 @@ void clearScreen(void);
 void setCursor(int,int);
 void setCursorHome(void);
 void cursorMove(char, int);
+void hideCursor(void);
+void showCursor(void);
 
 int main()
 {
@@ -45,4 +47,12 @@ void setCursorHome() {
 
 void cursorMove(char dir, int dist) {
     printf("\e[%d%c",dist,dir);
+}
+
+void hideCursor() {
+    printf("\e[?25l");
+}
+
+void showCursor() {
+    printf("\e[?25h");
 }
