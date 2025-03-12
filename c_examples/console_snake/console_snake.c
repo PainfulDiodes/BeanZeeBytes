@@ -9,7 +9,8 @@ void cursorMove(char, int);
 void openingScreen(void);
 void plot(int,int);
 void plotBox(int,int,int,int);
-void delay(int);
+// void delay(int);
+void delay(unsigned int);
 void hideCursor(void);
 void showCursor(void);
 
@@ -35,6 +36,8 @@ void openingScreen() {
         plotBox(1+r,SCREEN_WIDTH-r,1+r,SCREEN_HEIGHT-r);
         if(read_char!=0) break;
     }
+    setCursor(35,13);
+    printf("Snake!");
 
     while(read_char==0) read_char = readchar();
 
@@ -68,18 +71,23 @@ void plotBox(int x1, int x2, int y1, int y2) {
 void plot(int x, int y) {
     setCursor(x,y);
     putchar('*');
-    delay(32);
+    delay(3);
     read_char = readchar();
 }
 
-void delay(int d) {
-    for(int i=0; i<d; i++) {
-        for(int j=0; j<100; j++) {
-            //
-        }
+void delay(unsigned int d) {
+    for(unsigned int i=0; i<d; i++) {
+        //
     }
 }
 
+// void delay(int d) {
+//     for(int i=0; i<d; i++) {
+//         for(int j=0; j<100; j++) {
+//             //
+//         }
+//     }
+// }
 
 void clearScreen() {
     printf("\e[2J");
