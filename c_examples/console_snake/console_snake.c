@@ -24,7 +24,7 @@ void setupGame(void);
 int x_cell_pos[MAX_LENGTH+1];
 int y_cell_pos[MAX_LENGTH+1];
 
-int length = 5;
+int length;
 bool alive;
 int score,motion; //fruit_x, fruit_y, 
 
@@ -77,6 +77,7 @@ void splashDot(int x, int y) {
 void setupGame() {
     // lastMoveMillis = millis();
     score = 0;
+    length = 5;
     motion = MOTION_NONE;
     alive = true;
   
@@ -87,6 +88,7 @@ void setupGame() {
     }
   
     clearScreen();
+
     drawSnake();
     // dropFruit();
     // printScore(ILI9341_WHITE);
@@ -105,8 +107,8 @@ void drawSnake() {
       else setCell(x_cell_pos[i],y_cell_pos[i],alive ? 'o' : '.');
       c=-c;
     }
-    setCell(x_cell_pos[length],y_cell_pos[length],' ');
-  }
+    setCell(x_cell_pos[length],y_cell_pos[length],' ');  
+}
   
 
 void delay(unsigned long d) {
