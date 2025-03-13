@@ -9,8 +9,7 @@ void cursorMove(char, int);
 void openingScreen(void);
 void plot(int,int);
 void plotBox(int,int,int,int);
-// void delay(int);
-void delay(unsigned int);
+void delay(unsigned long);
 void hideCursor(void);
 void showCursor(void);
 
@@ -75,8 +74,8 @@ void plot(int x, int y) {
     read_char = readchar();
 }
 
-void delay(unsigned int d) {
-    for(unsigned int i=0; i<d; i++) {
+void delay(unsigned long d) {
+    for(unsigned long l=0; l<d; l++) {
         //
     }
 }
