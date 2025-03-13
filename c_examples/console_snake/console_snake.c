@@ -1,17 +1,12 @@
 #include <stdio.h>
 #include "readchar.h"
+#include "terminal.h"
 
 // function prototypes
-void clearScreen(void);
-void setCursor(int,int);
-void setCursorHome(void);
-void cursorMove(char, int);
 void openingScreen(void);
 void plot(int,int);
 void plotBox(int,int,int,int);
 void delay(unsigned long);
-void hideCursor(void);
-void showCursor(void);
 
 
 const int SCREEN_WIDTH = 80;
@@ -23,7 +18,6 @@ int main()
 {
     openingScreen();
 }
-
 void openingScreen() {
     clearScreen();
     hideCursor();
@@ -79,36 +73,3 @@ void delay(unsigned long d) {
         //
     }
 }
-
-// void delay(int d) {
-//     for(int i=0; i<d; i++) {
-//         for(int j=0; j<100; j++) {
-//             //
-//         }
-//     }
-// }
-
-void clearScreen() {
-    printf("\e[2J");
-}
-
-void setCursor(int x, int y) {
-    printf("\e[%d;%dH",y,x);
-}
-
-void setCursorHome() {
-    printf("\e[H");
-}
-
-void cursorMove(char dir, int dist) {
-    printf("\e[%d%c",dist,dir);
-}
-
-void hideCursor() {
-    printf("\e[?25l");
-}
-
-void showCursor() {
-    printf("\e[?25h");
-}
-

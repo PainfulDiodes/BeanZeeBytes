@@ -1,1 +1,1 @@
-int readchar(void);
+int readchar(void); // asm function
