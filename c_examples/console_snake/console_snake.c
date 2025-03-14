@@ -45,21 +45,29 @@ int seed,length,score,motion,fruit_x,fruit_y;
 
 int main()
 {
+    char k;
     clearScreen();
     hideCursor();
-
     splash();
 
     while(true) {
         setupGame();
         while(alive) gameLoop();
         gameOver();
-        if(getchar()=='q') break;
+        while(true) {
+            k=readchar();
+            if(k=='q') {
+                clearScreen();
+                showCursor();
+                setCursorHome();
+                return;
+            }
+            if(k=='p') {
+                break;
+            }
+        }
     }
 
-    clearScreen();
-    showCursor();
-    setCursorHome();
 }
 
 void gameOver() {
@@ -71,7 +79,7 @@ void gameOver() {
     setCursor(20,12);
     printf("Press q to quit");
     setCursor(20,13);
-    printf("or any other key to play again");
+    printf("or p to play again");
 }
 
 void splash() {
