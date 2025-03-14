@@ -50,7 +50,7 @@ int main()
 
     while(readchar()==0); // wait for keypress
 
-    while(true) {
+    while(alive) {
         gameLoop();
     }
 
