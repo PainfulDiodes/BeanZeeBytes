@@ -15,6 +15,7 @@ void setupGame(void);
 void dropFruit(void);
 bool isWithinSnake(int,int);
 void printScore(void);
+void gameLoop(void);
     
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 24
@@ -31,7 +32,6 @@ int y_cell_pos[MAX_LENGTH+1];
 bool alive;
 int seed,length,score,motion,fruit_x,fruit_y;
 
-#define MOTION_NONE  0
 #define MOTION_UP    1
 #define MOTION_DOWN  2
 #define MOTION_LEFT  3
@@ -41,11 +41,14 @@ int main()
 {
     clearScreen();
     hideCursor();
+
     splash();
 
     setupGame();
 
     while(readchar()==0); // wait for keypress
+
+    gameLoop();
 
     clearScreen();
     showCursor();
@@ -97,7 +100,7 @@ void setupGame() {
     // lastMoveMillis = millis();
     score = 0;
     length = 5;
-    motion = MOTION_NONE;
+    motion = MOTION_RIGHT;
     alive = true;
 
     for(int i=0; i<=length; i++) // use <= as the position after the length is used to clean up the prior position of the snake
@@ -112,7 +115,41 @@ void setupGame() {
     dropFruit();
     printScore();
 }
+
+void gameLoop() {
+
+    unsigned int k = readchar();
+    if(k!=0)
+    {     
+      switch (motion) {
+        case MOTION_LEFT:
+          if(k==',') motion=MOTION_DOWN;
+          else if(k=='.') motion=MOTION_UP;
+          break;
+        case MOTION_RIGHT:
+          if(k==',') motion=MOTION_UP;
+          else if(k=='.') motion=MOTION_DOWN;
+          break;
+        case MOTION_UP:
+          if(k==',') motion=MOTION_LEFT;
+          else if(k=='.') motion=MOTION_RIGHT;
+          break;
+        case MOTION_DOWN:
+          if(k==',') motion=MOTION_RIGHT;
+          else if(k=='.') motion=MOTION_LEFT;
+          break;
+        default:
+          break;
+      }  
+    }
   
+    if(alive) {
+        delay(100);
+        // move();
+    }  
+  }
+
+
 void setCell(int x, int y, char c) {
     setCursor(x,y);
     putchar(c);
