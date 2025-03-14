@@ -27,9 +27,8 @@ bool isWithinSnake(int,int);
 int x_cell_pos[MAX_LENGTH+1];
 int y_cell_pos[MAX_LENGTH+1];
 
-int length;
 bool alive;
-int score,motion,fruit_x,fruit_y;
+int seed,length,score,motion,fruit_x,fruit_y;
 
 #define MOTION_NONE  0
 #define MOTION_UP    1
@@ -53,14 +52,18 @@ int main()
 }
 
 void splash() {
+    seed=0;
     setCursor(35,13);
     printf("Snake!");
+    setCursor(28,16);
+    printf("Press any key to start");
     setCursorHome();
     for(int r=0; r<12; r++) {
         if(splashBox(1+r,SCREEN_WIDTH-r,1+r,SCREEN_HEIGHT-r)) break;
     }
     setCursor(35,13);
     printf("Snake!");
+    srand(seed);
 }
 
 bool splashBox(int x1, int x2, int y1, int y2) {
@@ -86,6 +89,7 @@ bool splashBox(int x1, int x2, int y1, int y2) {
 void splashDot(int x, int y) {
     setCell(x,y,'*');
     delay(3);
+    seed++;
 }
 
 void setupGame() {
