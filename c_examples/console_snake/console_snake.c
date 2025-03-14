@@ -14,6 +14,7 @@ void drawSnake(void);
 void setupGame(void);
 void dropFruit(void);
 bool isWithinSnake(int,int);
+void printScore(void);
     
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 24
@@ -109,7 +110,7 @@ void setupGame() {
 
     drawSnake();
     dropFruit();
-    // printScore(ILI9341_WHITE);
+    printScore();
 }
   
 void setCell(int x, int y, char c) {
@@ -148,6 +149,11 @@ bool isWithinSnake(int x, int y) {
     return false;
 }
 
+void printScore() {
+    setCursor(1, 1);
+    printf("Score:%d",score);
+}
+  
 void delay(unsigned long d) {
     for(unsigned long l=0; l<d; l++) {
         //
