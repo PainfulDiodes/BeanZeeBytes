@@ -16,6 +16,7 @@ void dropFruit(void);
 bool isWithinSnake(int,int);
 void printScore(void);
 void gameLoop(void);
+void move(void);
     
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 24
@@ -32,6 +33,7 @@ int y_cell_pos[MAX_LENGTH+1];
 bool alive;
 int seed,length,score,motion,fruit_x,fruit_y;
 
+#define MOTION_NONE  0
 #define MOTION_UP    1
 #define MOTION_DOWN  2
 #define MOTION_LEFT  3
@@ -48,7 +50,9 @@ int main()
 
     while(readchar()==0); // wait for keypress
 
-    gameLoop();
+    while(true) {
+        gameLoop();
+    }
 
     clearScreen();
     showCursor();
@@ -97,7 +101,6 @@ void splashDot(int x, int y) {
 }
 
 void setupGame() {
-    // lastMoveMillis = millis();
     score = 0;
     length = 5;
     motion = MOTION_RIGHT;
@@ -144,11 +147,65 @@ void gameLoop() {
     }
   
     if(alive) {
-        delay(100);
-        // move();
+        delay(1000);
+        move();
     }  
-  }
+}
 
+  void move() {
+    if(motion == MOTION_NONE) return;
+
+    int new_x = x_cell_pos[0];
+    int new_y = y_cell_pos[0];
+  
+    switch (motion) {
+      case MOTION_LEFT:
+       new_x--;
+        break;
+      case MOTION_RIGHT:
+        new_x++;
+        break;
+      case MOTION_UP:
+        new_y--;
+        break;
+      case MOTION_DOWN:
+        new_y++;
+        break;
+      default:
+        break;
+    }
+  
+    // check for crossed snake or boundary collision
+    if(isWithinSnake(new_x, new_y) || new_x < 0 || new_x > X_MAX_CELL-1 || new_y < 0 || new_y > Y_MAX_CELL-1)
+    { // crashed
+      motion = MOTION_NONE;
+      alive = false;
+      drawSnake();
+      return;
+    }
+  
+      // stack push
+    for(int i = length; i > 0; i--) {
+      x_cell_pos[i] = x_cell_pos[i-1];
+      y_cell_pos[i] = y_cell_pos[i-1];
+    }
+  
+    // add new position to top
+    x_cell_pos[0] = new_x;
+    y_cell_pos[0] = new_y;
+  
+    // eaten fruit?
+    if(new_x==fruit_x && new_y==fruit_y) {
+      length++;
+      printScore();
+      score++;
+      printScore();
+      dropFruit();
+    }
+  
+    drawSnake();
+  
+}
 
 void setCell(int x, int y, char c) {
     setCursor(x,y);
@@ -187,7 +244,7 @@ bool isWithinSnake(int x, int y) {
 }
 
 void printScore() {
-    setCursor(1, 1);
+    setCursor(35, 1);
     printf("Score:%d",score);
 }
   
