@@ -17,13 +17,17 @@ bool isWithinSnake(int,int);
 void printScore(void);
 void gameLoop(void);
 void move(void);
+void gameOver(void);
     
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 24
 #define X_MAX_CELL 80
-#define Y_MAX_CELL 24
+#define Y_MAX_CELL 23
 #define X_START_CELL 40
 #define Y_START_CELL 12
+
+#define LEFT_KEY 'z'
+#define RIGHT_KEY 'x'
 
 // snake is held in 2 arrays for coordinates. First element is the head of the snake. 
 #define MAX_LENGTH 100
@@ -46,17 +50,28 @@ int main()
 
     splash();
 
-    setupGame();
-
-    while(readchar()==0); // wait for keypress
-
-    while(alive) {
-        gameLoop();
+    while(true) {
+        setupGame();
+        while(alive) gameLoop();
+        gameOver();
+        if(getchar()=='q') break;
     }
 
     clearScreen();
     showCursor();
     setCursorHome();
+}
+
+void gameOver() {
+    clearScreen();
+    drawSnake();
+    printScore();
+    setCursor(20,10);
+    printf("Game Over");
+    setCursor(20,12);
+    printf("Press q to quit");
+    setCursor(20,13);
+    printf("or any other key to play again");
 }
 
 void splash() {
@@ -65,6 +80,8 @@ void splash() {
     printf("Snake!");
     setCursor(28,16);
     printf("Press any key to start");
+    setCursor(28,18);
+    printf("z and x to change direction");
     setCursorHome();
     for(int r=0; r<12; r++) {
         if(splashBox(1+r,SCREEN_WIDTH-r,1+r,SCREEN_HEIGHT-r)) break;
@@ -126,20 +143,20 @@ void gameLoop() {
     {     
       switch (motion) {
         case MOTION_LEFT:
-          if(k==',') motion=MOTION_DOWN;
-          else if(k=='.') motion=MOTION_UP;
+          if(k==LEFT_KEY) motion=MOTION_DOWN;
+          else if(k==RIGHT_KEY) motion=MOTION_UP;
           break;
         case MOTION_RIGHT:
-          if(k==',') motion=MOTION_UP;
-          else if(k=='.') motion=MOTION_DOWN;
+          if(k==LEFT_KEY) motion=MOTION_UP;
+          else if(k==RIGHT_KEY) motion=MOTION_DOWN;
           break;
         case MOTION_UP:
-          if(k==',') motion=MOTION_LEFT;
-          else if(k=='.') motion=MOTION_RIGHT;
+          if(k==LEFT_KEY) motion=MOTION_LEFT;
+          else if(k==RIGHT_KEY) motion=MOTION_RIGHT;
           break;
         case MOTION_DOWN:
-          if(k==',') motion=MOTION_RIGHT;
-          else if(k=='.') motion=MOTION_LEFT;
+          if(k==LEFT_KEY) motion=MOTION_RIGHT;
+          else if(k==RIGHT_KEY) motion=MOTION_LEFT;
           break;
         default:
           break;
@@ -225,8 +242,8 @@ void drawSnake() {
 
 void dropFruit() {
     while(true) {
-      fruit_x = (rand() % X_MAX_CELL)+1;
-      fruit_y = (rand() % Y_MAX_CELL)+1;
+      fruit_x = (rand() % (X_MAX_CELL-2))+2;
+      fruit_y = (rand() % (Y_MAX_CELL-2))+2;
       if(!isWithinSnake(fruit_x, fruit_y)) {
         setCell(fruit_x,fruit_y,'+');
         return;
@@ -244,8 +261,8 @@ bool isWithinSnake(int x, int y) {
 }
 
 void printScore() {
-    setCursor(35, 1);
-    printf("Score:%d",score);
+    setCursor(35, 24);
+    printf("Score: %d",score);
 }
   
 void delay(unsigned long d) {
