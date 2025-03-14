@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include "readchar.h"
@@ -11,6 +12,8 @@ void delay(unsigned long);
 void setCell(int,int,char);
 void drawSnake(void);
 void setupGame(void);
+void dropFruit(void);
+bool isWithinSnake(int,int);
     
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 24
@@ -26,7 +29,7 @@ int y_cell_pos[MAX_LENGTH+1];
 
 int length;
 bool alive;
-int score,motion; //fruit_x, fruit_y, 
+int score,motion,fruit_x,fruit_y;
 
 #define MOTION_NONE  0
 #define MOTION_UP    1
@@ -39,7 +42,6 @@ int main()
     clearScreen();
     hideCursor();
     splash();
-    while(readchar()==0); // wait for keypress
 
     setupGame();
 
@@ -80,19 +82,19 @@ void setupGame() {
     length = 5;
     motion = MOTION_NONE;
     alive = true;
-  
+
     for(int i=0; i<=length; i++) // use <= as the position after the length is used to clean up the prior position of the snake
     {
-      x_cell_pos[i] = X_START_CELL-i;
-      y_cell_pos[i] = Y_START_CELL;
+        x_cell_pos[i] = X_START_CELL-i;
+        y_cell_pos[i] = Y_START_CELL;
     }
-  
+
     clearScreen();
 
     drawSnake();
-    // dropFruit();
+    dropFruit();
     // printScore(ILI9341_WHITE);
-  }
+}
   
 void setCell(int x, int y, char c) {
     setCursor(x,y);
@@ -102,14 +104,33 @@ void setCell(int x, int y, char c) {
 void drawSnake() {
     int c = 1;
     for(int i=0; i<length; i++) {
-      if(i==0) setCell(x_cell_pos[i],y_cell_pos[i], alive ? '#' : '.');
-      else if(c==1) setCell(x_cell_pos[i],y_cell_pos[i], alive ? '*' : '.');
-      else setCell(x_cell_pos[i],y_cell_pos[i],alive ? 'o' : '.');
-      c=-c;
+        if(i==0) setCell(x_cell_pos[i],y_cell_pos[i], alive ? '#' : '&');         //head
+        else if(c==1) setCell(x_cell_pos[i],y_cell_pos[i], alive ? '*' : '.');    //stripe
+        else setCell(x_cell_pos[i],y_cell_pos[i],alive ? '*' : '.');              //alt-stripe
+        c=-c;
     }
     setCell(x_cell_pos[length],y_cell_pos[length],' ');  
 }
+
+void dropFruit() {
+    while(true) {
+      fruit_x = (rand() % X_MAX_CELL)+1;
+      fruit_y = (rand() % Y_MAX_CELL)+1;
+      if(!isWithinSnake(fruit_x, fruit_y)) {
+        setCell(fruit_x,fruit_y,'+');
+        return;
+      }
+    }
+  }
   
+bool isWithinSnake(int x, int y) {
+    for(int i = 0; i < length; i++) {
+        if(x == x_cell_pos[i] && y == y_cell_pos[i]) {
+            return true;
+        }
+    }
+    return false;
+}
 
 void delay(unsigned long d) {
     for(unsigned long l=0; l<d; l++) {
