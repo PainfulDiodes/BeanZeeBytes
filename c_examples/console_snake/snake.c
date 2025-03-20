@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "readchar.h"
 #include "terminal.h"
+#include "../lib/marvin.h"
 
 // function prototypes
 void splash(void);
