@@ -23,7 +23,7 @@ end:
     jp RESET                    ; jump to the reset address - will jump back to the monitor
 
 message: 
-    db "Hello world! I",0     ; message to be printed, terminated by a 0
+    db "Hello world!",0     ; message to be printed, terminated by a 0
 
 
 lcd_putcmd:                 ; transmit character in A
