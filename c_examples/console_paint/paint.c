@@ -1,4 +1,4 @@
-// console_paint
+// paint
 // using ANSI escape codes to paint to the console
 // https://en.wikipedia.org/wiki/ANSI_escape_code
 
