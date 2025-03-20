@@ -13,7 +13,7 @@ Examples are provided in C and Z80 assembly.
 
 The easiest way to build these programs is to install an use the Z88DK tool chain and generate Intel HEX files. Shell scripts are provided to build the programs using Z88DK (these were written for MacOS but should be easy enough to adapt).
 
-However, Intel HEX files (with an .ihx extension) are also provided so that you can load and run them "as is" without needing to build them.
+However, Intel HEX files (with an .ihx extension) are also provided so that you can load and run them on BeanZee "as is" without needing to build them.
 
 Use your terminal emulator to send the ihx file to BeanZee, and then run the program using the Marvin eXecute command, providing the load address (which defaults to 0x8000), e.g. 
 
