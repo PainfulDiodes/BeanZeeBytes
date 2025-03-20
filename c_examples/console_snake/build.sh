@@ -1,6 +1,6 @@
 set -x #echo on
 
-f="console_snake"
+f="snake"
 marvin="../lib/marvin.asm"
 org=0x8000
 reset=0x0000
