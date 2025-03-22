@@ -28,18 +28,33 @@ wait:
 
 keyscan:
     ld a,0x01
-    out (KBD_PORT),a
-    in a,(KBD_PORT)
-    and 0x0F                ; clear top 4 bits
+    out (KBD_PORT),a        ; first column strobe
+    in a,(KBD_PORT)         ; get row values
+    and 0x0F                ; clear top 4 bits - these are not connected so will be noise
+    ld hl,key_buffer        ; location of previous value
+    ld b,(hl)               ; fetch previous value
+    cp b                    ; current value same as previous?
+    jr z,keyscan2           ; yes - skip
+    ld (hl),a               ; store new value
+    cp 0                    ; current value is null (no key)?
+    jr z,keyscan2           ; yes - skip echo
     add '0'
     call lcd_putchar
-
+keyscan2:
     ld a,0x02
-    out (KBD_PORT),a
-    in a,(KBD_PORT)
-    and 0x0F                ; clear top 4 bits
+    out (KBD_PORT),a        ; second column strobe
+    in a,(KBD_PORT)         ; get row values
+    and 0x0F                ; clear top 4 bits - these are not connected so will be noise
+    ld hl,key_buffer+1      ; location of previous value
+    ld b,(hl)               ; fetch previous value
+    cp b                    ; current value same as previous?
+    jr z,keyscan3           ; yes - skip
+    ld (hl),a               ; store new value
+    cp 0                    ; current value is null (no key)?
+    jr z,keyscan3           ; yes - skip echo
     add 'A'
     call lcd_putchar
+keyscan3:
 
     call readchar           ; repeat until receive input from USB
     cp 0
