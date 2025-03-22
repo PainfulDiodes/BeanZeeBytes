@@ -27,11 +27,18 @@ wait:
 	call lcd_putcmd
 
 keyscan:
-    ld a,0xff
+    ld a,0x01
     out (KBD_PORT),a
     in a,(KBD_PORT)
     and 0x0F                ; clear top 4 bits
     add '0'
+    call lcd_putchar
+
+    ld a,0x02
+    out (KBD_PORT),a
+    in a,(KBD_PORT)
+    and 0x0F                ; clear top 4 bits
+    add 'A'
     call lcd_putchar
 
     call readchar           ; repeat until receive input from USB
@@ -47,7 +54,7 @@ message:
     db "Hello world!",0     ; message to be printed, terminated by a 0
 
 
-lcd_putcmd:                 ; transmit character in A
+lcd_putcmd:                 ; transmit character in A to the control port
     push bc
     ld b,a                  ; save the transmit character
 lcd_putcmd_loop: 
@@ -59,7 +66,7 @@ lcd_putcmd_loop:
     pop bc
     ret
 
-lcd_putchar:                ; transmit character in A
+lcd_putchar:                ; transmit character in A to the data port
     push bc
     ld b,a                  ; save the transmit character
 lcd_putchar_loop: 
@@ -101,3 +108,9 @@ readchar:
 readcharnodata:
     ld a,0
     ret
+
+
+; RAM variables
+
+key_buffer: 
+    db 0,0,0,0,0,0,0,0
