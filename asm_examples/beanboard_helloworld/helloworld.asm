@@ -26,7 +26,7 @@ message:
     db "Hello world!",0     ; message to be printed, terminated by a 0
 
 
-lcd_putcmd:                 ; transmit character in A
+lcd_putcmd:                 ; transmit character in A to the control port
     push bc
     ld b,a                  ; save the transmit character
 lcd_putcmd_loop: 
@@ -38,7 +38,7 @@ lcd_putcmd_loop:
     pop bc
     ret
 
-lcd_putchar:                ; transmit character in A
+lcd_putchar:                ; transmit character in A to the data port
     push bc
     ld b,a                  ; save the transmit character
 lcd_putchar_loop: 
