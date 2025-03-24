@@ -55,6 +55,16 @@ keyscan2:
     add 'A'
     call lcd_putchar
 keyscan3:
+    ld hl,0x0a00
+keyscandelay:               ; key debounce
+    dec hl
+    nop
+    ld a,h
+    cp 0
+    jr nz,keyscandelay
+    ld a,l
+    cp a
+    jr nz,keyscandelay
 
     call readchar           ; repeat until receive input from USB
     cp 0
