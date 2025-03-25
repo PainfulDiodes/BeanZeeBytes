@@ -1,6 +1,6 @@
 include "../lib/marvin.asm"     ; load all the definitions needed to interact with the monitor program
 
-KBD_PORT equ 2
+KBD_PORT equ 2                  ; 2 or 3 work
 
 LCD_CTRL equ 4                  ; LCD control port
 LCD_DATA equ 5                  ; LCD data port
