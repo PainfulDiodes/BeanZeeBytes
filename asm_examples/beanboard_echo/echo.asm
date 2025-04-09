@@ -18,11 +18,15 @@ start:
 	call lcd_putcmd
 	ld a,LCD_SET_CLEAR
 	call lcd_putcmd
-    ld hl,message               ; load the message address into HL
+    ld hl,lcd_message               ; load the message address into HL
 print:
 	call lcd_puts
 wait:
+    ld hl,console_message_1
+    call puts 
     call getchar
+    ld hl,console_message_2
+    call puts 
 	ld a,LCD_SET_CLEAR
 	call lcd_putcmd
 
@@ -75,8 +79,12 @@ end:
 	call lcd_putcmd
     jp RESET                    ; jump to the reset address - will jump back to the monitor
 
-message: 
-    db "Hello world!",0     ; message to be printed, terminated by a 0
+lcd_message: 
+    db "Echo",0                 ; message to be printed, terminated by a 0
+console_message_1: 
+    db "Hit a key to start BeanBoard echo\n",0
+console_message_2: 
+    db "Hit any key to stop BeanBoard echo\n",0
 
 
 lcd_putcmd:                 ; transmit character in A to the control port
