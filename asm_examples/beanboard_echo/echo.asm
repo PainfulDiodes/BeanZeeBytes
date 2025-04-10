@@ -30,37 +30,37 @@ wait:
 	ld a,LCD_SET_CLEAR
 	call lcd_putcmd
 
-keyscan1:
-    ld a,0x01
+keyscanstart:
+    ld b,0x01               ; current column bit
     ld hl,key_buffer        ; location of previous value
+keyscanloop:
+    ld a,b
     call keyscan
     cp 0
-    jr z,keyscan2           ; yes - skip echo
+    jr z,keyscannext           ; yes - skip echo
     add '0'
     call lcd_putchar
-keyscan2:
-    ld a,0x02
-    ld hl,key_buffer+1        ; location of previous value
-    call keyscan
-    cp 0
-    jr z,keyscan3           ; yes - skip echo
-    add '0'
-    call lcd_putchar
-keyscan3:
+keyscannext:
+    inc hl
+    or a                    ; clear carry
+    rl b                    ; shift column bit left - will move to carry flag after bit 7
+    jr nc,keyscanloop       ; loop if not done all bits
+
+delay:
     ld hl,0x0a00
-keyscandelay:               ; key debounce
+delayloop:               ; key debounce
     dec hl
     nop
     ld a,h
     cp 0
-    jr nz,keyscandelay
+    jr nz,delayloop
     ld a,l
     cp a
-    jr nz,keyscandelay
+    jr nz,delayloop
 
     call readchar           ; repeat until receive input from USB
     cp 0
-    jr z,keyscan1
+    jr z,keyscanstart
 
 end:
 	ld a,LCD_SET_CLEAR
@@ -75,7 +75,7 @@ console_message_2:
     db "Hit any key to stop BeanBoard echo\n",0
 
 
-keyscan:                    ; A contains column bit, HL contains a pointer to the old value, return value in A. Modifies A,B
+keyscan:                    ; A contains column bit, HL contains a pointer to the old value, return value in A
     push bc
     out (KBD_PORT),a        ; output column strobe
     in a,(KBD_PORT)         ; get row values
