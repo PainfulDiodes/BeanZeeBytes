@@ -35,21 +35,9 @@ keyscan1:
     ld hl,key_buffer        ; location of previous value
     call keyscan
     cp 0
-    jr z,keyscan3           ; yes - skip echo
+    jr z,keyscan2           ; yes - skip echo
     add '0'
     call lcd_putchar
-;    ld a,0x01
-;    out (KBD_PORT),a        ; first column strobe
-;    in a,(KBD_PORT)         ; get row values
-;    ld hl,key_buffer        ; location of previous value
-;    ld b,(hl)               ; fetch previous value
-;    cp b                    ; current value same as previous?
-;    jr z,keyscan2           ; yes - skip
-;    ld (hl),a               ; store new value
-;    cp 0                    ; current value is null (no key)?
-;    jr z,keyscan2           ; yes - skip echo
-;    add '0'
-;    call lcd_putchar
 keyscan2:
     ld a,0x02
     ld hl,key_buffer+1        ; location of previous value
@@ -58,19 +46,6 @@ keyscan2:
     jr z,keyscan3           ; yes - skip echo
     add '0'
     call lcd_putchar
-
-;    ld a,0x02
-;    out (KBD_PORT),a        ; second column strobe
-;    in a,(KBD_PORT)         ; get row values
-;    ld hl,key_buffer+1      ; location of previous value
-;    ld b,(hl)               ; fetch previous value
-;    cp b                    ; current value same as previous?
-;    jr z,keyscan3           ; yes - skip
-;    ld (hl),a               ; store new value
-;    cp 0                    ; current value is null (no key)?
-;    jr z,keyscan3           ; yes - skip echo
-;    add 'A'
-;    call lcd_putchar
 keyscan3:
     ld hl,0x0a00
 keyscandelay:               ; key debounce
