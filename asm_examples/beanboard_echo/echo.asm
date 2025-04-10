@@ -76,15 +76,18 @@ console_message_2:
 
 
 keyscan:                    ; A contains column bit, HL contains a pointer to the old value, return value in A. Modifies A,B
+    push bc
     out (KBD_PORT),a        ; output column strobe
     in a,(KBD_PORT)         ; get row values
     ld b,(hl)               ; fetch previous value
     cp b                    ; current value same as previous?
     jr z,keyscansame        ; yes - skip
     ld (hl),a               ; store new value
+    pop bc
     ret
 keyscansame:
     ld a,0
+    pop bc
     ret
 
 lcd_putcmd:                 ; transmit character in A to the control port
