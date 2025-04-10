@@ -30,34 +30,47 @@ wait:
 	ld a,LCD_SET_CLEAR
 	call lcd_putcmd
 
-keyscan:
+keyscan1:
     ld a,0x01
-    out (KBD_PORT),a        ; first column strobe
-    in a,(KBD_PORT)         ; get row values
-    and 0x0F                ; clear top 4 bits - these are not connected so will be noise
     ld hl,key_buffer        ; location of previous value
-    ld b,(hl)               ; fetch previous value
-    cp b                    ; current value same as previous?
-    jr z,keyscan2           ; yes - skip
-    ld (hl),a               ; store new value
-    cp 0                    ; current value is null (no key)?
-    jr z,keyscan2           ; yes - skip echo
+    call keyscan
+    cp 0
+    jr z,keyscan3           ; yes - skip echo
     add '0'
     call lcd_putchar
+;    ld a,0x01
+;    out (KBD_PORT),a        ; first column strobe
+;    in a,(KBD_PORT)         ; get row values
+;    ld hl,key_buffer        ; location of previous value
+;    ld b,(hl)               ; fetch previous value
+;    cp b                    ; current value same as previous?
+;    jr z,keyscan2           ; yes - skip
+;    ld (hl),a               ; store new value
+;    cp 0                    ; current value is null (no key)?
+;    jr z,keyscan2           ; yes - skip echo
+;    add '0'
+;    call lcd_putchar
 keyscan2:
     ld a,0x02
-    out (KBD_PORT),a        ; second column strobe
-    in a,(KBD_PORT)         ; get row values
-    and 0x0F                ; clear top 4 bits - these are not connected so will be noise
-    ld hl,key_buffer+1      ; location of previous value
-    ld b,(hl)               ; fetch previous value
-    cp b                    ; current value same as previous?
-    jr z,keyscan3           ; yes - skip
-    ld (hl),a               ; store new value
-    cp 0                    ; current value is null (no key)?
+    ld hl,key_buffer+1        ; location of previous value
+    call keyscan
+    cp 0
     jr z,keyscan3           ; yes - skip echo
-    add 'A'
+    add '0'
     call lcd_putchar
+
+;    ld a,0x02
+;    out (KBD_PORT),a        ; second column strobe
+;    in a,(KBD_PORT)         ; get row values
+;    ld hl,key_buffer+1      ; location of previous value
+;    ld b,(hl)               ; fetch previous value
+;    cp b                    ; current value same as previous?
+;    jr z,keyscan3           ; yes - skip
+;    ld (hl),a               ; store new value
+;    cp 0                    ; current value is null (no key)?
+;    jr z,keyscan3           ; yes - skip echo
+;    add 'A'
+;    call lcd_putchar
 keyscan3:
     ld hl,0x0a00
 keyscandelay:               ; key debounce
@@ -72,7 +85,7 @@ keyscandelay:               ; key debounce
 
     call readchar           ; repeat until receive input from USB
     cp 0
-    jr z,keyscan
+    jr z,keyscan1
 
 end:
 	ld a,LCD_SET_CLEAR
@@ -86,6 +99,18 @@ console_message_1:
 console_message_2: 
     db "Hit any key to stop BeanBoard echo\n",0
 
+
+keyscan:                    ; A contains column bit, HL contains a pointer to the old value, return value in A. Modifies A,B
+    out (KBD_PORT),a        ; output column strobe
+    in a,(KBD_PORT)         ; get row values
+    ld b,(hl)               ; fetch previous value
+    cp b                    ; current value same as previous?
+    jr z,keyscansame        ; yes - skip
+    ld (hl),a               ; store new value
+    ret
+keyscansame:
+    ld a,0
+    ret
 
 lcd_putcmd:                 ; transmit character in A to the control port
     push bc
