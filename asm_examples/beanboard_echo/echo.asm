@@ -38,8 +38,7 @@ keyscanloop:
     call keyscan
     cp 0
     jr z,keyscannext           ; yes - skip echo
-    add '0'
-    call lcd_putchar
+    call lcd_putchar_hex
 keyscannext:
     inc hl
     or a                    ; clear carry
@@ -100,6 +99,32 @@ lcd_putcmd_loop:
     ld a,b                  ; yes, restore the transmit character
     out (LCD_CTRL),a        ; transmit the character
     pop bc
+    ret
+
+
+lcd_putchar_hex:
+    push bc
+    ld b,a                  ; copy into B
+    srl a                   ; shift A right x4 e.g. transform 10110010 to 00001011
+    srl a
+    srl a
+    srl a
+    call lcd_putchar_hex_dgt    ; most significant digit
+    ld a,b                  ; get the original copy back
+    and %00001111           ; clears the top 4 bits
+    call lcd_putchar_hex_dgt    ; least significant digit
+    pop bc
+    ret
+lcd_putchar_hex_dgt:
+    cp 0x0a                 ; is it an alpha or numeric?
+    jr c,lcd_putchar_hex_n      ; numeric
+                            ; or drop through to alpha
+    add a,'W'               ; for alpha add the base ascii for 'a' but then sub 10 as hex 'a' is 10d => 'W'
+    call lcd_putchar
+    ret
+lcd_putchar_hex_n:
+    add a,'0'               ; for numeric add the base ascii for '0'
+    call lcd_putchar
     ret
 
 lcd_putchar:                ; transmit character in A to the data port
