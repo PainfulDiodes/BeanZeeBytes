@@ -3,18 +3,54 @@ include "../lib/marvin.asm"     ; load all the definitions needed to interact wi
 LCD_CTRL equ 4                  ; LCD control port
 LCD_DATA equ 5                  ; LCD data port
 
-LCD_SET_8BIT_2LINE equ $3f
-LCD_SET_CURSOR_ON equ $0f
-LCD_SET_CLEAR equ $01
+
+; LCD commands
+LCD_CLEAR_DISPLAY equ 0x01
+LCD_RETURN_HOME equ 0x02
+LCD_ENTRY_MODE_SET equ 0x04
+LCD_DISPLAY_ON_OFF_CONTROL equ 0x08
+LCD_CURSOR_DISPLAY_SHIFT equ 0x10
+LCD_FUNCTION_SET equ 0x20
+LCD_SET_CGRAM_ADDR equ 0x40
+LCD_SET_DDRAM_ADDR equ 0x80
+
+; LCD_ENTRY_MODE_SET options
+LCD_ENTRY_INC equ 0x02 ; left
+LCD_ENTRY_DEC equ 0x00 ; right
+LCD_ENTRY_SHIFT equ 0x01
+LCD_ENTRY_NO_SHIFT equ 0x00
+
+; LCD_DISPLAY_ON_OFF_CONTROL options
+LCD_DISPLAY_ON equ 0x04
+LCD_DISPLAY_OFF equ 0x00
+LCD_CURSOR_ON equ 0x02
+LCD_CURSOR_OFF equ 0x00
+LCD_BLINK_ON equ 0x01
+LCD_BLINK_OFF equ 0x00
+
+; LCD_CURSOR_DISPLAY_SHIFT options
+LCD_SHIFT_DISPLAY equ 0x08
+LCD_SHIFT_CURSOR equ 0x00
+LCD_SHIFT_RIGHT equ 0x04
+LCD_SHIFT_LEFT equ 0x00
+
+; LCD_FUNCTION_SET options
+LCD_DATA_LEN_8 equ 0x10
+LCD_DATA_LEN_4 equ 0x00
+LCD_DISP_LINES_2 equ 0x08
+LCD_DISP_LINES_1 equ 0x00
+LCD_FONT_10 equ 0x04
+LCD_FONT_8 equ 0x00
+
 
 org RAMSTART                    ; this is the default location for a BeanZee standalone assembly program 
 
 start:
-	ld a,LCD_SET_8BIT_2LINE
+	ld a,LCD_FUNCTION_SET+LCD_DATA_LEN_8+LCD_DISP_LINES_2+LCD_FONT_10
 	call lcd_putcmd
-	ld a,LCD_SET_CURSOR_ON
+	ld a,LCD_DISPLAY_ON_OFF_CONTROL+LCD_DISPLAY_ON+LCD_CURSOR_ON+LCD_BLINK_ON
 	call lcd_putcmd
-	ld a,LCD_SET_CLEAR
+	ld a,LCD_CLEAR_DISPLAY
 	call lcd_putcmd
     ld hl,message               ; load the message address into HL
 print:
