@@ -1,6 +1,6 @@
 include "../lib/marvin.asm"     ; load all the definitions needed to interact with the monitor program
 
-KBD_PORT equ 2                  ; 2 or 3 work
+KBD_PORT equ 2                  ; wither 2 or 3 would work
 
 org RAMSTART                    ; this is the default location for a BeanZee standalone assembly program 
 
@@ -12,59 +12,58 @@ start:
     call puts 
 
 keyscanstart:
-    ld b,0x01                   ; current column bit
-    ld hl,key_buffer            ; location of previous value
+    ld b,0x01                   ; initial column bit - only 1 bit is ever set
+    ld hl,key_buffer            ; location of previous values
 keyscanloop:
-    ld a,b
+    ld a,b                      ; get the current column bit
     call keyscan
-    cp 0
-    jr z,keyscannext            ; yes - skip print
-    add 'a'-1
-    call putchar
+    cp 0                        ; no value?
+    jr z,keyscannext            ; yes - skip printing the value
+    add 'a'-1                   ; offset the value to be an ASCII range starting with "a"
+    call putchar                ; print the ASCII character
 keyscannext:
-    inc hl
-    or a                        ; clear carry
-    rl b                        ; shift column bit left - will move to carry flag after bit 7
-    jr nc,keyscanloop           ; loop if not done all bits
+    inc hl                      ; move the pointer of pervious values to the next column slot
+    or a                        ; clear the carry flag
+    rl b                        ; shift column bit left - when we've done all 8, it will move to the carry flag
+    jr nc,keyscanloop           ; loop if not done all columns
 
-delay:
-    ld hl,0x0a00
-delayloop:                      ; key debounce
-    dec hl
-    nop
-    ld a,h
-    cp 0
-    jr nz,delayloop
-    ld a,l
-    cp a
-    jr nz,delayloop
+delay:                          ; key debounce
+    ld hl,0x0a00                ; set hl to the length of the delay
+delayloop:                      
+    dec hl                      ; count down the time
+    nop                         ; wait a few cycles
+    ld a,h                      ; copy the high part of the count down
+    cp 0                        ; is it zero?
+    jr nz,delayloop             ; no - loop again
+    ld a,l                      ; yes - what about the low part of the value?
+    cp 0                        ; is it zero?                        
+    jr nz,delayloop             ; no - loop again
+                                ; yes - continue
 
-    call readchar               ; repeat until receive input from USB
-    cp 0
-    jr z,keyscanstart
+    call readchar               ; looking for input from USB
+    cp 0                        ; is there any data?
+    jr z,keyscanstart           ; no - loop again
+                                ; yes - continue
 
 end:
-    jp RESET                    ; jump to the reset address - will jump back to the monitor
-
-console_message_1: 
-    db "Hit a key to start BeanBoard keyscan\n",0
-console_message_2: 
-    db "Hit any key to stop BeanBoard keyscan\n",0
+    ld a,'\n'
+    call putchar                ; add a line break to the output
+    jp RESET                    ; jump to the reset address - will drop back to the monitor
 
 
 keyscan:                        ; A contains column bit, HL contains a pointer to the old value, return value in A
-    push bc
+    push bc                     ; preserve bc
     out (KBD_PORT),a            ; output column strobe
     in a,(KBD_PORT)             ; get row values
-    ld b,(hl)                   ; fetch previous value
-    cp b                        ; current value same as previous?
-    jr z,keyscansame            ; yes - skip
-    ld (hl),a                   ; store new value
-    pop bc
+    ld b,(hl)                   ; fetch previous valuefor comparison
+    cp b                        ; is the value unchanged?
+    jr z,keyscansame            ; yes - value hasn't changed
+    ld (hl),a                   ; no - store the new value
+    pop bc                      ; restore bc
     ret
-keyscansame:
-    ld a,0
-    pop bc
+keyscansame:                    ; when data hasn't changed
+    ld a,0                      ; we will return 0
+    pop bc                      ; restore bc
     ret
 
 
@@ -83,11 +82,15 @@ readchar:
     in a,(UM245R_DATA)          ; yes, read the received char
     ret 
 readcharnodata:
-    ld a,0
+    ld a,0                      ; if there's no data, return 0
     ret
 
 
-; RAM variables
+console_message_1: 
+    db "Hit a key to start BeanBoard keyscan\n",0
+console_message_2: 
+    db "Hit any key to stop BeanBoard keyscan\n",0
 
+; variables
 key_buffer: 
     db 0,0,0,0,0,0,0,0
