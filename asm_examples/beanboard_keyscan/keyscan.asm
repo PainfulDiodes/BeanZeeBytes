@@ -12,7 +12,7 @@ start:
     call puts 
 
 keyscanstart:
-    ld b,0x01                   ; initial column bit - only 1 bit is ever set
+    ld b,0x01                   ; initial column bit - only 1 bit is ever set at a time - it is shifted from bit 0 to bit 7
     ld hl,key_buffer            ; location of previous values
 keyscanloop:
     ld a,b                      ; get the current column bit
