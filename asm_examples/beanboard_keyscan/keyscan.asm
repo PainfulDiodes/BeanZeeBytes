@@ -1,6 +1,6 @@
-include "../lib/marvin.asm"     ; load all the definitions needed to interact with the monitor program
-
-KBD_PORT equ 2                  ; wither 2 or 3 would work
+; load definitions
+include "../def/beanzee.asm"    ; BeanZee board
+include "../def/marvin.asm"     ; monitor program
 
 org RAMSTART                    ; this is the default location for a BeanZee standalone assembly program 
 
@@ -67,24 +67,7 @@ keyscansame:                    ; when data hasn't changed
     ret
 
 
-; readchar
-; get a character from the UM245R console without waiting 
-; if there is no data, return 0
-; NOTE this needs to be moved into MARVIN
-
-UM245R_CTRL equ 0               ; serial control port
-UM245R_DATA equ 1               ; serial data port
-
-readchar:
-    in a,(UM245R_CTRL)          ; get the USB status
-    bit 1,a                     ; data to read? (active low)
-    jr nz,readcharnodata        ; no, the buffer is empty
-    in a,(UM245R_DATA)          ; yes, read the received char
-    ret 
-readcharnodata:
-    ld a,0                      ; if there's no data, return 0
-    ret
-
+include "../lib/readchar.asm"
 
 console_message_1: 
     db "Hit a key to start BeanBoard keyscan\n",0
