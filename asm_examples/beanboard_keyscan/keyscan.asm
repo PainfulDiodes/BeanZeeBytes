@@ -1,6 +1,6 @@
 ; load definitions
-include "../def/beanzee.asm"    ; BeanZee board
-include "../def/marvin.asm"     ; monitor program
+include "../lib/beanzee.def"    ; BeanZee board
+include "../lib/marvin.def"     ; monitor program
 
 org RAMSTART                    ; this is the default location for a BeanZee standalone assembly program 
 

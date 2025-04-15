@@ -1,7 +1,7 @@
 ; load definitions
-include "../def/beanzee.asm"    ; BeanZee board
-include "../def/marvin.asm"     ; monitor program
-include "../def/HD44780LCD.asm" ; LCD
+include "../lib/beanzee.def"    ; BeanZee board
+include "../lib/marvin.def"     ; monitor program
+include "../lib/HD44780LCD.def" ; LCD
 
 org RAMSTART                    ; this is the default location for a BeanZee standalone assembly program 
 
