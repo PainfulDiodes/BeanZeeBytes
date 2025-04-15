@@ -1,7 +1,7 @@
 ; load definitions
-include "../lib/beanzee.def"    ; BeanZee board
-include "../lib/marvin.def"     ; monitor program
-include "../lib/HD44780LCD.def" ; LCD
+include "../lib/beanzee.inc"    ; BeanZee board
+include "../lib/marvin.inc"     ; monitor program
+include "../lib/HD44780LCD.inc" ; LCD
 
 ; LCD_SET_DDRAM_ADDR options
 LCD_LINE_0_ADDR equ 0x00
