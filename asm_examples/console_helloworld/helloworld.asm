@@ -1,4 +1,5 @@
-include "../lib/marvin.asm"     ; load all the definitions needed to interact with the monitor program
+include "../lib/marvin.inc"     ; load all the definitions needed to interact with the monitor program
+include "../lib/beanzee.inc"
 
 org RAMSTART                    ; this is the default location for a BeanZee standalone assembly program 
 
