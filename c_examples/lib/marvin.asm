@@ -4,9 +4,9 @@
 
 ; monitor subroutines to call
 
-getchar equ $0010       ; get a character from the console and return in A
-putchar equ $0020       ; send character in A to the console 
-puts equ    $0040       ; print a zero-terminated string pointed to by HL to the console
+getchar equ 0x0010       ; get a character from the console and return in A
+putchar equ 0x0020       ; send character in A to the console 
+puts equ    0x0040       ; print a zero-terminated string pointed to by HL to the console
 
 
 ; c stdio overrides

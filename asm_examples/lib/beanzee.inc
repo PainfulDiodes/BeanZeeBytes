@@ -1,5 +1,5 @@
 ; memory map
-RAMSTART equ $8000
+RAMSTART equ 0x8000
 
 ; port map
 UM245R_CTRL equ 0               ; serial control port
