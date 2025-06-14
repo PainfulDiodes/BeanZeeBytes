@@ -1,9 +1,9 @@
 # BeanZeeBytes
 Example programs for the [BeanZee](https://github.com/PainfulDiodes/BeanZee) Z80 development board, running [Marvin](https://github.com/PainfulDiodes/marvin) monitor.
 
-Written for BeanZee 1.0 and Marvin 1.0
+Written for BeanZee v1 and Marvin v1.1
 
-Marvin can interpret Intel HEX format inputs to load machine code programs into RAM. Programs can be built from Z80 assembly language, or a higher-level language such as C.
+Marvin can interpret Intel HEX format inputs to load machine code programs into RAM. 
 
 BeanZeeBytes example programs have been prepared using the [Z88DK](https://github.com/z88dk/z88dk):
 
@@ -11,9 +11,9 @@ BeanZeeBytes example programs have been prepared using the [Z88DK](https://githu
 
 Examples are provided in C and Z80 assembly.
 
-The easiest way to build these programs is to install an use the Z88DK tool chain and generate Intel HEX files. Shell scripts are provided to build the programs using Z88DK (these were written for MacOS but should be easy enough to adapt).
+The easiest way to build these programs is to install an use the Z88DK tool chain and generate Intel HEX files. MacOS shell scripts are provided to build the programs using Z88DK (but may give some indication of what is needed for other environments).
 
-However, Intel HEX files (with an .ihx extension) are also provided so that you can load and run them on BeanZee "as is" without needing to build them.
+Intel HEX files (with an .ihx extension) are also provided so that you can load and run them on BeanZee "as is" without needing to build them.
 
 Use your terminal emulator to send the ihx file to BeanZee, and then run the program using the Marvin eXecute command, providing the load address (which defaults to 0x8000), e.g. 
 
