@@ -1,3 +1,3 @@
 # Console Hello, world!
-Simple message to the console.  
-Tested on BeanZee v1 and Marvin v1.0.2  
+Assembled with z88dk-z80asm  
+Tested on BeanBoard v1, BeanZee v1 and Marvin v1.1.0  
