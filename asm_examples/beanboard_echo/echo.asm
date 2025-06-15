@@ -1,9 +1,8 @@
-; load definitions
-include "../lib/beanzee.inc"    ; BeanZee board
-include "../lib/marvin.inc"     ; monitor program
-include "../lib/HD44780LCD.inc" ; LCD
+include "../lib/beanzee.inc"
+include "../lib/marvin.inc"
+include "../lib/HD44780LCD.inc"
 
-org RAMSTART                    ; this is the default location for a BeanZee standalone assembly program 
+org RAMSTART
 
 start:
 	ld a,LCD_FUNCTION_SET+LCD_DATA_LEN_8+LCD_DISP_LINES_2+LCD_FONT_8
@@ -12,22 +11,24 @@ start:
 	call lcd_putcmd
 	ld a,LCD_CLEAR_DISPLAY
 	call lcd_putcmd
-    ld hl,start_message         ; load the message address into HL
+    ; load the message address into HL
+    ld hl,start_message         
 	call puts
 loop:
-    call getchar                ; get a character from USB - will wait for a character
-    cp '\e'                     ; escape?
-    jp z,end                    ; yes - end
-    call putchar                ; echo to console
-    call lcd_putchar            ; echo to LCD
-    jr loop                     ; repeat
+    ; get a character from the console - will wait for a character
+    call getchar
+    ; escape?
+    cp '\e'
+    ; yes - end
+    jp z,end
+    ; no - echo to LCD
+    call lcd_putchar
+    ; repeat
+    jr loop
     
 end:
-    ld a,'\n'                   ; add a line break
-    call putchar                ; to the console
-    jp RESET                    ; jump to the reset address - will jump back to the monitor
+    ; jump to the reset address - will jump back to the monitor
+    jp RESET
 
 start_message: 
-    db "Echoing console input to console and LCD - hit 'Esc' to quit\n",0
-
-include "../lib/HD44780LCD.asm" ; load all the LCD subroutines
+    db "Echoing console input to the LCD - hit 'Esc' to quit\n",0
