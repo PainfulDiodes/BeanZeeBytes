@@ -1,9 +1,8 @@
-; load definitions
-include "../lib/beanzee.inc"    ; BeanZee board
-include "../lib/marvin.inc"     ; monitor program
-include "../lib/HD44780LCD.inc" ; LCD
+include "../lib/beanzee.inc"
+include "../lib/marvin.inc"
+include "../lib/HD44780LCD.inc"
 
-org RAMSTART                    ; this is the default location for a BeanZee standalone assembly program 
+org RAMSTART
 
 start:
 	ld a,LCD_FUNCTION_SET+LCD_DATA_LEN_8+LCD_DISP_LINES_2+LCD_FONT_8
@@ -13,10 +12,20 @@ start:
 	ld a,LCD_CLEAR_DISPLAY
 	call lcd_putcmd
     ld hl,message
-    call lcd_puts
-    jp RESET                    ; jump to the reset address - will jump back to the monitor
+_loop:
+    ld a,(hl)
+    ; is it zero?
+    cp 0
+    ; yes
+    jr z, end
+    ; no - send character
+    call lcd_putchar
+    ; next character position
+    inc hl
+    ; loop for next character
+    jr _loop
+end:
+    jp PROMPT
 
 message: 
-    db "Hello, world!",0
-
-include "../lib/HD44780LCD.asm" ; load all the LCD subroutines
+    db "Hello, world!\nHello, world!\n",0
