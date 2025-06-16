@@ -25,7 +25,10 @@ _loop:
     ; loop for next character
     jr _loop
 end:
-    jp PROMPT
+    ; wait
+    call getchar
+    jp RESET
 
 message: 
-    db "Hello, world!\nHello, world!\n",0
+    db "Hello world!\n"     
+    db "(hit any key)\n",0

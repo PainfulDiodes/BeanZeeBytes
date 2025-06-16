@@ -17,10 +17,10 @@ wait:
     call getchar
 end:
     ; jump to the reset address - will jump back to the monitor
-    jp PROMPT
+    jp RESET
 
 message: 
     ; message to be printed 
     ; must be terminated by a 0
-    db "\nHello world!\n"     
-    db "(hit any key)\n\n",0
+    db "Hello world!\n"     
+    db "(hit any key)\n",0

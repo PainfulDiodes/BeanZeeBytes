@@ -31,4 +31,4 @@ end:
     jp RESET
 
 start_message: 
-    db "Echoing console input to the LCD - hit 'Esc' to quit\n",0
+    db "Echoing console\ninput to the LCD\n'Esc' to quit\n",0

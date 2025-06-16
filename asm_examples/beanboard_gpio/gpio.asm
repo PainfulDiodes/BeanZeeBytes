@@ -1,29 +1,34 @@
-; load definitions
-; BeanZee board
 include "../lib/beanzee.inc"
-; monitor program
-include "../lib/marvin_1.1.beta.inc"
+include "../lib/marvin.inc"
 
-; this is the default location for a BeanZee standalone assembly program 
 org RAMSTART
 
 start:
-    ld hl,start_message         ; load the message address into HL
+    ld hl,start_message
 	call puts
 loop:
-    call getchar                ; get a character from USB - will wait for a character
-    cp '\e'                     ; escape?
-    jp z,end                    ; yes - end
-    call putchar                ; echo to console
+    ; get a character from USB - will wait for a character
+    call getchar
+    ; escape?
+    cp '\e'
+    ; yes - end
+    jp z,end
+    ; echo to console
+    call putchar
     out (GPIO),a
     in a,(GPIO)
-    call putchar                ; echo to console
-    jr loop                     ; repeat
+    ; echo to console
+    call putchar
+    ; repeat
+    jr loop
     
 end:
-    ld a,'\n'                   ; add a line break
-    call putchar                ; to the console
-    jp RESET                    ; jump to the reset address - will jump back to the monitor
+    ; add a line break
+    ld a,'\n'
+    ; to the console
+    call putchar
+    ; jump to the reset address - will jump back to the monitor
+    jp RESET
 
 start_message: 
     db "Console to GPO\nGPI to console\n'Esc' to quit\n",0
