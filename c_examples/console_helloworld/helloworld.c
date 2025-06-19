@@ -1,5 +1,8 @@
 // helloworld
 // simplest example using overriden console functions 
+// built with z88dk
+// tested on BeanBoard v1, BeanZee v1 and Marvin v1.1.0 (beanboard target)
+
 
 #include <stdio.h>
 
