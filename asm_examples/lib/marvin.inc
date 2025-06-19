@@ -12,7 +12,7 @@ PROMPT equ 0x00A0
 
 ; call
 
-; wait for a character and return in A
+; wait for a character from the console and return in A
 getchar equ 0x0010
 ; read a character from the console and return it, or 0 if there is no character
 readchar equ 0x0020
