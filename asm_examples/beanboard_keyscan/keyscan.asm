@@ -4,14 +4,14 @@ include "../lib/marvin.inc"
 org RAMSTART
 
 start:
-    ld hl,console_message
+    ld hl,CONSOLE_MESSAGE
     call puts 
 
 keyscanstart:
     ; initial column bit - only 1 bit is ever set at a time - it is shifted from bit 0 to bit 7
     ld b,0b00000001
     ; location of previous values
-    ld hl,key_buffer
+    ld hl,KEY_BUFFER
 keyscanloop:
     ; get the current column bit
     ld a,b
@@ -20,10 +20,9 @@ keyscanloop:
     cp 0
     ; yes - skip printing the value
     jr z,keyscannext
-    ; offset the value to be an ASCII range starting with "a"
-    add 'a'-1
-    ; print the ASCII character
-    call putchar
+    ; print the ASCII character in hexadecimal
+    call putchar_hex
+    ; call putchar
 keyscannext:
      ; move the pointer of pervious values to the next column slot
      inc hl
@@ -82,22 +81,22 @@ keyscan:
     ; is the value unchanged?
     cp b
     ; yes - value hasn't changed
-    jr z,keyscansame
+    jr z,_keyscansame
     ; no - store the new value
     ld (hl),a
     ; restore bc
     pop bc
     ret
-keyscansame:                    
+_keyscansame:                    
     ; when data hasn't changed we will return 0
     ld a,0
     ; restore bc
     pop bc                      
     ret
 
-console_message: 
+CONSOLE_MESSAGE: 
     db "Hit Esc to stop keyscan\n",0
 
 ; variables
-key_buffer: 
+KEY_BUFFER: 
     db 0,0,0,0,0,0,0,0
