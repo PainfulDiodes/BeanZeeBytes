@@ -14,7 +14,7 @@ PROMPT equ 0x00A0
 
 ; wait for a character from the console and return in A
 getchar equ 0x0010
-; read a character from the console and return it, or 0 if there is no character
+; read a character from the console and return it in A, or 0 if there is no character
 readchar equ 0x0020
 ; sent character in A to the console 
 putchar equ 0x0030
