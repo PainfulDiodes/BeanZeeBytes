@@ -5,20 +5,20 @@ org RAMSTART
 
 start:
     ld hl,start_message
-	call puts
+	call marvin_puts
 loop:
     ; get a character from USB - will wait for a character
-    call getchar
+    call marvin_getchar
     ; escape?
     cp '\e'
     ; yes - end
     jp z,end
     ; echo to console
-    call putchar
+    call marvin_putchar
     out (GPIO),a
     in a,(GPIO)
     ; echo to console
-    call putchar
+    call marvin_putchar
     ; repeat
     jr loop
     
@@ -26,7 +26,7 @@ end:
     ; add a line break
     ld a,'\n'
     ; to the console
-    call putchar
+    call marvin_putchar
     ; jump to the reset address - will jump back to the monitor
     jp RESET
 

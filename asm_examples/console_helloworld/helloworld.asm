@@ -10,11 +10,11 @@ start:
     ld hl,message
 print:
     ; call the monitor puts routine, which will print the message pointed to by HL
-    call puts
+    call marvin_puts
 wait:
     ; call the monitor getchar to get a character from the console input
     ; it will wait until a character is received
-    call getchar
+    call marvin_getchar
 end:
     ; jump to the reset address - will jump back to the monitor
     jp RESET

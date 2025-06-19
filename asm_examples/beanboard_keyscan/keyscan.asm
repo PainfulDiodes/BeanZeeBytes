@@ -5,7 +5,7 @@ org RAMSTART
 
 start:
     ld hl,CONSOLE_MESSAGE
-    call puts 
+    call marvin_puts 
 
 keyscanstart:
     ; initial row bit - only 1 bit is ever set at a time - it is shifted iteratively from bit 0 to bit 7
@@ -26,14 +26,14 @@ keyscanloop:
     ; get the row value
     ld a,b
     ; print the row value
-    call putchar_hex
+    call marvin_putchar_hex
     ; restore the column value
     ld a,c
     ; print the column value
-    call putchar_hex
+    call marvin_putchar_hex
     ; add a newline
     ld a,'\n'
-    call putchar
+    call marvin_putchar
 
 keyscannext:
     ; move the pointer of previous values to the next row slot
@@ -47,7 +47,7 @@ keyscannext:
     ; key debounce                         
     call delay
     ; check if user wants to quit - looking for input from USB
-    call readchar
+    call marvin_readchar
     ; escape?
     cp '\e'
     ; no - loop again
@@ -56,7 +56,7 @@ keyscannext:
 end:
     ; add a line break to the output
     ld a,'\n'
-    call putchar                
+    call marvin_putchar                
     ; jump to the reset address - will drop back to the monitor
     jp RESET
 
