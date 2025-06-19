@@ -4,15 +4,12 @@ include "../lib/marvin.inc"
 org RAMSTART
 
 start:
-    ld hl,console_message_1
-    call puts 
-    call getchar
-    ld hl,console_message_2
+    ld hl,console_message
     call puts 
 
 keyscanstart:
     ; initial column bit - only 1 bit is ever set at a time - it is shifted from bit 0 to bit 7
-    ld b,0x01
+    ld b,0b00000001
     ; location of previous values
     ld hl,key_buffer
 keyscanloop:
@@ -57,14 +54,14 @@ delayloop:
     cp 0
     ; no - loop again
     jr nz,delayloop             
-    ; yes - continue                                
+    ; yes - continue and check if user wants to quit
     ; looking for input from USB
     call readchar
-    ; is there any data?
-    cp 0                        
+    ; escape?
+    cp '\e'
     ; no - loop again
-    jr z,keyscanstart
-    ; yes - continue
+    jr nz,keyscanstart
+    ; yes - quit
 end:
     ; add a line break to the output
     ld a,'\n'
@@ -98,10 +95,8 @@ keyscansame:
     pop bc                      
     ret
 
-console_message_1: 
-    db "Hit a key to start BeanBoard keyscan\n",0
-console_message_2: 
-    db "Hit any key to stop BeanBoard keyscan\n",0
+console_message: 
+    db "Hit Esc to stop keyscan\n",0
 
 ; variables
 key_buffer: 
