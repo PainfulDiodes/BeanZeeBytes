@@ -40,9 +40,9 @@ keyscannext:
     inc hl
     ; clear the carry flag
     or a
-    ; shift column bit left - when we've done all 8, it will move to the carry flag
+    ; shift column bit left - when we've done all 8, the bit will move into the carry flag
     rl b
-    ; loop if not done all columns
+    ; loop if not done all columns (carry flag means we've already done all 8 bits)
     jr nc,keyscanloop
     ; key debounce                         
     call delay
