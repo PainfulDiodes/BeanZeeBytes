@@ -1,7 +1,5 @@
-# BeanBoard LCD Cursot!
-## This is a work in progress!  
-Currently BeanBoard is being prototyped.  
-This is experimental code!  
-
+# BeanBoard LCD Cursor
 Assembled with z88dk-z80asm  
-Tested on BeanBoard prototype, BeanZee v1 and Marvin v1.0.2  
+Tested on BeanBoard v1, BeanZee v1 and Marvin v1.1.0 (beanboard target)  
+
+Print a message to the BeanBoard LCD, demonstrating cursor positioning commands.
