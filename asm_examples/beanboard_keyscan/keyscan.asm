@@ -29,6 +29,7 @@ keyscanloop:
     call putchar_hex
     ; restore the column value
     ld a,c
+    ; print the column value
     call putchar_hex
     ; add a newline
     ld a,'\n'
@@ -115,9 +116,14 @@ _delayloop:
     pop hl
     ret        
 
+
+; messages
+
 CONSOLE_MESSAGE: 
     db "Hit Esc to stop keyscan\n",0
 
+
 ; variables
+
 KEY_BUFFER: 
     db 0,0,0,0,0,0,0,0
