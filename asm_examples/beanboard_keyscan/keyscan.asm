@@ -8,24 +8,35 @@ start:
     call puts 
 
 keyscanstart:
-    ; initial column bit - only 1 bit is ever set at a time - it is shifted from bit 0 to bit 7
+    ; initial row bit - only 1 bit is ever set at a time - it is shifted iteratively from bit 0 to bit 7
     ld b,0b00000001
     ; location of previous values
     ld hl,KEY_BUFFER
 keyscanloop:
-    ; get the current column bit
+    ; get the current row bit
     ld a,b
     call keyscan
-    ; no value?
     cp 0
-    ; yes - skip printing the value
+    ; no value - skip printing the value
     jr z,keyscannext
-    ; print the ASCII character in hexadecimal
+
+    ; print the row and column as hex
+    ; stash the column value in C
+    ld c,a
+    ; get the row value
+    ld a,b
+    ; print the row value
     call putchar_hex
-    ; call putchar
+    ; restore the column value
+    ld a,c
+    call putchar_hex
+    ; add a newline
+    ld a,'\n'
+    call putchar
+
 keyscannext:
-     ; move the pointer of pervious values to the next column slot
-     inc hl
+    ; move the pointer of previous values to the next row slot
+    inc hl
     ; clear the carry flag
     or a
     ; shift column bit left - when we've done all 8, it will move to the carry flag
@@ -33,28 +44,8 @@ keyscannext:
     ; loop if not done all columns
     jr nc,keyscanloop
     ; key debounce                         
-delay: 
-    ; set hl to the length of the delay
-    ld hl,0x0a00                
-delayloop:                      
-    ; count down the time
-    dec hl
-    ; wait a few cycles
-    nop                         
-    ; copy the high part of the count down
-    ld a,h
-    ; is it zero?
-    cp 0
-    ; no - loop again
-    jr nz,delayloop
-    ; yes - what about the low part of the value?
-    ld a,l
-    ; is it zero?
-    cp 0
-    ; no - loop again
-    jr nz,delayloop             
-    ; yes - continue and check if user wants to quit
-    ; looking for input from USB
+    call delay
+    ; check if user wants to quit - looking for input from USB
     call readchar
     ; escape?
     cp '\e'
@@ -67,6 +58,9 @@ end:
     call putchar                
     ; jump to the reset address - will drop back to the monitor
     jp RESET
+
+
+; subroutines
 
 ; A contains column bit, HL contains a pointer to the old value, return value in A
 keyscan:
@@ -93,6 +87,33 @@ _keyscansame:
     ; restore bc
     pop bc                      
     ret
+
+delay: 
+    ; preserve hl
+    push hl
+    ; set hl to the length of the delay
+    ld hl,0x0a00                
+_delayloop:                      
+    ; count down the time
+    dec hl
+    ; wait a few cycles
+    nop                         
+    ; copy the high part of the count down
+    ld a,h
+    ; is it zero?
+    cp 0
+    ; no - loop again
+    jr nz,_delayloop
+    ; yes - what about the low part of the value?
+    ld a,l
+    ; is it zero?
+    cp 0
+    ; no - loop again
+    jr nz,_delayloop
+    ; yes - return
+    ; restore hl
+    pop hl
+    ret        
 
 CONSOLE_MESSAGE: 
     db "Hit Esc to stop keyscan\n",0
