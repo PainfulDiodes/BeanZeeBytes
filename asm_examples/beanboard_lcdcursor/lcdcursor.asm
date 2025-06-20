@@ -48,6 +48,11 @@ start:
     ; wait
     call marvin_getchar
 
+	ld a,LCD_CLEAR_DISPLAY
+	call marvin_lcd_putcmd
+    ld a,0
+    call marvin_lcd_putchar
+
     jp MARVIN_START
 
 
