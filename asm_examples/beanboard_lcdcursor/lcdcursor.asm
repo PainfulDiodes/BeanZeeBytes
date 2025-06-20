@@ -48,7 +48,7 @@ start:
     ; wait
     call marvin_getchar
 
-    jp RESET
+    jp MARVIN_START
 
 
 ; subroutines

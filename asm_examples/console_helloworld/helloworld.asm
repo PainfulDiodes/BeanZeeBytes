@@ -17,7 +17,7 @@ wait:
     call marvin_getchar
 end:
     ; jump to the reset address - will jump back to the monitor
-    jp RESET
+    jp MARVIN_START
 
 message: 
     ; message to be printed 

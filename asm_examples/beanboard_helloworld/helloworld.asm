@@ -27,7 +27,7 @@ _loop:
 end:
     ; wait
     call marvin_getchar
-    jp RESET
+    jp MARVIN_START
 
 message: 
     db "Hello world!\n"     

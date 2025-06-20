@@ -27,8 +27,9 @@ loop:
     jr loop
     
 end:
-    ; jump to the reset address - will jump back to the monitor
-    jp RESET
+    ld a,'\n'
+    call marvin_lcd_putchar
+    jp MARVIN_START
 
 start_message: 
     db "Echoing console\ninput to the LCD\n'Esc' to quit\n",0

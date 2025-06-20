@@ -58,7 +58,7 @@ end:
     ld a,'\n'
     call marvin_putchar                
     ; jump to the reset address - will drop back to the monitor
-    jp RESET
+    jp MARVIN_START
 
 
 ; subroutines
