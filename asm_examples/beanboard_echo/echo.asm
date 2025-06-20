@@ -11,6 +11,8 @@ start:
 	call marvin_lcd_putcmd
 	ld a,LCD_CLEAR_DISPLAY
 	call marvin_lcd_putcmd
+    ld a,0
+    call marvin_lcd_putchar
     ; load the message address into HL
     ld hl,start_message         
 	call marvin_puts
