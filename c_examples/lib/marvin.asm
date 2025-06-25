@@ -1,5 +1,3 @@
-include "beanzee.map"
-
 ; stdio overrides
 
 PUBLIC fputc_cons_native
