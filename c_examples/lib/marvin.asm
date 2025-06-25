@@ -1,4 +1,4 @@
-include "marvin.inc"
+include "beanzee.map"
 
 ; stdio overrides
 
