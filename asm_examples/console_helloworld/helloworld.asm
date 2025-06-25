@@ -1,6 +1,5 @@
 ; load all the definitions needed to interact with the monitor program
-include "../lib/marvin.inc"     
-;include "../lib/beanzee.inc"
+include "../lib/beanzee.map"     
 
 ; this is the default location for a BeanZee standalone assembly program 
 org RAMSTART
