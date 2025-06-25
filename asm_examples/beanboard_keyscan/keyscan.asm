@@ -1,11 +1,11 @@
-include "../lib/beanzee.inc"
+;include "../lib/beanzee.inc"
 include "../lib/marvin.inc"
 
 org RAMSTART
 
 start:
     ld hl,CONSOLE_MESSAGE
-    call marvin_puts 
+    call puts 
 
 keyscanstart:
     ; initial row bit - only 1 bit is ever set at a time - it is shifted iteratively from bit 0 to bit 7
@@ -26,14 +26,14 @@ keyscanloop:
     ; get the row value
     ld a,b
     ; print the row value
-    call marvin_putchar_hex
+    call putchar_hex
     ; restore the column value
     ld a,c
     ; print the column value
-    call marvin_putchar_hex
+    call putchar_hex
     ; add a newline
     ld a,'\n'
-    call marvin_putchar
+    call putchar
 
 keyscannext:
     ; move the pointer of previous values to the next row slot
@@ -47,7 +47,7 @@ keyscannext:
     ; key debounce                         
     call delay
     ; check if user wants to quit - looking for input from USB
-    call marvin_readchar
+    call readchar
     ; escape?
     cp '\e'
     ; no - loop again
@@ -56,9 +56,9 @@ keyscannext:
 end:
     ; add a line break to the output
     ld a,'\n'
-    call marvin_putchar                
+    call putchar                
     ; jump to the reset address - will drop back to the monitor
-    jp MARVIN_START
+    jp START
 
 
 ; subroutines
@@ -68,9 +68,9 @@ keyscan:
     ; preserve bc
     push bc
     ; output column strobe
-    out (KBD_PORT),a
+    out (KEYSCAN_OUT),a
     ; get row values
-    in a,(KBD_PORT)
+    in a,(KEYSCAN_IN)
     ; fetch previous value for comparison
     ld b,(hl)
     ; is the value unchanged?
