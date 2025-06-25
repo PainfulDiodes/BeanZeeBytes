@@ -1,11 +1,9 @@
 .DS_Store
 *.bin
 *.o
-*.map
 *.rom
 .vscode/*.*
 *.hex
 *.lis
-*.map
 *.sym
 */temp/*

@@ -1,0 +1,14 @@
+GPIO_IN                         = $0007 ; const, local, , gpio, , gpio.asm:5
+GPIO_OUT                        = $0006 ; const, local, , gpio, , gpio.asm:4
+RAMSTART                        = $8000 ; const, local, , gpio, , ../lib/marvin.inc:54
+START                           = $00F0 ; const, local, , gpio, , ../lib/marvin.inc:57
+__head                          = $8000 ; const, public, def, , ,
+__size                          = $004F ; const, public, def, , ,
+__tail                          = $804F ; const, public, def, , ,
+end                             = $801A ; addr, local, , gpio, , gpio.asm:29
+getchar                         = $0010 ; const, local, , gpio, , ../lib/marvin.inc:64
+loop                            = $8006 ; addr, local, , gpio, , gpio.asm:13
+putchar                         = $0040 ; const, local, , gpio, , ../lib/marvin.inc:76
+puts                            = $0060 ; const, local, , gpio, , ../lib/marvin.inc:78
+start                           = $8000 ; addr, local, , gpio, , gpio.asm:10
+start_message                   = $8022 ; addr, local, , gpio, , gpio.asm:37
