@@ -1,12 +1,11 @@
-# usage: ./build.sh target
+# usage: ./build.sh target(.asm)
 # e.g.:  ./build.sh beanzee
 #        ./build.sh beanboard.asm
 
-set -x #echo on
+# set -x #echo on
 
-t=${1%.*} #extract base filename
-
-f="helloworld"
+f="helloworld" # source filename
+t=${1%.*} #extract base filename of target hardware
 target="../lib/$t.asm"
 org=0x8000
 reset=0x0000

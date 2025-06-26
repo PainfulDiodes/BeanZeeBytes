@@ -1,4 +1,4 @@
-; stdio overrides
+; MARVIN stdio overrides
 
 PUBLIC fputc_cons_native
 PUBLIC _fputc_cons_native
@@ -25,7 +25,7 @@ _fgetc_cons:
     ret
 
 
-; additional Marvin functions 
+; additional MARVIN functions 
 
 PUBLIC _readchar
 
