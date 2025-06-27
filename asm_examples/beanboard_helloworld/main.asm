@@ -1,9 +1,3 @@
-;include "../lib/beanzee.inc"
-include "../lib/marvin.inc"
-;include "../lib/HD44780LCD.inc"
-
-org RAMSTART
-
 start:
 	ld a,LCD_FUNCTION_SET+LCD_DATA_LEN_8+LCD_DISP_LINES_2+LCD_FONT_8
 	call lcd_putcmd
