@@ -1,7 +1,7 @@
 // snake
 // classic snake game for BeanZee over VT100 terminal
 // built with z88dk
-// tested on BeanBoard v1, BeanZee v1 and Marvin v1.2 for beanboard
+// tested on BeanBoard v1, BeanZee v1 and Marvin v1.2 for beanzee and for beanboard
 
 #include <stdlib.h>
 #include <stdio.h>
