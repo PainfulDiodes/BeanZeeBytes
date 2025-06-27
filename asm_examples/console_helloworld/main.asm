@@ -1,9 +1,3 @@
-; load all the definitions needed to interact with the monitor program
-include "../lib/beanzee.map"     
-
-; this is the default location for a BeanZee standalone assembly program 
-org RAMSTART
-
 start:
     ; load the message address into HL
     ld hl,message
