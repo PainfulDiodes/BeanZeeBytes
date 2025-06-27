@@ -1,8 +1,3 @@
-;include "../lib/beanzee.inc"
-include "../lib/marvin.inc"
-
-org RAMSTART
-
 start:
     ld hl,CONSOLE_MESSAGE
     call puts 
@@ -45,7 +40,7 @@ keyscannext:
     ; loop if not done all columns (carry flag means we've already done all 8 bits)
     jr nc,keyscanloop
     ; key debounce                         
-    call delay
+    call mydelay
     ; check if user wants to quit - looking for input from USB
     call readchar
     ; escape?
@@ -89,12 +84,14 @@ _keyscansame:
     pop bc                      
     ret
 
-delay: 
+; TODO - use the monitor delay ?
+
+mydelay: 
     ; preserve hl
     push hl
     ; set hl to the length of the delay
     ld hl,0x0a00                
-_delayloop:                      
+_mydelayloop:                      
     ; count down the time
     dec hl
     ; wait a few cycles
@@ -104,13 +101,13 @@ _delayloop:
     ; is it zero?
     cp 0
     ; no - loop again
-    jr nz,_delayloop
+    jr nz,_mydelayloop
     ; yes - what about the low part of the value?
     ld a,l
     ; is it zero?
     cp 0
     ; no - loop again
-    jr nz,_delayloop
+    jr nz,_mydelayloop
     ; yes - return
     ; restore hl
     pop hl
