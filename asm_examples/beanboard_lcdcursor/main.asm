@@ -1,15 +1,3 @@
-;include "../lib/beanzee.inc"
-include "../lib/marvin.inc"
-;include "../lib/HD44780LCD.inc"
-
-org RAMSTART
-
-; LCD_SET_DDRAM_ADDR options
-; LCD_LINE_0_ADDR equ 0x00
-; LCD_LINE_1_ADDR equ 0x40
-; LCD_LINE_2_ADDR equ 0x00+0x14
-; LCD_LINE_3_ADDR equ 0x40+0x14
-
 start:
     ld hl,INSTRUCTIONS_MSG
     call puts
@@ -54,23 +42,6 @@ start:
     call lcd_putchar
 
     jp START
-
-
-; subroutines
-
-; lcd_puts:
-;     ; get message character
-;     ld a,(hl)
-;     ; is it zero?
-;     cp 0
-;     ; yes
-;     ret z
-;     ; no - send character
-;     call lcd_putchar
-;     ; next character position
-;     inc hl
-;     ; loop for next character
-;     jr lcd_puts
 
 ; messages
 
