@@ -53,7 +53,7 @@ end:
     ld a,'\n'
     call putchar                
     ; jump to the reset address - will drop back to the monitor
-    jp START
+    jp WARMSTART
 
 
 ; subroutines

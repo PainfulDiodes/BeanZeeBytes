@@ -24,7 +24,7 @@ end:
     ; wait
     call getchar
     call lcd_init
-    jp START
+    jp WARMSTART
 
 message: 
     db "Hello world!\n"     

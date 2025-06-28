@@ -41,7 +41,7 @@ start:
     ld a,0
     call lcd_putchar
 
-    jp START
+    jp WARMSTART
 
 ; messages
 

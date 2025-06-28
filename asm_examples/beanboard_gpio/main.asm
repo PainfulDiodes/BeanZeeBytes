@@ -26,7 +26,7 @@ end:
     ; to the console
     call putchar
     ; jump to the reset address - will jump back to the monitor
-    jp START
+    jp WARMSTART
 
 start_message: 
     db "Console to GPO\nGPI to console\n'Esc' to quit\n",0

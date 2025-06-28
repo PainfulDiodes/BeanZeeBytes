@@ -25,7 +25,7 @@ loop:
 end:
     ld a,'\n'
     call lcd_putchar
-    jp START
+    jp WARMSTART
 
 start_message: 
     db "Echoing from console\nto the LCD\n'Esc' to quit\n",0

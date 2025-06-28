@@ -10,7 +10,7 @@ wait:
     call getchar
 end:
     ; jump to the reset address - will jump back to the monitor
-    jp START
+    jp WARMSTART
 
 message: 
     ; message to be printed 
