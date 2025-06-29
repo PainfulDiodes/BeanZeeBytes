@@ -1,0 +1,12 @@
+ORGDEF                          = $8000 ; const, local, , beanzee, , beanzee.asm:0
+WARMSTART                       = $0010 ; const, local, , beanzee, , ../lib/beanzee.map:16
+__head                          = $8000 ; const, public, def, , ,
+__size                          = $0028 ; const, public, def, , ,
+__tail                          = $8028 ; const, public, def, , ,
+end                             = $8009 ; addr, local, , beanzee, , main.asm:11
+getchar                         = $0013 ; const, local, , beanzee, , ../lib/beanzee.map:49
+message                         = $800C ; addr, local, , beanzee, , main.asm:15
+print                           = $8003 ; addr, local, , beanzee, , main.asm:4
+puts                            = $0027 ; const, local, , beanzee, , ../lib/beanzee.map:54
+start                           = $8000 ; addr, local, , beanzee, , main.asm:1
+wait                            = $8006 ; addr, local, , beanzee, , main.asm:7

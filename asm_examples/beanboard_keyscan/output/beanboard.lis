@@ -1,0 +1,288 @@
+beanboard.asm:
+     1                          include "../lib/beanboard.map"
+../lib/beanboard.map:
+     1                          BAD_CMD_MSG                     = $040E ; addr, local, , beanboard, , asm/messages_small.asm:7
+     2                          BEANBOARD                       = $0001 ; const, local, , beanboard, , beanboard.asm:5
+     3                          CMD_BUFFER                      = $F020 ; const, local, , beanboard, , asm/main.inc:9
+     4                          CMD_W_NULL_MSG                  = $041B ; addr, local, , beanboard, , asm/messages_small.asm:10
+     5                          CONSOLE_STATUS                  = $F000 ; const, local, , beanboard, , asm/main.inc:5
+     6                          CONSOLE_STATUS_BEANBOARD        = $0002 ; const, local, , beanboard, , asm/main.inc:23
+     7                          CONSOLE_STATUS_USB              = $0001 ; const, local, , beanboard, , asm/main.inc:22
+     8                          DEBOUNCE_DELAY                  = $4000 ; const, local, , beanboard, , asm/keymatrix.asm:1
+     9                          ESC_B                           = $0008 ; const, local, , beanboard, , asm/escapestring.inc:5
+    10                          ESC_E                           = $001B ; const, local, , beanboard, , asm/escapestring.inc:9
+    11                          ESC_N                           = $000A ; const, local, , beanboard, , asm/escapestring.inc:7
+    12                          ESC_R                           = $000D ; const, local, , beanboard, , asm/escapestring.inc:8
+    13                          ESC_T                           = $0009 ; const, local, , beanboard, , asm/escapestring.inc:6
+    14                          KEYSCAN_IN                      = $0003 ; const, local, , beanboard, , asm/main.inc:16
+    15                          KEYSCAN_OUT                     = $0002 ; const, local, , beanboard, , asm/main.inc:15
+    16                          KEY_MATRIX_BUFFER               = $F010 ; const, local, , beanboard, , asm/main.inc:7
+    17                          LCD_BLINK_ON                    = $0001 ; const, local, , beanboard, , asm/HD44780LCD.inc:22
+    18                          LCD_CLEAR_DISPLAY               = $0001 ; const, local, , beanboard, , asm/HD44780LCD.inc:2
+    19                          LCD_COMMAND_0                   = $0038 ; const, local, , beanboard, , asm/HD44780LCD.asm:1
+    20                          LCD_COMMAND_1                   = $000F ; const, local, , beanboard, , asm/HD44780LCD.asm:2
+    21                          LCD_CTRL                        = $0004 ; const, local, , beanboard, , asm/main.inc:17
+    22                          LCD_CURSOR_ON                   = $0002 ; const, local, , beanboard, , asm/HD44780LCD.inc:20
+    23                          LCD_DATA                        = $0005 ; const, local, , beanboard, , asm/main.inc:18
+    24                          LCD_DATA_LEN_8                  = $0010 ; const, local, , beanboard, , asm/HD44780LCD.inc:32
+    25                          LCD_DISPLAY_ON                  = $0004 ; const, local, , beanboard, , asm/HD44780LCD.inc:18
+    26                          LCD_DISPLAY_ON_OFF_CONTROL      = $0008 ; const, local, , beanboard, , asm/HD44780LCD.inc:5
+    27                          LCD_DISP_LINES_2                = $0008 ; const, local, , beanboard, , asm/HD44780LCD.inc:34
+    28                          LCD_EOL_0                       = $0013 ; const, local, , beanboard, , asm/HD44780LCD.inc:48
+    29                          LCD_EOL_1                       = $0053 ; const, local, , beanboard, , asm/HD44780LCD.inc:49
+    30                          LCD_EOL_2                       = $0027 ; const, local, , beanboard, , asm/HD44780LCD.inc:50
+    31                          LCD_EOL_3                       = $0067 ; const, local, , beanboard, , asm/HD44780LCD.inc:51
+    32                          LCD_FONT_8                      = $0000 ; const, local, , beanboard, , asm/HD44780LCD.inc:37
+    33                          LCD_FUNCTION_SET                = $0020 ; const, local, , beanboard, , asm/HD44780LCD.inc:7
+    34                          LCD_LINE_0_ADDR                 = $0000 ; const, local, , beanboard, , asm/HD44780LCD.inc:44
+    35                          LCD_LINE_1_ADDR                 = $0040 ; const, local, , beanboard, , asm/HD44780LCD.inc:45
+    36                          LCD_LINE_2_ADDR                 = $0014 ; const, local, , beanboard, , asm/HD44780LCD.inc:46
+    37                          LCD_LINE_3_ADDR                 = $0054 ; const, local, , beanboard, , asm/HD44780LCD.inc:47
+    38                          LCD_LINE_LEN                    = $0014 ; const, local, , beanboard, , asm/HD44780LCD.inc:39
+    39                          LCD_NUM_LINES                   = $0004 ; const, local, , beanboard, , asm/HD44780LCD.inc:40
+    40                          LCD_SET_DDRAM_ADDR              = $0080 ; const, local, , beanboard, , asm/HD44780LCD.inc:9
+    41                          MARVIN                          = $00B6 ; addr, local, , beanboard, , asm/marvin.asm:9
+    42                          MARVINORG                       = $0000 ; const, local, , beanboard, , beanboard.asm:0
+    43                          MOD_KEY_SHIFT                   = $0001 ; const, local, , beanboard, , asm/keymatrix.asm:3
+    44                          PROMPT                          = $00BF ; addr, local, , beanboard, , asm/marvin.asm:16
+    45                          QUOTE                           = $0027 ; const, local, , beanboard, , asm/escapestring.inc:11
+    46                          QWERTY_ALT                      = $0000 ; const, local, , beanboard, , asm/keymatrix.asm:151
+    47                          QWERTY_CAPS                     = $0005 ; const, local, , beanboard, , asm/keymatrix.asm:157
+    48                          QWERTY_CMD                      = $0000 ; const, local, , beanboard, , asm/keymatrix.asm:152
+    49                          QWERTY_CTRL                     = $0000 ; const, local, , beanboard, , asm/keymatrix.asm:150
+    50                          QWERTY_CURS_DOWN                = $0002 ; const, local, , beanboard, , asm/keymatrix.asm:154
+    51                          QWERTY_CURS_LEFT                = $0003 ; const, local, , beanboard, , asm/keymatrix.asm:155
+    52                          QWERTY_CURS_RIGHT               = $0004 ; const, local, , beanboard, , asm/keymatrix.asm:156
+    53                          QWERTY_CURS_UP                  = $0001 ; const, local, , beanboard, , asm/keymatrix.asm:153
+    54                          QWERTY_FN                       = $0000 ; const, local, , beanboard, , asm/keymatrix.asm:149
+    55                          QWERTY_KEYMAP_L                 = $0367 ; addr, local, , beanboard, , asm/keymatrix.asm:159
+    56                          QWERTY_KEYMAP_U                 = $03A7 ; addr, local, , beanboard, , asm/keymatrix.asm:164
+    57                          QWERTY_SHIFT                    = $0000 ; const, local, , beanboard, , asm/keymatrix.asm:148
+    58                          RAMSTART                        = $8000 ; const, local, , beanboard, , asm/main.inc:2
+    59                          SLASH                           = $005C ; const, local, , beanboard, , asm/escapestring.inc:10
+    60                          STACK                           = $FFFF ; const, local, , beanboard, , asm/main.inc:11
+    61                          UM245R_CTRL                     = $0000 ; const, local, , beanboard, , asm/main.inc:13
+    62                          UM245R_DATA                     = $0001 ; const, local, , beanboard, , asm/main.inc:14
+    63                          WARMSTART                       = $0010 ; addr, local, , beanboard, , asm/main.asm:8
+    64                          WELCOME_MSG                     = $03E7 ; addr, local, , beanboard, , asm/messages_small.asm:1
+    65                          __head                          = $0000 ; const, public, def, , ,
+    66                          __lcd_putdata_loop              = $0292 ; addr, local, , beanboard, , asm/HD44780LCD.asm:108
+    67                          __size                          = $0424 ; const, public, def, , ,
+    68                          __tail                          = $0424 ; const, public, def, , ,
+    69                          _beanboard_console_init_usb     = $0073 ; addr, local, , beanboard, , asm/console.asm:106
+    70                          _cmd_exec_df                    = $017D ; addr, local, , beanboard, , asm/marvin.asm:207
+    71                          _cmd_execute                    = $016C ; addr, local, , beanboard, , asm/marvin.asm:188
+    72                          _cmd_load                       = $0181 ; addr, local, , beanboard, , asm/marvin.asm:215
+    73                          _cmd_load_data                  = $01A0 ; addr, local, , beanboard, , asm/marvin.asm:243
+    74                          _cmd_load_end                   = $01AD ; addr, local, , beanboard, , asm/marvin.asm:262
+    75                          _cmd_read                       = $0111 ; addr, local, , beanboard, , asm/marvin.asm:95
+    76                          _cmd_read_byte                  = $0132 ; addr, local, , beanboard, , asm/marvin.asm:124
+    77                          _cmd_read_row                   = $011E ; addr, local, , beanboard, , asm/marvin.asm:110
+    78                          _cmd_write                      = $0147 ; addr, local, , beanboard, , asm/marvin.asm:147
+    79                          _cmd_write_data                 = $0154 ; addr, local, , beanboard, , asm/marvin.asm:162
+    80                          _cmd_write_end                  = $0160 ; addr, local, , beanboard, , asm/marvin.asm:176
+    81                          _cmd_write_null                 = $0163 ; addr, local, , beanboard, , asm/marvin.asm:179
+    82                          _colscan                        = $0352 ; addr, local, , beanboard, , asm/keymatrix.asm:114
+    83                          _colscanend                     = $0365 ; addr, local, , beanboard, , asm/keymatrix.asm:141
+    84                          _colscanloop                    = $0356 ; addr, local, , beanboard, , asm/keymatrix.asm:121
+    85                          _colscanloopnext                = $035F ; addr, local, , beanboard, , asm/keymatrix.asm:132
+    86                          _debounce_delay                 = $0326 ; addr, local, , beanboard, , asm/keymatrix.asm:51
+    87                          _delay_end                      = $0332 ; addr, local, , beanboard, , asm/keymatrix.asm:61
+    88                          _delay_loop                     = $032B ; addr, local, , beanboard, , asm/keymatrix.asm:55
+    89                          _do_usb_put                     = $0096 ; addr, local, , beanboard, , asm/UM245R.asm:44
+    90                          _get_cmd                        = $00C7 ; addr, local, , beanboard, , asm/marvin.asm:22
+    91                          _get_cmd_end                    = $00EC ; addr, local, , beanboard, , asm/marvin.asm:60
+    92                          _get_cmd_esc                    = $00E5 ; addr, local, , beanboard, , asm/marvin.asm:54
+    93                          _hex_byte_val_zero              = $01CF ; addr, local, , beanboard, , asm/strings.asm:40
+    94                          _hex_val_n                      = $01E1 ; addr, local, , beanboard, , asm/strings.asm:64
+    95                          _hex_val_u_n                    = $01DA ; addr, local, , beanboard, , asm/strings.asm:56
+    96                          _keyscanloop                    = $030D ; addr, local, , beanboard, , asm/keymatrix.asm:27
+    97                          _lcd_putchar_end                = $028F ; addr, local, , beanboard, , asm/HD44780LCD.asm:99
+    98                          _lcd_putchar_eol0               = $0272 ; addr, local, , beanboard, , asm/HD44780LCD.asm:83
+    99                          _lcd_putchar_eol1               = $0279 ; addr, local, , beanboard, , asm/HD44780LCD.asm:87
+   100                          _lcd_putchar_eol2               = $0280 ; addr, local, , beanboard, , asm/HD44780LCD.asm:91
+   101                          _lcd_putchar_eol3               = $0287 ; addr, local, , beanboard, , asm/HD44780LCD.asm:95
+   102                          _lcd_putchar_pad                = $023D ; addr, local, , beanboard, , asm/HD44780LCD.asm:58
+   103                          _lcd_putchar_printable          = $0258 ; addr, local, , beanboard, , asm/HD44780LCD.asm:71
+   104                          _lcd_putcmd_loop                = $0224 ; addr, local, , beanboard, , asm/HD44780LCD.asm:26
+   105                          _lcd_putdata                    = $0290 ; addr, local, , beanboard, , asm/HD44780LCD.asm:104
+   106                          _lcd_puts_end                   = $02F3 ; addr, local, , beanboard, , asm/HD44780LCD.asm:199
+   107                          _lcd_puts_loop                  = $02E7 ; addr, local, , beanboard, , asm/HD44780LCD.asm:186
+   108                          _lcd_scroll_clear_line          = $02D9 ; addr, local, , beanboard, , asm/HD44780LCD.asm:172
+   109                          _lcd_scroll_clear_line_loop     = $02DE ; addr, local, , beanboard, , asm/HD44780LCD.asm:177
+   110                          _lcd_scroll_line                = $02C0 ; addr, local, , beanboard, , asm/HD44780LCD.asm:143
+   111                          _lcd_scroll_line_loop           = $02C2 ; addr, local, , beanboard, , asm/HD44780LCD.asm:149
+   112                          _modifier_shift                 = $034F ; addr, local, , beanboard, , asm/keymatrix.asm:107
+   113                          _putchar_beanboard              = $0047 ; addr, local, , beanboard, , asm/console.asm:49
+   114                          _putchar_end                    = $0051 ; addr, local, , beanboard, , asm/console.asm:56
+   115                          _putchar_hex_dgt                = $01FB ; addr, local, , beanboard, , asm/strings.asm:91
+   116                          _putchar_hex_n                  = $0205 ; addr, local, , beanboard, , asm/strings.asm:101
+   117                          _putchar_usb                    = $004D ; addr, local, , beanboard, , asm/console.asm:53
+   118                          _puts_end                       = $0062 ; addr, local, , beanboard, , asm/console.asm:88
+   119                          _puts_loop                      = $0056 ; addr, local, , beanboard, , asm/console.asm:75
+   120                          _readchar_beanboard             = $002B ; addr, local, , beanboard, , asm/console.asm:20
+   121                          _readchar_end                   = $0033 ; addr, local, , beanboard, , asm/console.asm:25
+   122                          _readchar_usb                   = $0030 ; addr, local, , beanboard, , asm/console.asm:23
+   123                          _rowscan                        = $0335 ; addr, local, , beanboard, , asm/keymatrix.asm:71
+   124                          _usb_no_char                    = $0088 ; addr, local, , beanboard, , asm/UM245R.asm:32
+   125                          _usb_put                        = $009A ; addr, local, , beanboard, , asm/UM245R.asm:49
+   126                          _usb_put_loop                   = $009C ; addr, local, , beanboard, , asm/UM245R.asm:53
+   127                          _usb_puts_end                   = $00B4 ; addr, local, , beanboard, , asm/UM245R.asm:83
+   128                          _usb_puts_loop                  = $00A8 ; addr, local, , beanboard, , asm/UM245R.asm:70
+   129                          beanboard_console_init          = $0064 ; addr, local, , beanboard, , asm/console.asm:94
+   130                          getchar                         = $0013 ; addr, local, , beanboard, , asm/console.asm:2
+   131                          hex_byte_val                    = $01B0 ; addr, local, , beanboard, , asm/strings.asm:4
+   132                          hex_val                         = $01D3 ; addr, local, , beanboard, , asm/strings.asm:48
+   133                          key_readchar                    = $02F5 ; addr, local, , beanboard, , asm/keymatrix.asm:10
+   134                          key_readchar_end                = $031F ; addr, local, , beanboard, , asm/keymatrix.asm:43
+   135                          lcd_getchar                     = $022F ; addr, local, , beanboard, , asm/HD44780LCD.asm:41
+   136                          lcd_init                        = $020B ; addr, local, , beanboard, , asm/HD44780LCD.asm:5
+   137                          lcd_putchar                     = $0238 ; addr, local, , beanboard, , asm/HD44780LCD.asm:53
+   138                          lcd_putcmd                      = $0222 ; addr, local, , beanboard, , asm/HD44780LCD.asm:22
+   139                          lcd_puts                        = $02E6 ; addr, local, , beanboard, , asm/HD44780LCD.asm:184
+   140                          lcd_scroll                      = $02A1 ; addr, local, , beanboard, , asm/HD44780LCD.asm:126
+   141                          modifierkeys                    = $0342 ; addr, local, , beanboard, , asm/keymatrix.asm:95
+   142                          putchar                         = $0035 ; addr, local, , beanboard, , asm/console.asm:37
+   143                          putchar_hex                     = $01E4 ; addr, local, , beanboard, , asm/strings.asm:70
+   144                          puts                            = $0055 ; addr, local, , beanboard, , asm/console.asm:73
+   145                          readchar                        = $001B ; addr, local, , beanboard, , asm/console.asm:10
+   146                          usb_putchar                     = $008B ; addr, local, , beanboard, , asm/UM245R.asm:36
+   147                          usb_puts                        = $00A7 ; addr, local, , beanboard, , asm/UM245R.asm:68
+   148                          usb_readchar                    = $007A ; addr, local, , beanboard, , asm/UM245R.asm:16
+   149                          
+beanboard.asm:
+     2                          ORG ORGDEF
+     3                          include "main.asm"
+main.asm:
+     1                          start:
+     2  0000  215b00                ld hl,CONSOLE_MESSAGE
+     3  0003  cd5500                call puts
+     4                          
+     5                          keyscanstart:
+     6                              ; initial row bit - only 1 bit is ever set at a time - it is shifted iteratively from bit 0 to bit 7
+     7  0006  0601                  ld b,0b00000001
+     8                              ; location of previous values
+     9  0008  217400                ld hl,KEY_BUFFER
+    10                          keyscanloop:
+    11                              ; get the current row bit
+    12  000b  78                    ld a,b
+    13  000c  cd3900                call keyscan
+    14  000f  fe00                  cp 0
+    15                              ; no value - skip printing the value
+    16  0011  280e                  jr z,keyscannext
+    17                          
+    18                              ; print the row and column as hex
+    19                              ; stash the column value in C
+    20  0013  4f                    ld c,a
+    21                              ; get the row value
+    22  0014  78                    ld a,b
+    23                              ; print the row value
+    24  0015  cde401                call putchar_hex
+    25                              ; restore the column value
+    26  0018  79                    ld a,c
+    27                              ; print the column value
+    28  0019  cde401                call putchar_hex
+    29                              ; add a newline
+    30  001c  3e0a                  ld a,'\n'
+    31  001e  cd3500                call putchar
+    32                          
+    33                          keyscannext:
+    34                              ; move the pointer of previous values to the next row slot
+    35  0021  23                    inc hl
+    36                              ; clear the carry flag
+    37  0022  b7                    or a
+    38                              ; shift column bit left - when we've done all 8, the bit will move into the carry flag
+    39  0023  cb10                  rl b
+    40                              ; loop if not done all columns (carry flag means we've already done all 8 bits)
+    41  0025  30e4                  jr nc,keyscanloop
+    42                              ; key debounce
+    43  0027  cd4900                call mydelay
+    44                              ; check if user wants to quit - looking for input from USB
+    45  002a  cd1b00                call readchar
+    46                              ; escape?
+    47  002d  fe1b                  cp '\e'
+    48                              ; no - loop again
+    49  002f  20d5                  jr nz,keyscanstart
+    50                              ; yes - quit
+    51                          end:
+    52                              ; add a line break to the output
+    53  0031  3e0a                  ld a,'\n'
+    54  0033  cd3500                call putchar
+    55                              ; jump to the reset address - will drop back to the monitor
+    56  0036  c31000                jp WARMSTART
+    57                          
+    58                          
+    59                          ; subroutines
+    60                          
+    61                          ; A contains column bit, HL contains a pointer to the old value, return value in A
+    62                          keyscan:
+    63                              ; preserve bc
+    64  0039  c5                    push bc
+    65                              ; output column strobe
+    66  003a  d302                  out (KEYSCAN_OUT),a
+    67                              ; get row values
+    68  003c  db03                  in a,(KEYSCAN_IN)
+    69                              ; fetch previous value for comparison
+    70  003e  46                    ld b,(hl)
+    71                              ; is the value unchanged?
+    72  003f  b8                    cp b
+    73                              ; yes - value hasn't changed
+    74  0040  2803                  jr z,_keyscansame
+    75                              ; no - store the new value
+    76  0042  77                    ld (hl),a
+    77                              ; restore bc
+    78  0043  c1                    pop bc
+    79  0044  c9                    ret
+    80                          _keyscansame:
+    81                              ; when data hasn't changed we will return 0
+    82  0045  3e00                  ld a,0
+    83                              ; restore bc
+    84  0047  c1                    pop bc
+    85  0048  c9                    ret
+    86                          
+    87                          ; TODO - use the monitor delay ?
+    88                          
+    89                          mydelay:
+    90                              ; preserve hl
+    91  0049  e5                    push hl
+    92                              ; set hl to the length of the delay
+    93  004a  21000a                ld hl,0x0a00
+    94                          _mydelayloop:
+    95                              ; count down the time
+    96  004d  2b                    dec hl
+    97                              ; wait a few cycles
+    98  004e  00                    nop
+    99                              ; copy the high part of the count down
+   100  004f  7c                    ld a,h
+   101                              ; is it zero?
+   102  0050  fe00                  cp 0
+   103                              ; no - loop again
+   104  0052  20f9                  jr nz,_mydelayloop
+   105                              ; yes - what about the low part of the value?
+   106  0054  7d                    ld a,l
+   107                              ; is it zero?
+   108  0055  fe00                  cp 0
+   109                              ; no - loop again
+   110  0057  20f4                  jr nz,_mydelayloop
+   111                              ; yes - return
+   112                              ; restore hl
+   113  0059  e1                    pop hl
+   114  005a  c9                    ret
+   115                          
+   116                          
+   117                          ; messages
+   118                          
+   119                          CONSOLE_MESSAGE:
+   120  005b  4869742045736320      db "Hit Esc to stop keyscan\n",0
+              746f2073746f7020  
+              6b65797363616e0a  
+              00                
+   121                          
+   122                          
+   123                          ; variables
+   124                          
+   125                          KEY_BUFFER:
+   126  0074  0000000000000000      db 0,0,0,0,0,0,0,0
+   127                          
+beanboard.asm:
+     4                          
