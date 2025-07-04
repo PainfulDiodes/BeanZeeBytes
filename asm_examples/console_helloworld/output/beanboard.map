@@ -1,12 +1,12 @@
 ORGDEF                          = $8000 ; const, local, , beanboard, , beanboard.asm:0
-WARMSTART                       = $0010 ; const, local, , beanboard, , ../lib/beanboard.map:63
+WARMSTART                       = $0010 ; const, local, , beanboard, , ../lib/beanboard.map:59
 __head                          = $8000 ; const, public, def, , ,
 __size                          = $0028 ; const, public, def, , ,
 __tail                          = $8028 ; const, public, def, , ,
 end                             = $8009 ; addr, local, , beanboard, , main.asm:11
-getchar                         = $0013 ; const, local, , beanboard, , ../lib/beanboard.map:130
+getchar                         = $0023 ; const, local, , beanboard, , ../lib/beanboard.map:123
 message                         = $800C ; addr, local, , beanboard, , main.asm:15
 print                           = $8003 ; addr, local, , beanboard, , main.asm:4
-puts                            = $0055 ; const, local, , beanboard, , ../lib/beanboard.map:144
+puts                            = $0065 ; const, local, , beanboard, , ../lib/beanboard.map:137
 start                           = $8000 ; addr, local, , beanboard, , main.asm:1
 wait                            = $8006 ; addr, local, , beanboard, , main.asm:7
