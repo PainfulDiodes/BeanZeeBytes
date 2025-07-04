@@ -23,8 +23,7 @@ loop:
     jr loop
     
 end:
-    ld a,'\n'
-    call lcd_putchar
+    call lcd_init
     jp WARMSTART
 
 start_message: 

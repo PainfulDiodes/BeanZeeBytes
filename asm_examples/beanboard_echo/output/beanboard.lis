@@ -157,7 +157,7 @@ main.asm:
      8  000f  3e00                  ld a,0
      9  0011  cd4802                call lcd_putchar
     10                              ; load the message address into HL
-    11  0014  212f00                ld hl,start_message
+    11  0014  212d00                ld hl,start_message
     12  0017  cd6500            	call puts
     13                          loop:
     14                              ; get a character from the console - will wait for a character
@@ -172,17 +172,16 @@ main.asm:
     23  0025  18f3                  jr loop
     24                          
     25                          end:
-    26  0027  3e0a                  ld a,'\n'
-    27  0029  cd4802                call lcd_putchar
-    28  002c  c31000                jp WARMSTART
-    29                          
-    30                          start_message:
-    31  002f  4563686f696e6720      db "Echoing from console\nto the LCD\n'Esc' to quit\n",0
+    26  0027  cd1b02                call lcd_init
+    27  002a  c31000                jp WARMSTART
+    28                          
+    29                          start_message:
+    30  002d  4563686f696e6720      db "Echoing from console\nto the LCD\n'Esc' to quit\n",0
               66726f6d20636f6e  
               736f6c650a746f20  
               746865204c43440a  
               274573632720746f  
               20717569740a00    
-    32                          
+    31                          
 beanboard.asm:
      4                          

@@ -148,7 +148,7 @@ beanboard.asm:
      3                          include "main.asm"
 main.asm:
      1                          start:
-     2  0000  215f00                ld hl,INSTRUCTIONS_MSG
+     2  0000  215800                ld hl,INSTRUCTIONS_MSG
      3  0003  cd6500                call puts
      4                          
      5  0006  3e38              	ld a,LCD_FUNCTION_SET+LCD_DATA_LEN_8+LCD_DISP_LINES_2+LCD_FONT_8
@@ -161,47 +161,43 @@ main.asm:
     12  0015  3e80                  ld a,LCD_SET_DDRAM_ADDR+LCD_LINE_0_ADDR+0
     13  0017  cd3202            	call lcd_putcmd
     14                          
-    15  001a  215100                ld hl,MESSAGE
+    15  001a  214a00                ld hl,MESSAGE
     16  001d  cdc302                call lcd_puts
     17                          
     18  0020  3ec2                  ld a,LCD_SET_DDRAM_ADDR+LCD_LINE_1_ADDR+2
     19  0022  cd3202            	call lcd_putcmd
     20                          
-    21  0025  215100                ld hl,MESSAGE
+    21  0025  214a00                ld hl,MESSAGE
     22  0028  cdc302                call lcd_puts
     23                          
     24  002b  3e98                  ld a,LCD_SET_DDRAM_ADDR+LCD_LINE_2_ADDR+4
     25  002d  cd3202            	call lcd_putcmd
     26                          
-    27  0030  215100                ld hl,MESSAGE
+    27  0030  214a00                ld hl,MESSAGE
     28  0033  cdc302                call lcd_puts
     29                          
     30  0036  3eda                  ld a,LCD_SET_DDRAM_ADDR+LCD_LINE_3_ADDR+6
     31  0038  cd3202            	call lcd_putcmd
     32                          
-    33  003b  215100                ld hl,MESSAGE
+    33  003b  214a00                ld hl,MESSAGE
     34  003e  cdc302                call lcd_puts
     35                          
     36                              ; wait
     37  0041  cd2300                call getchar
     38                          
-    39  0044  3e01              	ld a,LCD_CLEAR_DISPLAY
-    40  0046  cd3202            	call lcd_putcmd
-    41  0049  3e00                  ld a,0
-    42  004b  cd4802                call lcd_putchar
+    39  0044  cd1b02                call lcd_init
+    40  0047  c31000                jp WARMSTART
+    41                          
+    42                          ; messages
     43                          
-    44  004e  c31000                jp WARMSTART
-    45                          
-    46                          ; messages
-    47                          
-    48                          MESSAGE:
-    49  0051  48656c6c6f2c2077      db "Hello, world!",0
+    44                          MESSAGE:
+    45  004a  48656c6c6f2c2077      db "Hello, world!",0
               6f726c642100      
-    50                          
-    51                          INSTRUCTIONS_MSG:
-    52  005f  507265737320616e      db "Press any key to exit",0
+    46                          
+    47                          INSTRUCTIONS_MSG:
+    48  0058  507265737320616e      db "Press any key to exit",0
               79206b657920746f  
               206578697400      
-    53                          
+    49                          
 beanboard.asm:
      4                          
