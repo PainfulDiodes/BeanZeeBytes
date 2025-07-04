@@ -1,1 +1,1 @@
-char readchar(void);
+char marvin_readchar(void);

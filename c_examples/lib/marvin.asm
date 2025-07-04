@@ -27,10 +27,12 @@ _fgetc_cons:
 
 ; additional MARVIN functions 
 
-PUBLIC _readchar
+PUBLIC marvin_readchar
+PUBLIC _marvin_readchar
 
 ; get a character from the UM245R console without waiting 
-_readchar:
+marvin_readchar:
+_marvin_readchar:
     call readchar
     ; return the result in hl
     ld h,0                  
