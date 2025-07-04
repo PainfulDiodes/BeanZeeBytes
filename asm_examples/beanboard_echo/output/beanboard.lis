@@ -154,8 +154,8 @@ main.asm:
      5  0007  cd3202            	call lcd_putcmd
      6  000a  3e01              	ld a,LCD_CLEAR_DISPLAY
      7  000c  cd3202            	call lcd_putcmd
-     8  000f  3e00                  ld a,0
-     9  0011  cd4802                call lcd_putchar
+     8  000f  3ed4                  ld a,LCD_SET_DDRAM_ADDR+LCD_LINE_3_ADDR
+     9  0011  cd3202            	call lcd_putcmd
     10                              ; load the message address into HL
     11  0014  212d00                ld hl,start_message
     12  0017  cd6500            	call puts

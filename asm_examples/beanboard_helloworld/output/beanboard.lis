@@ -148,38 +148,40 @@ beanboard.asm:
      3                          include "main.asm"
 main.asm:
      1                          start:
-     2  0000  3e38              	ld a,LCD_FUNCTION_SET+LCD_DATA_LEN_8+LCD_DISP_LINES_2+LCD_FONT_8
-     3  0002  cd3202            	call lcd_putcmd
-     4  0005  3e0f              	ld a,LCD_DISPLAY_ON_OFF_CONTROL+LCD_DISPLAY_ON+LCD_CURSOR_ON+LCD_BLINK_ON
-     5  0007  cd3202            	call lcd_putcmd
-     6  000a  3e01              	ld a,LCD_CLEAR_DISPLAY
-     7  000c  cd3202            	call lcd_putcmd
-     8  000f  3e00                  ld a,0
-     9  0011  cd4802                call lcd_putchar
-    10  0014  212b00                ld hl,message
-    11                          _loop:
-    12  0017  7e                    ld a,(hl)
-    13                              ; is it zero?
-    14  0018  fe00                  cp 0
-    15                              ; yes
-    16  001a  2806                  jr z, end
-    17                              ; no - send character
-    18  001c  cd4802                call lcd_putchar
-    19                              ; next character position
-    20  001f  23                    inc hl
-    21                              ; loop for next character
-    22  0020  18f5                  jr _loop
-    23                          end:
-    24                              ; wait
-    25  0022  cd2300                call getchar
-    26  0025  cd1b02                call lcd_init
-    27  0028  c31000                jp WARMSTART
-    28                          
-    29                          message:
-    30  002b  48656c6c6f20776f      db "Hello world!\n"
+     2                              ; the following LCD set-up can be accomplished with call lcd_init
+     3  0000  3e38              	ld a,LCD_FUNCTION_SET+LCD_DATA_LEN_8+LCD_DISP_LINES_2+LCD_FONT_8
+     4  0002  cd3202            	call lcd_putcmd
+     5  0005  3e0f              	ld a,LCD_DISPLAY_ON_OFF_CONTROL+LCD_DISPLAY_ON+LCD_CURSOR_ON+LCD_BLINK_ON
+     6  0007  cd3202            	call lcd_putcmd
+     7  000a  3e01              	ld a,LCD_CLEAR_DISPLAY
+     8  000c  cd3202            	call lcd_putcmd
+     9  000f  3ed4                  ld a,LCD_SET_DDRAM_ADDR+LCD_LINE_3_ADDR
+    10  0011  cd3202            	call lcd_putcmd
+    11                          
+    12  0014  212b00                ld hl,message
+    13                          _loop:
+    14  0017  7e                    ld a,(hl)
+    15                              ; is it zero?
+    16  0018  fe00                  cp 0
+    17                              ; yes
+    18  001a  2806                  jr z, end
+    19                              ; no - send character
+    20  001c  cd4802                call lcd_putchar
+    21                              ; next character position
+    22  001f  23                    inc hl
+    23                              ; loop for next character
+    24  0020  18f5                  jr _loop
+    25                          end:
+    26                              ; wait
+    27  0022  cd2300                call getchar
+    28  0025  cd1b02                call lcd_init
+    29  0028  c31000                jp WARMSTART
+    30                          
+    31                          message:
+    32  002b  48656c6c6f20776f      db "Hello world!\n"
               726c64210a        
-    31  0038  2868697420616e79      db "(hit any key)\n",0
+    33  0038  2868697420616e79      db "(hit any key)\n",0
               206b6579290a00    
-    32                          
+    34                          
 beanboard.asm:
      4                          
