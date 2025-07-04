@@ -6,7 +6,7 @@
 #  ./build.sh beanzee $8000
 # defaults to 0x8000
 
-set -x #echo on
+# set -x #echo on
 
 org=0x8000
 orgname=ORGDEF
