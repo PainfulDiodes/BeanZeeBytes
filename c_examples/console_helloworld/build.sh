@@ -15,7 +15,7 @@ target="../lib/$f.asm"
 
 if [ $# -gt 1 ]
 then
-    zcc +z80 -clib=classic main.c $target -pragma-define:CRT_ORG_CODE=$2 -pragma-define:CRT_ON_EXIT=$restart -create-app -m -Cz--ihex -o=output/$f.o
+    zcc +z80 -clib=classic main.c $target -pragma-define:CRT_ORG_CODE=$2 -pragma-define:CRT_ON_EXIT=$restart -create-app -m -Cz--ihex -o=output/$f.o --list
 else
-    zcc +z80 -clib=classic main.c $target -pragma-define:CRT_ORG_CODE=$org -pragma-define:CRT_ON_EXIT=$restart -create-app -m -Cz--ihex -o=output/$f.o
+    zcc +z80 -clib=classic main.c $target -pragma-define:CRT_ORG_CODE=$org -pragma-define:CRT_ON_EXIT=$restart -create-app -m -Cz--ihex -o=output/$f.o --list
 fi
