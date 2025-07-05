@@ -1,0 +1,1017 @@
+/tmp/tmpMFizJ9Ab.asm:
+     1                          MODULE main_c
+     2                          LINE 0, "main.c"
+main.c:
+                                
+     1                          ;* * * * *  Small-C/Plus z88dk * * * * *
+     2                          ;  Version: 23228-612b6d1ca5-20250313
+     3                          ;
+     4                          ;	Reconstructed for z80 Module Assembler
+     5                          ;
+     6                          ;	Module compile time: Sat Jul  5 08:30:17 2025
+     7                          
+     8                          
+     9                          	C_LINE	0,"main.c"
+                                
+                                	MODULE	main_c
+                                
+                                
+                                	INCLUDE "z80_crt0.hdr"
+/Users/painfuldiodes/z88dk/lib/config/../..//lib/z80_crt0.hdr:
+     1                          ;
+     2                          ;	Header file which contains all required variables from the
+     3                          ;	startup that need to be exposed to individual C files
+     4                          ;
+     5                          ;	Stick in this file any routines which are needed or implicitly
+     6                          ;	implied by sccz80.
+     7                          ;
+     8                          ;	This file is included by every module
+     9                          ;	To handle multi module programs which use floating point
+    10                          ;	routines in different modules, we have got rid of
+    11                          ;	the conditional assembly around the float routines
+    12                          
+    13                          
+    14                          	EXTERN	base_graphics	; Address of graphics screen
+    15                          
+    16                          	EXTERN	_cpfar2near	; Far->near conversion (z88)
+    17                          	EXTERN	packintrout	; Process interrupt (z88 apps)
+    18                          
+    19                          	EXTERN	l_dcal		; jp(hl)
+    20                          	EXTERN	cleanup		; cleanup before program exit
+    21                          
+    22                          	EXTERN	l_jphl		; another jp(hl)
+    23                          	EXTERN	l_jpix		; jp(ix)
+    24                          	EXTERN	l_jpiy		; jp(iy)
+    25                          
+    26                          	EXTERN	l_setix		; set non-z80 jp(ix) smc
+    27                          	EXTERN	l_setiy		; set non-z80 jp(iy) smc
+    28                          
+    29                          	EXTERN	l_ldi
+    30                          	EXTERN	l_ldi_128
+    31                          	EXTERN	l_ldi_256
+    32                          
+    33                          	EXTERN	l_outi
+    34                          	EXTERN	l_outi_128
+    35                          	EXTERN	l_outi_256
+    36                          
+    37                          	EXTERN	l_ini
+    38                          	EXTERN	l_ini_128
+    39                          	EXTERN	l_ini_256
+    40                          	EXTERN	l_ini_512
+    41                          
+    42                          	; Used for banked calls for __banked for sccz80 + sdcc
+    43                          	EXTERN	banked_call
+    44                          
+    45                          ;------------------------------------
+    46                          ; Scopes for integer library routines
+    47                          ;------------------------------------
+    48                          
+    49                          	EXTERN	l_getptr	;Get 3 byte pointer
+    50                          	EXTERN	l_putptr	;Put 3 byte pointer
+    51                          	EXTERN	l_gchar		;Get signed char
+    52                          	EXTERN	l_gchar1
+    53                          	EXTERN	l_gchar2
+    54                          	EXTERN	l_gchar3
+    55                          	EXTERN	l_gchar4
+    56                          	EXTERN	l_gchar5
+    57                          	EXTERN	l_gchar6
+    58                          	EXTERN	l_gchar7
+    59                          	EXTERN	l_gchar8
+    60                          	EXTERN	l_gcharsp	;Get signed char  (peephole opt)
+    61                          	EXTERN	l_gcharspsp	;Get signed char and push  (peephole opt)
+    62                          	EXTERN	l_g2charspsp	;Get 2 signed char and push  (peephole opt)
+    63                          	EXTERN	l_sxt		;Sign extend char
+    64                          	EXTERN	l_gint		;Get int ld hl,(hl)
+    65                          	EXTERN	l_gint1sp	;Optimized variants ld hl,x add hl,sp ld hl,(hl)
+    66                          	EXTERN	l_gint2sp
+    67                          	EXTERN	l_gint3sp
+    68                          	EXTERN	l_gint4sp
+    69                          	EXTERN	l_gint5sp
+    70                          	EXTERN	l_gint6sp
+    71                          	EXTERN	l_gint7sp
+    72                          	EXTERN	l_gint8sp
+    73                          	EXTERN	l_gint1		;Optimized variants inc hl,x ld hl,(hl)
+    74                          	EXTERN	l_gint2
+    75                          	EXTERN	l_gint3
+    76                          	EXTERN	l_gint4
+    77                          	EXTERN	l_gint5
+    78                          	EXTERN	l_gint6
+    79                          	EXTERN	l_gint7
+    80                          	EXTERN	l_gint8
+    81                          	EXTERN	l_gintsp	;Get int (peephole opt)
+    82                          	EXTERN	l_gintspchar	;Get int,char (peephole opt)
+    83                          	EXTERN	l_gintspsp	;Get int and push (peephole opt)
+    84                          	EXTERN	l_g2intspsp	;Get 2 int and push (peephole opt)
+    85                          	EXTERN	l_gintsp2de	;Get int, multiply by 2 and add from SP by de
+    86                          	EXTERN	l_gint7de	;Get int, multiply by 7 and add from SP by de
+    87                          	EXTERN	l_gint_eq	;Get int and test == 0
+    88                          	EXTERN	l_ghtonsint	;Get reverse order int
+    89                          	EXTERN	l_pint		;Put int: ld (de),hl
+    90                          	EXTERN	l_pint_eq	;Put int and test == 0
+    91                          	EXTERN	l_pint_pop	;Put int and pop place address
+    92                          	EXTERN	l_or		;Int logical or
+    93                          	EXTERN	l_xor		;Int logical xor
+    94                          	EXTERN	l_and		;Int logical and
+    95                          	EXTERN	l_eq		;Int equality de == hl
+    96                          	EXTERN	l_eq_hlbc	;Int equality bc == hl
+    97                          	EXTERN	l_ne		;Int inequality de != hl
+    98                          	EXTERN	l_ne_hlbc	;Int inequality bc != hl
+    99                          	EXTERN	l_gt		;Int signed de > hl
+   100                          	EXTERN	l_gt_hlbc	;Int signed bc > hl
+   101                          	EXTERN	l_le		;Int signed de <= hl
+   102                          	EXTERN	l_le_hlbc	;Int signed bc <= hl
+   103                          	EXTERN	l_ge		;Int signed de >= hl
+   104                          	EXTERN	l_ge_hlbc	;Int signed bc >= hl
+   105                          	EXTERN	l_lt		;Int signed de < hl
+   106                          	EXTERN	l_lt_hlbc	;Int signed bc < hl
+   107                          	EXTERN	l_uge		;Int unsigned de >= hl
+   108                          	EXTERN	l_uge_hlbc	;Int unsigned bc >= hl
+   109                          	EXTERN	l_ult		;Int unsigned de < hl
+   110                          	EXTERN	l_ult_hlbc	;Int unsigned bc < hl
+   111                          	EXTERN	l_ugt		;Int unsigned de > hl
+   112                          	EXTERN	l_ugt_hlbc	;Int unsigned bc > hl
+   113                          	EXTERN	l_ule		;Int unsigned de <= hl
+   114                          	EXTERN	l_ule_hlbc	;Int unsigned bc <= hl
+   115                          	EXTERN	l_cmp		;Int signed compare
+   116                          	EXTERN	l_ucmp		;Int unsigned compare
+   117                          	EXTERN	l_asr		;Int signed de >> hl
+   118                          	EXTERN	l_asr_hl_by_e	;Int signed hl >> e
+   119                          	EXTERN	l_asr_u		;Int unsigned de >> hl
+   120                          	EXTERN	l_asr_u_hl_by_e	;Int unsigned hl >> e
+   121                          	EXTERN	l_asl		;Int de << hl
+   122                          	EXTERN	l_sub		;Int subtract hl = de - hl
+   123                          	EXTERN	l_neg		;Int negate
+   124                          	EXTERN	l_com		;Int ~
+   125                          	EXTERN	l_lneg		;Int logical negate
+   126                          	EXTERN	l_bool		;Int boolean test
+   127                          	EXTERN	l_cm_de
+   128                          	EXTERN	l_cm_bc
+   129                          	EXTERN	l_deneg
+   130                          	EXTERN	l_bcneg
+   131                          	EXTERN	l_case		;Integer case
+   132                          	EXTERN	l_mult		;Integer hl = hl * de
+   133                          	EXTERN	l_mult_u	;Integer unsigned *
+   134                          	EXTERN	l_div		;Integer signed / hl=de/hl, de=de%hl
+   135                          	EXTERN	l_div_u		;Integer unsigned /
+   136                          	EXTERN	l_mod		;Integer % (for gbz80) hl=de%hl
+   137                          	EXTERN	l_mod_u		;Integer unsigned % (for gbz80)
+   138                          
+   139                          ;------------------
+   140                          ;Long functions now
+   141                          ;------------------
+   142                          
+   143                          	EXTERN	lpush2		;Push a long under the stack
+   144                          	EXTERN	l_int2long_s	;Int->long signed conversion
+   145                          	EXTERN	l_int2long_s_float	;Int->long->float signed conversion (optimizer: use -O3)
+   146                          	EXTERN	l_int2long_u_float	;uInt->ulong->float signed conversion
+   147                          	EXTERN	l_glong		;Get long
+   148                          	EXTERN	l_glongsp	;Get long (peephole opt)
+   149                          	EXTERN	l_glonghlp	;Get pointer, then get long
+   150                          	EXTERN	l_glong2sp	;Get long and copy on stack (peephole opt)
+   151                          	EXTERN	l_glong2sp_hlp
+   152                          	EXTERN	l_long_add
+   153                          	EXTERN	l_long_and
+   154                          	EXTERN	l_long_asl
+   155                          	EXTERN	l_long_asr
+   156                          	EXTERN	l_long_aslo	;Long << shift in c
+   157                          	EXTERN	l_long_asro	;Long >> shift in c (signed)
+   158                          	EXTERN	l_long_bool
+   159                          	EXTERN	l_long_cmp
+   160                          	EXTERN	l_long_com
+   161                          	EXTERN	l_long_eq
+   162                          	EXTERN	l_long_ge
+   163                          	EXTERN	l_long_gt
+   164                          	EXTERN	l_long_le
+   165                          	EXTERN	l_long_lneg
+   166                          	EXTERN	l_long_lt
+   167                          	EXTERN	l_long_ne
+   168                          	EXTERN	l_long_neg
+   169                          	EXTERN	l_long_or
+   170                          	EXTERN	l_long_sub
+   171                          	EXTERN	l_long_ucmp
+   172                          	EXTERN	l_long_uge
+   173                          	EXTERN	l_long_ugt
+   174                          	EXTERN	l_long_ule
+   175                          	EXTERN	l_long_ult
+   176                          	EXTERN	l_long_xor
+   177                          	EXTERN	l_plong
+   178                          	EXTERN	l_inclong	;Increment long
+   179                          	EXTERN	l_declong	;Decrement long
+   180                          	EXTERN	l_long_div
+   181                          	EXTERN	l_long_div_u
+   182                          	EXTERN	l_long_mod
+   183                          	EXTERN	l_long_mod_u
+   184                          	EXTERN	l_long_mult
+   185                          	EXTERN	l_long_mult_u
+   186                          	EXTERN	l_long_asr_u	;Long unsigned >>
+   187                          	EXTERN	l_long_asr_uo	;Long unsigned >> shift in c
+   188                          	EXTERN	l_long_case
+   189                          
+   190                          ;--------------------------------------------------------------
+   191                          ; Floating point support routines, mostly in library
+   192                          ;--------------------------------------------------------------
+   193                          
+   194                          	EXTERN	dadd
+   195                          	EXTERN	ddiv
+   196                          	EXTERN	dsub
+   197                          	EXTERN	dmul
+   198                          
+   199                          	EXTERN	dge
+   200                          	EXTERN	dgt
+   201                          	EXTERN	dleq
+   202                          	EXTERN	dlt
+   203                          	EXTERN	deq
+   204                          	EXTERN	dne
+   205                          
+   206                          	EXTERN	minusfa		;FA=-FA
+   207                          
+   208                          	EXTERN	dswap		;Exchange FA with top of stack
+   209                          	EXTERN	float		;Convert int to float
+   210                          	EXTERN	ufloat		;unsigned int to float
+   211                          	EXTERN	ifix		;Convert float to int
+   212                          
+   213                          	EXTERN	dstore		;FA->(de)
+   214                          	EXTERN	dload		;FA<-(hl)
+   215                          	EXTERN	dldpsh		;(hl)->(stack)
+   216                          	EXTERN	dpush		;FA->(stack)
+   217                          	EXTERN	dpush2		;FA->(stack under)
+   218                          	EXTERN	dpush3		;FA->(stack under,long)
+   219                          
+   220                          	EXTERN	fa		;may not be needed in this file
+   221                          	EXTERN	extra		;ditto
+   222                          	EXTERN	__atof2		;string->fa conversion
+   223                          	EXTERN	l_f48_ldexp	;FA * pow2(N)
+   224                          	EXTERN	l_f48_f16tof	;Convert _Float16 to float
+   225                          	EXTERN	l_f48_ftof16	;Convert float to _Float16
+   226                          
+   227                          	; 16 bit float ABI
+   228                          	EXTERN	l_f16_add
+   229                          	EXTERN	l_f16_sub
+   230                          	EXTERN	l_f16_mul
+   231                          	EXTERN	l_f16_div
+   232                          	EXTERN	l_f16_le
+   233                          	EXTERN	l_f16_lt
+   234                          	EXTERN	l_f16_ge
+   235                          	EXTERN	l_f16_gt
+   236                          	EXTERN	l_f16_eq
+   237                          	EXTERN	l_f16_ne
+   238                          	EXTERN	l_f16_swap
+   239                          	EXTERN	l_f16_schar2f
+   240                          	EXTERN	l_f16_uchar2f
+   241                          	EXTERN	l_f16_sint2f
+   242                          	EXTERN	l_f16_uint2f
+   243                          	EXTERN	l_f16_slong2f
+   244                          	EXTERN	l_f16_ulong2f
+   245                          	EXTERN	l_f16_f2sint
+   246                          	EXTERN	l_f16_f2uint
+   247                          	EXTERN	l_f16_f2slong
+   248                          	EXTERN	l_f16_f2ulong
+   249                          	EXTERN	l_f16_ldexp
+   250                          	EXTERN	l_f16_invf	;Only for ieee16
+   251                          	EXTERN	l_f16_f16tof	;A noop
+   252                          	EXTERN	l_f16_ftof16	;A noop
+   253                          
+   254                          	; 32 bit float ABI
+   255                          	EXTERN	l_f32_add
+   256                          	EXTERN	l_f32_sub
+   257                          	EXTERN	l_f32_mul
+   258                          	EXTERN	l_f32_div
+   259                          	EXTERN	l_f32_le
+   260                          	EXTERN	l_f32_lt
+   261                          	EXTERN	l_f32_ge
+   262                          	EXTERN	l_f32_gt
+   263                          	EXTERN	l_f32_eq
+   264                          	EXTERN	l_f32_ne
+   265                          	EXTERN	l_f32_swap
+   266                          	EXTERN	l_f32_negate
+   267                          	EXTERN	l_f32_schar2f
+   268                          	EXTERN	l_f32_uchar2f
+   269                          	EXTERN	l_f32_sint2f
+   270                          	EXTERN	l_f32_uint2f
+   271                          	EXTERN	l_f32_slong2f
+   272                          	EXTERN	l_f32_ulong2f
+   273                          	EXTERN	l_f32_f2sint
+   274                          	EXTERN	l_f32_f2uint
+   275                          	EXTERN	l_f32_f2slong
+   276                          	EXTERN	l_f32_f2ulong
+   277                          	EXTERN	l_f32_ldexp
+   278                          	EXTERN	l_f32_invf	;Only for math32
+   279                          	EXTERN	l_f32_f16tof	;Convert _Float16 to float
+   280                          	EXTERN	l_f32_ftof16	;Convert float to _Float16
+   281                          
+   282                          	; 64 bit float ABI
+   283                          	EXTERN	l_f64_load
+   284                          	EXTERN	l_f64_add
+   285                          	EXTERN	l_f64_sub
+   286                          	EXTERN	l_f64_mul
+   287                          	EXTERN	l_f64_div
+   288                          	EXTERN	l_f64_le
+   289                          	EXTERN	l_f64_lt
+   290                          	EXTERN	l_f64_ge
+   291                          	EXTERN	l_f64_gt
+   292                          	EXTERN	l_f64_eq
+   293                          	EXTERN	l_f64_ne
+   294                          	EXTERN	l_f64_negate
+   295                          	EXTERN	l_f64_swap
+   296                          	EXTERN	l_f64_store
+   297                          	EXTERN	l_f64_dpush
+   298                          	EXTERN	l_f64_dldpsh
+   299                          	EXTERN	l_f64_dpush2
+   300                          	EXTERN	l_f64_dpush3
+   301                          	EXTERN	l_f64_schar2f
+   302                          	EXTERN	l_f64_uchar2f
+   303                          	EXTERN	l_f64_sint2f
+   304                          	EXTERN	l_f64_uint2f
+   305                          	EXTERN	l_f64_slong2f
+   306                          	EXTERN	l_f64_ulong2f
+   307                          	EXTERN	l_f64_f2sint
+   308                          	EXTERN	l_f64_f2uint
+   309                          	EXTERN	l_f64_f2slong
+   310                          	EXTERN	l_f64_f2ulong
+   311                          	EXTERN	l_f64_ldexp
+   312                          	EXTERN	l_f64_f16tof	;Convert _Float16 to float
+   313                          	EXTERN	l_f64_ftof16	;Convert float to _Float16
+   314                          
+   315                          
+   316                          ;--------------------------------------------------
+   317                          ; Routines for picking up variables from far memory
+   318                          ;--------------------------------------------------
+   319                          
+   320                          	EXTERN	lp_gchar
+   321                          	EXTERN	lp_guchar
+   322                          	EXTERN	lp_gdoub
+   323                          	EXTERN	lp_gint
+   324                          	EXTERN	lp_glong
+   325                          	EXTERN	lp_gptr
+   326                          	EXTERN	lp_pchar
+   327                          	EXTERN	lp_pdoub
+   328                          	EXTERN	lp_pint
+   329                          	EXTERN	lp_plong
+   330                          	EXTERN	lp_pptr
+   331                          
+   332                          	EXTERN	l_farcall	; Long call
+   333                          	EXTERN  l_far_mapaddr	; Map __banked to __far
+   334                          
+   335                          ;--------------------------------------------------
+   336                          ; Routines for handling 16 bit fixed point for sccz80
+   337                          ;--------------------------------------------------
+   338                          
+   339                          	EXTERN	l_f16_fix16tof
+   340                          	EXTERN	l_f16_ftofix16
+   341                          	EXTERN	l_f32_fix16tof
+   342                          	EXTERN	l_f32_ftofix16
+   343                          	EXTERN	l_f48_fix16tof
+   344                                  EXTERN  l_f48_ftofix16s
+   345                          	EXTERN	l_f48_ftofix16
+   346                          	EXTERN	l_f64_fix16tof
+   347                          	EXTERN	l_f64_ftofix16
+   348                          	EXTERN	l_fix16_divu
+   349                          	EXTERN	l_fix16_divs
+   350                          	EXTERN	l_fix16_f2sint
+   351                          	EXTERN	l_fix16_f2slond
+   352                          	EXTERN	l_fix16_f2uint
+   353                          	EXTERN	l_fix16_f2ulond
+   354                                  EXTERN  l_fix16_uchar2f
+   355                                  EXTERN  l_fix16_uint2f
+   356                                  EXTERN  l_fix16_ulong2f
+   357                                  EXTERN  l_fix16_schar2f
+   358                                  EXTERN  l_fix16_sint2f
+   359                                  EXTERN  l_fix16_slong2f
+   360                          	EXTERN	l_fix16_inv
+   361                          	EXTERN	l_fix16_mul
+   362                          	EXTERN	l_fix16_mulu
+   363                          	EXTERN	l_fix16_muls
+   364                          	EXTERN	l_fix16_negate
+   365                          
+   366                          ;--------------------------------------------------
+   367                          ; Routines for handling 64 bit integers for sccz80
+   368                          ;--------------------------------------------------
+   369                          
+   370                          	EXTERN	__i64_acc
+   371                          	EXTERN	l_i64_load
+   372                          	EXTERN	l_i64_store
+   373                          	EXTERN	l_i64_push
+   374                          	EXTERN	l_i64_add
+   375                          	EXTERN	l_i64_sub
+   376                          	EXTERN	l_i64_mult
+   377                          	EXTERN	l_i64_mult_u
+   378                          	EXTERN	l_i64_mod
+   379                          	EXTERN	l_i64_mod_u
+   380                          	EXTERN	l_i64_div
+   381                          	EXTERN	l_i64_div_u
+   382                          	EXTERN	l_i64_or
+   383                          	EXTERN	l_i64_xor
+   384                          	EXTERN	l_i64_and
+   385                          	EXTERN	l_i64_asr_u
+   386                          	EXTERN	l_i64_asr_uo
+   387                          	EXTERN	l_i64_asr
+   388                          	EXTERN	l_i64_asro
+   389                          	EXTERN	l_i64_asl
+   390                          	EXTERN	l_i64_aslo
+   391                          	EXTERN	l_i64_inc
+   392                          	EXTERN	l_i64_dec
+   393                          	EXTERN	l_i64_eq0
+   394                          	EXTERN	l_i64_eq
+   395                          	EXTERN	l_i64_ne
+   396                          	EXTERN	l_i64_ge
+   397                          	EXTERN	l_i64_gt
+   398                          	EXTERN	l_i64_uge
+   399                          	EXTERN	l_i64_ugt
+   400                          	EXTERN	l_i64_le
+   401                          	EXTERN	l_i64_lt
+   402                          	EXTERN	l_i64_ule
+   403                          	EXTERN	l_i64_ult
+   404                          	EXTERN	l_i64_lneg
+   405                          	EXTERN	l_i64_neg
+   406                          	EXTERN	l_i64_com
+   407                          	EXTERN	l_i64_case
+   408                          	EXTERN	l_i64_push_under_int
+   409                          	EXTERN	l_i64_push_under_int_mhl
+   410                          	EXTERN	l_i64_copy
+   411                          	EXTERN	l_i64_slong2i64
+   412                          	EXTERN	l_i64_ulong2i64
+   413                          	EXTERN	l_i64_sint2i64
+   414                          	EXTERN	l_i64_uint2i64
+   415                          	EXTERN	l_i64_u64_toi32
+   416                          	EXTERN	l_i64_s64_toi32
+   417                          
+   418                          
+   419                          ;-------------------
+   420                          ; Routines for SDCC
+   421                          ;-------------------
+   422                          
+   423                          	EXTERN	__divsint_rrx_s
+   424                          	EXTERN	__divsint_rrx_hds
+   425                          	EXTERN	__divuint_rrx_s
+   426                          	EXTERN	__divuint_rrx_hds
+   427                          	EXTERN	__divsuchar_rrx_s
+   428                          	EXTERN	__divuschar_rrx_s
+   429                          	EXTERN	__divuchar_rrx_s
+   430                          	EXTERN	__divuchar_rrx_hds
+   431                          	EXTERN	__moduchar_rrx_s
+   432                          	EXTERN	__moduchar_rrx_hds
+   433                          	EXTERN	__moduschar_rrx_s
+   434                          	EXTERN	__modsuchar_rrx_s
+   435                          	EXTERN	__modschar_rrx_s
+   436                          	EXTERN	__modschar_rrx_hds
+   437                          	EXTERN	__modsint_rrx_s
+   438                          	EXTERN	__modsint_rrx_hds
+   439                          	EXTERN	__moduint_rrx_s
+   440                          	EXTERN	__moduint_rrx_hds
+   441                          	EXTERN	__get_remainder
+   442                          	EXTERN	__divunsigned
+   443                          	EXTERN	__div_signexte
+   444                          	EXTERN	__divu16
+   445                          	EXTERN	__div16
+   446                          	EXTERN	__div8
+   447                          	EXTERN	__muluchar_rrx_s
+   448                          	EXTERN	__muluchar_rrx_hds
+   449                          	EXTERN	__mulsuchar_rrx_s
+   450                          	EXTERN	__muluschar_rrx_s
+   451                          	EXTERN	__mulschar_rrx_s
+   452                          	EXTERN	__mulschar_rrx_hds
+   453                          	EXTERN	__mulint_rrx_s
+   454                          	EXTERN	__mulint_rrx_hds
+   455                          	EXTERN	__mul16
+   456                          	EXTERN	__rrulong_rrx_s
+   457                          	EXTERN	__rrslong_rrx_s
+   458                          	EXTERN	__rlslong_rrx_s
+   459                          	EXTERN	__rlulong_rrx_s
+   460                          	EXTERN	__muluchar
+   461                          	EXTERN	__mulschar
+   462                          
+   463                          	EXTERN	l_push_di
+   464                          	EXTERN	l_pop_ei
+   465                          
+   466                          	EXTERN	l_debug_push_frame
+   467                          	EXTERN	l_debug_pop_frame
+   468                          
+main.c:
+                                
+                                
+                                	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h:
+                                	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/compiler.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/compiler.h:
+                                	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/proto.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/proto.h:
+                                	C_LINE	6,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/compiler.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/compiler.h:
+     6                          	C_LINE	4,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h:
+     4                          	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h:
+                                	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h:
+                                	C_LINE	5,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+     5                          	C_LINE	8,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+     8                          	C_LINE	12,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    12                          	C_LINE	15,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    15                          	C_LINE	18,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    18                          	C_LINE	21,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    21                          	C_LINE	24,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    24                          	C_LINE	27,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    27                          	C_LINE	30,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    30                          	C_LINE	33,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    33                          	C_LINE	36,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    36                          	C_LINE	39,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    39                          	C_LINE	42,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    42                          	C_LINE	46,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    46                          	C_LINE	47,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    47                          	C_LINE	48,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    48                          	C_LINE	50,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    50                          	C_LINE	51,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    51                          	C_LINE	52,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    52                          	C_LINE	57,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    57                          	C_LINE	60,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+    60                          	C_LINE	11,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h:
+    11                          	C_LINE	13,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    13                          	C_LINE	14,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    14                          	C_LINE	15,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    15                          	C_LINE	17,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    17                          	C_LINE	18,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    18                          	C_LINE	19,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    19                          	C_LINE	21,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    21                          	C_LINE	22,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    22                          	C_LINE	23,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    23                          	C_LINE	25,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    25                          	C_LINE	26,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    26                          	C_LINE	27,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    27                          	C_LINE	29,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    29                          	C_LINE	30,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    30                          	C_LINE	31,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    31                          	C_LINE	33,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    33                          	C_LINE	34,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    34                          	C_LINE	35,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    35                          	C_LINE	37,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    37                          	C_LINE	38,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    38                          	C_LINE	40,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    40                          	C_LINE	41,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    41                          	C_LINE	43,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    43                          	C_LINE	44,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    44                          	C_LINE	48,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    48                          	C_LINE	51,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    51                          	C_LINE	53,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    53                          	C_LINE	54,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    54                          	C_LINE	5,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h:
+     5                          	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h:
+                                	C_LINE	14,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    14                          	C_LINE	16,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    16                          	C_LINE	17,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    17                          	C_LINE	19,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    19                          	C_LINE	21,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    21                          	C_LINE	22,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    22                          	C_LINE	25,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    25                          	C_LINE	28,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    28                          	C_LINE	29,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    29                          	C_LINE	31,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    31                          	C_LINE	37,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    37                          	C_LINE	38,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    38                          	C_LINE	39,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    39                          	C_LINE	42,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    42                          	C_LINE	52,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    52                          	C_LINE	60,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    60                          	C_LINE	73,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    73                          	C_LINE	74,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    74                          	C_LINE	76,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    76                          	C_LINE	78,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
+    78                          	C_LINE	78,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h:
+    78                          	C_LINE	85,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+    85                          	C_LINE	118,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   118                          	C_LINE	127,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   127                          	C_LINE	131,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   131                          	C_LINE	132,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   132                          	C_LINE	138,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   138                          	C_LINE	141,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   141                          	C_LINE	145,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   145                          	C_LINE	146,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   146                          	C_LINE	147,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   147                          	C_LINE	149,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   149                          	C_LINE	150,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   150                          	C_LINE	154,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   154                          	C_LINE	159,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   159                          	C_LINE	160,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   160                          	C_LINE	162,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   162                          	C_LINE	169,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   169                          	C_LINE	171,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   171                          	C_LINE	173,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   173                          	C_LINE	178,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   178                          	C_LINE	180,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   180                          	C_LINE	184,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   184                          	C_LINE	187,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   187                          	C_LINE	189,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   189                          	C_LINE	191,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   191                          	C_LINE	195,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   195                          	C_LINE	197,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   197                          	C_LINE	200,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   200                          	C_LINE	206,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   206                          	C_LINE	207,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   207                          	C_LINE	211,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   211                          	C_LINE	216,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   216                          	C_LINE	217,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   217                          	C_LINE	220,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   220                          	C_LINE	222,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   222                          	C_LINE	223,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   223                          	C_LINE	224,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   224                          	C_LINE	225,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   225                          	C_LINE	226,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   226                          	C_LINE	227,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   227                          	C_LINE	234,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   234                          	C_LINE	235,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   235                          	C_LINE	236,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   236                          	C_LINE	241,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   241                          	C_LINE	247,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   247                          	C_LINE	248,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   248                          	C_LINE	249,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   249                          	C_LINE	250,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   250                          	C_LINE	251,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   251                          	C_LINE	258,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   258                          	C_LINE	263,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   263                          	C_LINE	268,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   268                          	C_LINE	271,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   271                          	C_LINE	274,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   274                          	C_LINE	277,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   277                          	C_LINE	279,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   279                          	C_LINE	282,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   282                          	C_LINE	284,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   284                          	C_LINE	285,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   285                          	C_LINE	287,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   287                          	C_LINE	289,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   289                          	C_LINE	293,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   293                          	C_LINE	295,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   295                          	C_LINE	299,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   299                          	C_LINE	302,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   302                          	C_LINE	308,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   308                          	C_LINE	310,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   310                          	C_LINE	313,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   313                          	C_LINE	315,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   315                          	C_LINE	317,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+   317                          	C_LINE	7,"main.c"
+main.c:
+     7                          	C_LINE	10,"main.c"
+    10                          	C_LINE	11,"main.c"
+    11                          	C_LINE	12,"main.c"
+    12                          	C_LINE	13,"main.c"
+    13                          	C_LINE	14,"main.c"
+    14                          	C_LINE	15,"main.c"
+    15                          	C_LINE	17,"main.c"
+    17                          	SECTION	code_compiler
+    17                          
+    17                          ; Function main flags 0x00000000 __stdc
+    17                          ; int main()
+    17                          	C_LINE	18,"main.c::main::0::1"
+main.c::main::0::1:
+    18                          ._main
+    18  0000  cd8500            	call	_clearScreen
+    18  0003  211e00            	ld	hl,30	;const
+    18  0006  e5                	push	hl
+    18  0007  2e0a              	ld	l,10
+    18  0009  e5                	push	hl
+    18  000a  cd9000            	call	_setCursor
+    18  000d  c1                	pop	bc
+    18  000e  c1                	pop	bc
+    18  000f  210000            	ld	hl,i_1+0
+    18  0012  e5                	push	hl
+    18  0013  3e01              	ld	a,1
+    18  0015  cd0000            	call	printf
+    18  0018  c1                	pop	bc
+    18  0019  211e00            	ld	hl,30	;const
+    18  001c  e5                	push	hl
+    18  001d  2e0b              	ld	l,11
+    18  001f  e5                	push	hl
+    18  0020  cd9000            	call	_setCursor
+    18  0023  c1                	pop	bc
+    18  0024  c1                	pop	bc
+    18  0025  210e00            	ld	hl,i_1+14
+    18  0028  e5                	push	hl
+    18  0029  3e01              	ld	a,1
+    18  002b  cd0000            	call	printf
+    18  002e  c1                	pop	bc
+    18  002f  211e00            	ld	hl,30	;const
+    18  0032  e5                	push	hl
+    18  0033  2e0c              	ld	l,12
+    18  0035  e5                	push	hl
+    18  0036  cd9000            	call	_setCursor
+    18  0039  c1                	pop	bc
+    18  003a  c1                	pop	bc
+    18  003b  211c00            	ld	hl,i_1+28
+    18  003e  e5                	push	hl
+    18  003f  3e01              	ld	a,1
+    18  0041  cd0000            	call	printf
+    18  0044  c1                	pop	bc
+    18  0045  211e00            	ld	hl,30	;const
+    18  0048  e5                	push	hl
+    18  0049  2e0d              	ld	l,13
+    18  004b  e5                	push	hl
+    18  004c  cd9000            	call	_setCursor
+    18  004f  c1                	pop	bc
+    18  0050  c1                	pop	bc
+    18  0051  210e00            	ld	hl,i_1+14
+    18  0054  e5                	push	hl
+    18  0055  3e01              	ld	a,1
+    18  0057  cd0000            	call	printf
+    18  005a  c1                	pop	bc
+    18  005b  211e00            	ld	hl,30	;const
+    18  005e  e5                	push	hl
+    18  005f  2e0e              	ld	l,14
+    18  0061  e5                	push	hl
+    18  0062  cd9000            	call	_setCursor
+    18  0065  c1                	pop	bc
+    18  0066  c1                	pop	bc
+    18  0067  210000            	ld	hl,i_1+0
+    18  006a  e5                	push	hl
+    18  006b  3e01              	ld	a,1
+    18  006d  cd0000            	call	printf
+    18  0070  c1                	pop	bc
+    18  0071  cda700            	call	_setCursorHome
+    18  0074  210000            	ld	hl,__sgoioblk
+    18  0077  e5                	push	hl
+    18  0078  cd0000            	call	fgetc
+    18  007b  c1                	pop	bc
+    18  007c  e5                	push	hl
+    18  007d  cd8500            	call	_clearScreen
+    18  0080  cda700            	call	_setCursorHome
+    18  0083  c1                	pop	bc
+    18  0084  c9                	ret
+    18                          
+    18                          
+    18                          	C_LINE	38,"main.c::main::0::2"
+main.c::main::0::2:
+    38                          
+    38                          ; Function clearScreen flags 0x00000200 __smallc
+    38                          ; void clearScreen()
+    38                          	C_LINE	38,"main.c::clearScreen::0::2"
+main.c::clearScreen::0::2:
+    38                          ._clearScreen
+    38  0085  212a00            	ld	hl,i_1+42
+    38  0088  e5                	push	hl
+    38  0089  3e01              	ld	a,1
+    38  008b  cd0000            	call	printf
+    38  008e  c1                	pop	bc
+    38  008f  c9                	ret
+    38                          
+    38                          
+    38                          	C_LINE	42,"main.c::clearScreen::0::3"
+main.c::clearScreen::0::3:
+    42                          
+    42                          ; Function setCursor flags 0x00000200 __smallc
+    42                          ; void setCursor(int x, int y)
+    42                          ; parameter 'int y' at sp+2 size(2)
+    42                          ; parameter 'int x' at sp+4 size(2)
+    42                          	C_LINE	42,"main.c::setCursor::0::3"
+main.c::setCursor::0::3:
+    42                          ._setCursor
+    42  0090  212f00            	ld	hl,i_1+47
+    42  0093  e5                	push	hl
+    42  0094  210400            	ld	hl,4	;const
+    42  0097  cd0000            	call	l_gintspsp	;
+    42  009a  cd0000            	call	l_gint8sp	;
+    42  009d  e5                	push	hl
+    42  009e  3e03              	ld	a,3
+    42  00a0  cd0000            	call	printf
+    42  00a3  c1                	pop	bc
+    42  00a4  c1                	pop	bc
+    42  00a5  c1                	pop	bc
+    42  00a6  c9                	ret
+    42                          
+    42                          
+    42                          	C_LINE	46,"main.c::setCursor::0::4"
+main.c::setCursor::0::4:
+    46                          
+    46                          ; Function setCursorHome flags 0x00000200 __smallc
+    46                          ; void setCursorHome()
+    46                          	C_LINE	46,"main.c::setCursorHome::0::4"
+main.c::setCursorHome::0::4:
+    46                          ._setCursorHome
+    46  00a7  213800            	ld	hl,i_1+56
+    46  00aa  e5                	push	hl
+    46  00ab  3e01              	ld	a,1
+    46  00ad  cd0000            	call	printf
+    46  00b0  c1                	pop	bc
+    46  00b1  c9                	ret
+    46                          
+    46                          
+    46                          	C_LINE	50,"main.c::setCursorHome::0::5"
+main.c::setCursorHome::0::5:
+    50                          
+    50                          ; Function cursorMove flags 0x00000200 __smallc
+    50                          ; void cursorMove(char dir, int dist)
+    50                          ; parameter 'int dist' at sp+2 size(2)
+    50                          ; parameter 'char dir' at sp+4 size(1)
+    50                          	C_LINE	50,"main.c::cursorMove::0::5"
+main.c::cursorMove::0::5:
+    50                          ._cursorMove
+    50  00b2  213c00            	ld	hl,i_1+60
+    50  00b5  e5                	push	hl
+    50  00b6  210400            	ld	hl,4	;const
+    50  00b9  cd0000            	call	l_gintspsp	;
+    50  00bc  210800            	ld	hl,8	;const
+    50  00bf  39                	add	hl,sp
+    50  00c0  cd0000            	call	l_gchar
+    50  00c3  e5                	push	hl
+    50  00c4  3e03              	ld	a,3
+    50  00c6  cd0000            	call	printf
+    50  00c9  c1                	pop	bc
+    50  00ca  c1                	pop	bc
+    50  00cb  c1                	pop	bc
+    50  00cc  c9                	ret
+    50                          
+    50                          
+    50                          	C_LINE	54,"main.c::cursorMove::0::6"
+main.c::cursorMove::0::6:
+    54                          
+    54                          ; Function hideCursor flags 0x00000200 __smallc
+    54                          ; void hideCursor()
+    54                          	C_LINE	54,"main.c::hideCursor::0::6"
+main.c::hideCursor::0::6:
+    54                          ._hideCursor
+    54  00cd  214300            	ld	hl,i_1+67
+    54  00d0  e5                	push	hl
+    54  00d1  3e01              	ld	a,1
+    54  00d3  cd0000            	call	printf
+    54  00d6  c1                	pop	bc
+    54  00d7  c9                	ret
+    54                          
+    54                          
+    54                          	C_LINE	58,"main.c::hideCursor::0::7"
+main.c::hideCursor::0::7:
+    58                          
+    58                          ; Function showCursor flags 0x00000200 __smallc
+    58                          ; void showCursor()
+    58                          	C_LINE	58,"main.c::showCursor::0::7"
+main.c::showCursor::0::7:
+    58                          ._showCursor
+    58  00d8  214a00            	ld	hl,i_1+74
+    58  00db  e5                	push	hl
+    58  00dc  3e01              	ld	a,1
+    58  00de  cd0000            	call	printf
+    58  00e1  c1                	pop	bc
+    58  00e2  c9                	ret
+    58                          
+    58                          
+    58                          	SECTION	bss_compiler
+    58                          	SECTION	code_compiler
+    58                          ; --- Start of Optimiser additions ---
+    58                          
+    58                          	SECTION	rodata_compiler
+    58                          .i_1
+    58  0000  2a2a2a2a2a2a2a2a  	defm	"*************"
+              2a2a2a2a2a        
+    58  000d  00                	defb	0
+    58                          
+    58  000e  2a20202020202020  	defm	"*           *"
+              202020202a        
+    58  001b  00                	defb	0
+    58                          
+    58  001c  2a202048656c6c6f  	defm	"*  Hello!!  *"
+              212120202a        
+    58  0029  00                	defb	0
+    58                          
+    58                          	defm	""
+    58  002a  1b                	defb	27
+    58                          
+    58  002b  5b324a            	defm	"[2J"
+    58  002e  00                	defb	0
+    58                          
+    58                          	defm	""
+    58  002f  1b                	defb	27
+    58                          
+    58  0030  5b25643b256448    	defm	"[%d;%dH"
+    58  0037  00                	defb	0
+    58                          
+    58                          	defm	""
+    58  0038  1b                	defb	27
+    58                          
+    58  0039  5b48              	defm	"[H"
+    58  003b  00                	defb	0
+    58                          
+    58                          	defm	""
+    58  003c  1b                	defb	27
+    58                          
+    58  003d  5b25642563        	defm	"[%d%c"
+    58  0042  00                	defb	0
+    58                          
+    58                          	defm	""
+    58  0043  1b                	defb	27
+    58                          
+    58  0044  5b3f32356c        	defm	"[?25l"
+    58  0049  00                	defb	0
+    58                          
+    58                          	defm	""
+    58  004a  1b                	defb	27
+    58                          
+    58  004b  5b3f323568        	defm	"[?25h"
+    58  0050  00                	defb	0
+    58                          
+    58                          
+    58                          ; --- Start of Static Variables ---
+    58                          
+    58                          	SECTION	bss_compiler
+    58                          	SECTION	code_compiler
+    58                          
+    58                          
+    58                          ; --- Start of Scope Defns ---
+    58                          
+    58                          	GLOBAL	open
+    58                          	GLOBAL	creat
+    58                          	GLOBAL	close
+    58                          	GLOBAL	read
+    58                          	GLOBAL	write
+    58                          	GLOBAL	lseek
+    58                          	GLOBAL	readbyte
+    58                          	GLOBAL	writebyte
+    58                          	GLOBAL	fsync
+    58                          	GLOBAL	getcwd
+    58                          	GLOBAL	chdir
+    58                          	GLOBAL	getwd
+    58                          	GLOBAL	rmdir
+    58                          	GLOBAL	__RND_BLOCKSIZE
+    58                          	GLOBAL	rnd_loadblock
+    58                          	GLOBAL	rnd_saveblock
+    58                          	GLOBAL	rnd_erase
+    58                          	GLOBAL	rnd_erase_fastcall
+    58                          	GLOBAL	__FOPEN_MAX
+    58                          	GLOBAL	__sgoioblk
+    58                          	GLOBAL	__sgoioblk_end
+    58                          	GLOBAL	fopen_zsock
+    58                          	GLOBAL	fileno
+    58                          	GLOBAL	fopen
+    58                          	GLOBAL	freopen
+    58                          	GLOBAL	fdopen
+    58                          	GLOBAL	_freopen1
+    58                          	GLOBAL	fmemopen
+    58                          	GLOBAL	funopen
+    58                          	GLOBAL	fclose
+    58                          	GLOBAL	fflush
+    58                          	GLOBAL	closeall
+    58                          	GLOBAL	fgets
+    58                          	GLOBAL	fputs
+    58                          	GLOBAL	fputs_callee
+    58                          	GLOBAL	fputc
+    58                          	GLOBAL	fputc_callee
+    58                          	GLOBAL	fgetc
+    58                          	GLOBAL	ungetc
+    58                          	GLOBAL	feof
+    58                          	GLOBAL	feof_fastcall
+    58                          	GLOBAL	ferror
+    58                          	GLOBAL	ferror_fastcall
+    58                          	GLOBAL	puts
+    58                          	GLOBAL	ftell
+    58                          	GLOBAL	fgetpos
+    58                          	GLOBAL	fseek
+    58                          	GLOBAL	fread
+    58                          	GLOBAL	fwrite
+    58                          	GLOBAL	gets
+    58                          	GLOBAL	printf
+    58                          	GLOBAL	fprintf
+    58                          	GLOBAL	sprintf
+    58                          	GLOBAL	snprintf
+    58                          	GLOBAL	vfprintf
+    58                          	GLOBAL	vsnprintf
+    58                          	GLOBAL	sprintff
+    58                          	GLOBAL	snprintff
+    58                          	GLOBAL	vsnprintff
+    58                          	GLOBAL	printn
+    58                          	GLOBAL	scanf
+    58                          	GLOBAL	fscanf
+    58                          	GLOBAL	sscanf
+    58                          	GLOBAL	vfscanf
+    58                          	GLOBAL	vsscanf
+    58                          	GLOBAL	getarg
+    58                          	GLOBAL	fchkstd
+    58                          	GLOBAL	fgetc_cons
+    58                          	GLOBAL	fgetc_cons_inkey
+    58                          	GLOBAL	fputc_cons
+    58                          	GLOBAL	fgets_cons
+    58                          	GLOBAL	puts_cons
+    58                          	GLOBAL	fabandon
+    58                          	GLOBAL	fdtell
+    58                          	GLOBAL	fdgetpos
+    58                          	GLOBAL	rename
+    58                          	GLOBAL	remove
+    58                          	GLOBAL	getk
+    58                          	GLOBAL	getk_inkey
+    58                          	GLOBAL	printk
+    58                          	GLOBAL	perror
+    58                          	GLOBAL	set_fputc_cons
+    58                          	GLOBAL	fputc_cons_native
+    58                          	GLOBAL	fputc_cons_generic
+    58                          	GLOBAL	fputc_cons_ansi
+    58                          	GLOBAL	_clearScreen
+    58                          	GLOBAL	_setCursor
+    58                          	GLOBAL	_setCursorHome
+    58                          	GLOBAL	_cursorMove
+    58                          	GLOBAL	_hideCursor
+    58                          	GLOBAL	_showCursor
+    58                          	GLOBAL	_main
+    58                          
+    58                          
+    58                          ; --- End of Scope Defns ---
+    58                          
+    58                          
+    58                          ; --- End of Compilation ---
+    58                          
