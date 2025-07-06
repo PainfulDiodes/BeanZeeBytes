@@ -30,7 +30,7 @@ _fgetc_cons:
 PUBLIC marvin_readchar
 PUBLIC _marvin_readchar
 
-; get a character from the UM245R console without waiting 
+; get a character from the console without waiting 
 marvin_readchar:
 _marvin_readchar:
     call readchar
@@ -38,3 +38,4 @@ _marvin_readchar:
     ld h,0                  
     ld l,a
     ret 
+
