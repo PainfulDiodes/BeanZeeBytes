@@ -1,4 +1,4 @@
-/tmp/tmp0uBIjERR.asm:
+/tmp/tmpRJEJHDRz.asm:
      1                          MODULE beanboard_asm
      2                          LINE 0, "../lib/beanboard.asm"
 ../lib/beanboard.asm:
@@ -182,7 +182,7 @@
     30                          PUBLIC marvin_readchar
     31                          PUBLIC _marvin_readchar
     32                          
-    33                          ; get a character from the UM245R console without waiting
+    33                          ; get a character from the console without waiting
     34                          marvin_readchar:
     35                          _marvin_readchar:
     36  0010  cd2b00                call readchar
@@ -191,6 +191,7 @@
     39  0015  6f                    ld l,a
     40  0016  c9                    ret
     41                          
+    42                          
 ../lib/beanboard.asm:
      3                          
      4                          PUBLIC marvin_lcd_putchar
@@ -199,7 +200,7 @@
      7                          marvin_lcd_putchar:
      8                          _marvin_lcd_putchar:
      9  0017  c1                    pop     bc      ;return address
-    10  0018  e1                    pop     hl      ;character to print in l
+    10  0018  e1                    pop     hl      ;argument
     11  0019  e5                    push    hl
     12  001a  c5                    push    bc
     13  001b  7d                    ld      a,l
@@ -212,7 +213,7 @@
     20                          marvin_lcd_putcmd:
     21                          _marvin_lcd_putcmd:
     22  0020  c1                    pop     bc      ;return address
-    23  0021  e1                    pop     hl      ;character to print in l
+    23  0021  e1                    pop     hl      ;argument
     24  0022  e5                    push    hl
     25  0023  c5                    push    bc
     26  0024  7d                    ld      a,l
@@ -227,3 +228,15 @@
     35  0029  cd1b02                call lcd_init
     36  002c  c9                    ret
     37                          
+    38                          PUBLIC marvin_lcd_puts
+    39                          PUBLIC _marvin_lcd_puts
+    40                          
+    41                          marvin_lcd_puts:
+    42                          _marvin_lcd_puts:
+    43  002d  c1                    pop     bc      ;return address
+    44  002e  e1                    pop     hl      ;argument
+    45  002f  e5                    push    hl
+    46  0030  c5                    push    bc
+    47  0031  cdc302                call    lcd_puts ;print a zero-terminated string pointed to by hl to the LCD
+    48  0034  c9                    ret
+    49                          

@@ -2,6 +2,7 @@ char marvin_readchar(void);
 void marvin_lcd_putcmd(char);
 void marvin_lcd_putchar(char);
 void marvin_lcd_init(void);
+void marvin_lcd_puts(char *str);
 
 #define LCD_BLINK_ON                    0x01
 #define LCD_CLEAR_DISPLAY               0x01
