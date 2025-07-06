@@ -1,4 +1,4 @@
-/tmp/tmpQTwFxjaS.asm:
+/tmp/tmpuDjqWz6p.asm:
      1                          MODULE z80_crt0_asm
      2                          LINE 0, "/Users/painfuldiodes/z88dk/lib/config/../..//lib/target/z80/classic/z80_crt0.asm"
 /Users/painfuldiodes/z88dk/lib/config/../..//lib/target/z80/classic/z80_crt0.asm:
@@ -16,7 +16,7 @@
     11                          
     12                              defc    crt0 = 1
     13                              INCLUDE "zcc_opt.def"
-/tmp/tmpzccwH48tYCh/zcc_opt.def:
+/tmp/tmpzccWknHrqFS/zcc_opt.def:
      1                          
      2                          IF !DEFINED_CRT_ORG_CODE
      3                          	defc	DEFINED_CRT_ORG_CODE = 1

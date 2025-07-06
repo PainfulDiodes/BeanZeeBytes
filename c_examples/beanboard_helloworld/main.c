@@ -3,7 +3,6 @@
 // built with z88dk
 // tested on BeanBoard v1, BeanZee v1 and Marvin v1.2.1-beanboard
 
-#include <string.h>
 #include <stdio.h>
 #include "../lib/marvin.h"
 
@@ -15,13 +14,21 @@ int main()
 	marvin_lcd_putcmd(LCD_CLEAR_DISPLAY);
     marvin_lcd_putcmd(LCD_SET_DDRAM_ADDR+LCD_LINE_3_ADDR);
     
-    char *str = "Hello world!\n(hit any key)\n";
-
+    // sending a message 1 character at a time using marvin_lcd_putchar
+    char *str = "Hello, world!\nHit any key...\n";
     for(int i = 0; str[i]!=0; i++) {
         marvin_lcd_putchar((char)str[i]);
     }
-
     int c = getchar(); // wait for a key
+
+    // sending a message via a pointer time using marvin_lcd_puts
+    char *str2 = "Message 2...\n";
+    marvin_lcd_puts(str2);
+    c = getchar(); // wait for a key
+
+    // This also works - string constant is passed as a pointer
+    marvin_lcd_puts("Message 3...\n");
+    c = getchar(); // wait for a key
 
     marvin_lcd_init();
 }
