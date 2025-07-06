@@ -1,4 +1,4 @@
-/tmp/tmpTDKhuQfI.asm:
+/tmp/tmpTMX8oytL.asm:
      1                          MODULE main_c
      2                          LINE 0, "main.c"
 main.c:
@@ -8,7 +8,7 @@ main.c:
      3                          ;
      4                          ;	Reconstructed for z80 Module Assembler
      5                          ;
-     6                          ;	Module compile time: Sat Jul  5 08:16:59 2025
+     6                          ;	Module compile time: Sun Jul  6 07:31:31 2025
      7                          
      8                          
      9                          	C_LINE	0,"main.c"
@@ -489,19 +489,17 @@ main.c:
 main.c:
                                 
                                 
-                                	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
-/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h:
+                                	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h:
                                 	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/compiler.h"
 /Users/painfuldiodes/z88dk/lib/config/../..//include/sys/compiler.h:
                                 	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/proto.h"
 /Users/painfuldiodes/z88dk/lib/config/../..//include/sys/proto.h:
                                 	C_LINE	6,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/compiler.h"
 /Users/painfuldiodes/z88dk/lib/config/../..//include/sys/compiler.h:
-     6                          	C_LINE	4,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
-/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h:
-     4                          	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h:
-                                	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
+     6                          	C_LINE	4,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h:
+     4                          	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
 /Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h:
                                 	C_LINE	5,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
      5                          	C_LINE	8,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
@@ -524,37 +522,198 @@ main.c:
     51                          	C_LINE	52,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
     52                          	C_LINE	57,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
     57                          	C_LINE	60,"/Users/painfuldiodes/z88dk/lib/config/../..//include/sys/types.h"
-    60                          	C_LINE	11,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    60                          	C_LINE	5,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h:
+     5                          	C_LINE	7,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+     7                          	C_LINE	9,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+     9                          	C_LINE	12,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    12                          	C_LINE	14,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    14                          	C_LINE	17,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    17                          	C_LINE	19,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    19                          	C_LINE	22,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    22                          	C_LINE	24,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    24                          	C_LINE	28,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    28                          	C_LINE	30,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    30                          	C_LINE	33,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    33                          	C_LINE	35,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    35                          	C_LINE	38,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    38                          	C_LINE	40,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    40                          	C_LINE	43,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    43                          	C_LINE	45,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    45                          	C_LINE	49,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    49                          	C_LINE	51,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    51                          	C_LINE	54,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    54                          	C_LINE	56,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    56                          	C_LINE	59,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    59                          	C_LINE	61,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    61                          	C_LINE	64,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    64                          	C_LINE	65,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    65                          	C_LINE	66,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    66                          	C_LINE	69,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    69                          	C_LINE	71,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    71                          	C_LINE	74,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    74                          	C_LINE	76,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    76                          	C_LINE	80,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    80                          	C_LINE	82,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    82                          	C_LINE	86,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    86                          	C_LINE	88,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    88                          	C_LINE	91,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    91                          	C_LINE	93,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    93                          	C_LINE	96,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    96                          	C_LINE	98,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+    98                          	C_LINE	102,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   102                          	C_LINE	104,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   104                          	C_LINE	107,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   107                          	C_LINE	109,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   109                          	C_LINE	114,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   114                          	C_LINE	116,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   116                          	C_LINE	119,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   119                          	C_LINE	121,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   121                          	C_LINE	124,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   124                          	C_LINE	126,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   126                          	C_LINE	130,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   130                          	C_LINE	132,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   132                          	C_LINE	135,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   135                          	C_LINE	137,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   137                          	C_LINE	140,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   140                          	C_LINE	142,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   142                          	C_LINE	145,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   145                          	C_LINE	147,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   147                          	C_LINE	150,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   150                          	C_LINE	152,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   152                          	C_LINE	155,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   155                          	C_LINE	157,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   157                          	C_LINE	160,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   160                          	C_LINE	162,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   162                          	C_LINE	165,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   165                          	C_LINE	167,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   167                          	C_LINE	170,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   170                          	C_LINE	172,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   172                          	C_LINE	176,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   176                          	C_LINE	178,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   178                          	C_LINE	182,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   182                          	C_LINE	184,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   184                          	C_LINE	188,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   188                          	C_LINE	190,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   190                          	C_LINE	193,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   193                          	C_LINE	195,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   195                          	C_LINE	198,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   198                          	C_LINE	200,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   200                          	C_LINE	204,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   204                          	C_LINE	206,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   206                          	C_LINE	211,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   211                          	C_LINE	213,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   213                          	C_LINE	216,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   216                          	C_LINE	218,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   218                          	C_LINE	221,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   221                          	C_LINE	223,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   223                          	C_LINE	226,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   226                          	C_LINE	228,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   228                          	C_LINE	232,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   232                          	C_LINE	234,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   234                          	C_LINE	237,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   237                          	C_LINE	239,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   239                          	C_LINE	242,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   242                          	C_LINE	244,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   244                          	C_LINE	247,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   247                          	C_LINE	249,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   249                          	C_LINE	252,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   252                          	C_LINE	254,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   254                          	C_LINE	257,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   257                          	C_LINE	259,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   259                          	C_LINE	262,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   262                          	C_LINE	264,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   264                          	C_LINE	267,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   267                          	C_LINE	268,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   268                          	C_LINE	270,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   270                          	C_LINE	274,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   274                          	C_LINE	276,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   276                          	C_LINE	280,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   280                          	C_LINE	281,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   281                          	C_LINE	283,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   283                          	C_LINE	287,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   287                          	C_LINE	289,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   289                          	C_LINE	292,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   292                          	C_LINE	294,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   294                          	C_LINE	297,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   297                          	C_LINE	299,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   299                          	C_LINE	302,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   302                          	C_LINE	304,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   304                          	C_LINE	309,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   309                          	C_LINE	311,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   311                          	C_LINE	314,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   314                          	C_LINE	316,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   316                          	C_LINE	319,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   319                          	C_LINE	321,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   321                          	C_LINE	324,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   324                          	C_LINE	326,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   326                          	C_LINE	330,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   330                          	C_LINE	332,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   332                          	C_LINE	335,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   335                          	C_LINE	336,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   336                          	C_LINE	338,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   338                          	C_LINE	342,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   342                          	C_LINE	344,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   344                          	C_LINE	347,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   347                          	C_LINE	349,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   349                          	C_LINE	354,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   354                          	C_LINE	354,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   354                          	C_LINE	356,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   356                          	C_LINE	358,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   358                          	C_LINE	359,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   359                          	C_LINE	360,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   360                          	C_LINE	362,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   362                          	C_LINE	363,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   363                          	C_LINE	365,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   365                          	C_LINE	366,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   366                          	C_LINE	368,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   368                          	C_LINE	369,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   369                          	C_LINE	371,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   371                          	C_LINE	372,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   372                          	C_LINE	373,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   373                          	C_LINE	375,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   375                          	C_LINE	376,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   376                          	C_LINE	377,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   377                          	C_LINE	378,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   378                          	C_LINE	392,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   392                          	C_LINE	398,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   398                          	C_LINE	404,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   404                          	C_LINE	410,"/Users/painfuldiodes/z88dk/lib/config/../..//include/string.h"
+   410                          	C_LINE	6,"main.c"
+main.c:
+     6                          	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h:
+                                	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
 /Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h:
-    11                          	C_LINE	13,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    13                          	C_LINE	14,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+                                	C_LINE	6,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+     6                          	C_LINE	7,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+     7                          	C_LINE	8,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+     8                          	C_LINE	10,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    10                          	C_LINE	11,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    11                          	C_LINE	12,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    12                          	C_LINE	14,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
     14                          	C_LINE	15,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    15                          	C_LINE	17,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    17                          	C_LINE	18,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    15                          	C_LINE	16,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    16                          	C_LINE	18,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
     18                          	C_LINE	19,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    19                          	C_LINE	21,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    21                          	C_LINE	22,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    19                          	C_LINE	20,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    20                          	C_LINE	22,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
     22                          	C_LINE	23,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    23                          	C_LINE	25,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    25                          	C_LINE	26,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    23                          	C_LINE	24,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    24                          	C_LINE	26,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
     26                          	C_LINE	27,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    27                          	C_LINE	29,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    29                          	C_LINE	30,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    27                          	C_LINE	28,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    28                          	C_LINE	30,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
     30                          	C_LINE	31,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
     31                          	C_LINE	33,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
     33                          	C_LINE	34,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    34                          	C_LINE	35,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    35                          	C_LINE	37,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    37                          	C_LINE	38,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    38                          	C_LINE	40,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    40                          	C_LINE	41,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    41                          	C_LINE	43,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    43                          	C_LINE	44,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    44                          	C_LINE	48,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    48                          	C_LINE	51,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    51                          	C_LINE	53,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    53                          	C_LINE	54,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
-    54                          	C_LINE	5,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
+    34                          	C_LINE	36,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    36                          	C_LINE	37,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    37                          	C_LINE	41,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    41                          	C_LINE	44,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    44                          	C_LINE	46,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    46                          	C_LINE	47,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdint.h"
+    47                          	C_LINE	5,"/Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h"
 /Users/painfuldiodes/z88dk/lib/config/../..//include/stdio.h:
      5                          	C_LINE	0,"/Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h"
 /Users/painfuldiodes/z88dk/lib/config/../..//include/fcntl.h:
@@ -754,6 +913,157 @@ main.c::main::0::1:
     11                          
     11                          ; --- Start of Scope Defns ---
     11                          
+    11                          	GLOBAL	bcmp
+    11                          	GLOBAL	bcmp_callee
+    11                          	GLOBAL	bcopy
+    11                          	GLOBAL	bcopy_callee
+    11                          	GLOBAL	bzero
+    11                          	GLOBAL	bzero_callee
+    11                          	GLOBAL	index
+    11                          	GLOBAL	index_callee
+    11                          	GLOBAL	rindex
+    11                          	GLOBAL	rindex_callee
+    11                          	GLOBAL	strset
+    11                          	GLOBAL	strset_callee
+    11                          	GLOBAL	strnset
+    11                          	GLOBAL	strnset_callee
+    11                          	GLOBAL	rawmemchr
+    11                          	GLOBAL	rawmemchr_callee
+    11                          	GLOBAL	_memlwr_
+    11                          	GLOBAL	_memlwr__callee
+    11                          	GLOBAL	_memstrcpy_
+    11                          	GLOBAL	_memstrcpy__callee
+    11                          	GLOBAL	_memupr_
+    11                          	GLOBAL	_memupr__callee
+    11                          	GLOBAL	_strrstrip_
+    11                          	GLOBAL	ffs
+    11                          	GLOBAL	ffsl
+    11                          	GLOBAL	memccpy
+    11                          	GLOBAL	memccpy_callee
+    11                          	GLOBAL	memchr
+    11                          	GLOBAL	memchr_callee
+    11                          	GLOBAL	memcmp
+    11                          	GLOBAL	memcmp_callee
+    11                          	GLOBAL	memcpy
+    11                          	GLOBAL	memcpy_callee
+    11                          	GLOBAL	memmem
+    11                          	GLOBAL	memmem_callee
+    11                          	GLOBAL	memmove
+    11                          	GLOBAL	memmove_callee
+    11                          	GLOBAL	memrchr
+    11                          	GLOBAL	memrchr_callee
+    11                          	GLOBAL	memset
+    11                          	GLOBAL	memset_callee
+    11                          	GLOBAL	memset_wr
+    11                          	GLOBAL	memset_wr_callee
+    11                          	GLOBAL	memswap
+    11                          	GLOBAL	memswap_callee
+    11                          	GLOBAL	stpcpy
+    11                          	GLOBAL	stpcpy_callee
+    11                          	GLOBAL	stpncpy
+    11                          	GLOBAL	stpncpy_callee
+    11                          	GLOBAL	strcasecmp
+    11                          	GLOBAL	strcasecmp_callee
+    11                          	GLOBAL	strcat
+    11                          	GLOBAL	strcat_callee
+    11                          	GLOBAL	strchr
+    11                          	GLOBAL	strchr_callee
+    11                          	GLOBAL	strchrnul
+    11                          	GLOBAL	strchrnul_callee
+    11                          	GLOBAL	strcmp
+    11                          	GLOBAL	strcmp_callee
+    11                          	GLOBAL	strcoll
+    11                          	GLOBAL	strcoll_callee
+    11                          	GLOBAL	strcpy
+    11                          	GLOBAL	strcpy_callee
+    11                          	GLOBAL	strcspn
+    11                          	GLOBAL	strcspn_callee
+    11                          	GLOBAL	strdup
+    11                          	GLOBAL	strdup_fastcall
+    11                          	GLOBAL	strerror
+    11                          	GLOBAL	strerror_fastcall
+    11                          	GLOBAL	stricmp
+    11                          	GLOBAL	stricmp_callee
+    11                          	GLOBAL	strlcat
+    11                          	GLOBAL	strlcat_callee
+    11                          	GLOBAL	strlcpy
+    11                          	GLOBAL	strlcpy_callee
+    11                          	GLOBAL	strlen
+    11                          	GLOBAL	strlen_fastcall
+    11                          	GLOBAL	strlwr
+    11                          	GLOBAL	strlwr_fastcall
+    11                          	GLOBAL	strncasecmp
+    11                          	GLOBAL	strncasecmp_callee
+    11                          	GLOBAL	strncat
+    11                          	GLOBAL	strncat_callee
+    11                          	GLOBAL	strnchar
+    11                          	GLOBAL	strnchr_callee
+    11                          	GLOBAL	strncmp
+    11                          	GLOBAL	strncmp_callee
+    11                          	GLOBAL	strncpy
+    11                          	GLOBAL	strncpy_callee
+    11                          	GLOBAL	strndup
+    11                          	GLOBAL	strndup_callee
+    11                          	GLOBAL	strnicmp
+    11                          	GLOBAL	strnicmp_callee
+    11                          	GLOBAL	strnlen
+    11                          	GLOBAL	strnlen_callee
+    11                          	GLOBAL	strpkbrk
+    11                          	GLOBAL	strpbrk_callee
+    11                          	GLOBAL	strrchr
+    11                          	GLOBAL	strrchr_callee
+    11                          	GLOBAL	strrcspn
+    11                          	GLOBAL	strrcspn_callee
+    11                          	GLOBAL	strrev
+    11                          	GLOBAL	strrev_fastcall
+    11                          	GLOBAL	strrspn
+    11                          	GLOBAL	strrspn_callee
+    11                          	GLOBAL	strrstrip
+    11                          	GLOBAL	strrstrip_fastcall
+    11                          	GLOBAL	strsep
+    11                          	GLOBAL	strsep_callee
+    11                          	GLOBAL	strspn
+    11                          	GLOBAL	strspn_callee
+    11                          	GLOBAL	strstr
+    11                          	GLOBAL	strstr_callee
+    11                          	GLOBAL	strstrip
+    11                          	GLOBAL	strstrip_fastcall
+    11                          	GLOBAL	strtok
+    11                          	GLOBAL	strtok_callee
+    11                          	GLOBAL	strtok_r
+    11                          	GLOBAL	strtok_r_callee
+    11                          	GLOBAL	strupr
+    11                          	GLOBAL	strupr_fastcall
+    11                          	GLOBAL	strxfrm
+    11                          	GLOBAL	strxfrm_callee
+    11                          	GLOBAL	strrstr
+    11                          	GLOBAL	strrstr_callee
+    11                          	GLOBAL	memopi
+    11                          	GLOBAL	memopi_callee
+    11                          	GLOBAL	memopd
+    11                          	GLOBAL	memopd_callee
+    11                          	GLOBAL	strdupf
+    11                          	GLOBAL	strlenf
+    11                          	GLOBAL	strcasecmpf
+    11                          	GLOBAL	strcmpf
+    11                          	GLOBAL	strncmpf
+    11                          	GLOBAL	strcpyf
+    11                          	GLOBAL	strncpyf
+    11                          	GLOBAL	strcatf
+    11                          	GLOBAL	strncatf
+    11                          	GLOBAL	strlwrf
+    11                          	GLOBAL	struprf
+    11                          	GLOBAL	strchrf
+    11                          	GLOBAL	strnchrf
+    11                          	GLOBAL	strrchrf
+    11                          	GLOBAL	memcpyf
+    11                          	GLOBAL	memsetf
+    11                          	GLOBAL	memchrf
+    11                          	GLOBAL	memcmpf
+    11                          	GLOBAL	__builtin_memset
+    11                          	GLOBAL	__builtin_memcpy
+    11                          	GLOBAL	__builtin_strcpy
+    11                          	GLOBAL	__builtin_strchr
     11                          	GLOBAL	open
     11                          	GLOBAL	creat
     11                          	GLOBAL	close
