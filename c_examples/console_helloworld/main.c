@@ -6,18 +6,22 @@
 
 #include <stdio.h>
 
+static char str4[] = "Message 4\n";
+
 int main()
 {
     printf("Hello, world!\n");
 
-    char *str1 = "Message 2\n";
+    char *str1 = "Message 1\n";
     printf(str1);
 
-    const char str2[] = "Message 3\n";
+    const char str2[] = "Message 2\n";
     printf(str2);
 
-    char str3[] = "Message 4\n";
+    char str3[] = "Message 3\n";
     printf(str3);
+
+    printf(str4);
 
     int c = getchar(); // getchar waits for a key
 }
