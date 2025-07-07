@@ -8,6 +8,16 @@
 
 int main()
 {
-    printf("\nHello world!\n(hit any key)\n\n");
+    printf("Hello, world!\n");
+
+    char *str1 = "Message 2\n";
+    printf(str1);
+
+    const char str2[] = "Message 3\n";
+    printf(str2);
+
+    char str3[] = "Message 4\n";
+    printf(str3);
+
     int c = getchar(); // getchar waits for a key
 }
