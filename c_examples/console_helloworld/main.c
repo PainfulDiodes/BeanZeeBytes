@@ -5,6 +5,7 @@
 
 
 #include <stdio.h>
+#include "../lib/marvin.h"
 
 static char str4[] = "Message 4\n";
 
@@ -22,6 +23,12 @@ int main()
     printf(str3);
 
     printf(str4);
+
+    puts("puts ");
+    puts(str4);
+
+    marvin_lcd_putchar(str3[0]);
+    putchar(str3[0]);
 
     int c = getchar(); // getchar waits for a key
 }
