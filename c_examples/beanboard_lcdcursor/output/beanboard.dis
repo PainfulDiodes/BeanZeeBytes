@@ -1,0 +1,1623 @@
+start:
+                    call      crt0_init                     ;[8000] cd 4a 80
+                    ld        hl,$ffc0                      ;[8003] 21 c0 ff
+                    add       hl,sp                         ;[8006] 39
+                    ld        sp,hl                         ;[8007] f9
+                    ld        (__exit_atexit_funcs),hl      ;[8008] 22 c6 88
+                    call      _main                         ;[800b] cd 70 81
+__Exit:
+                    call      crt0_exit                     ;[800e] cd 72 80
+                    jp        WARMSTART                     ;[8011] c3 10 00
+l_dcal:
+                    jp        (hl)                          ;[8014] e9
+_fputc_cons:
+                    pop       bc                            ;[8015] c1
+                    pop       hl                            ;[8016] e1
+                    push      hl                            ;[8017] e5
+                    push      bc                            ;[8018] c5
+                    ld        a,l                           ;[8019] 7d
+                    call      putchar_beanboard             ;[801a] cd 45 00
+                    ret                                     ;[801d] c9
+
+_fgetc_cons:
+                    call      getchar_beanboard             ;[801e] cd 23 00
+                    ld        l,a                           ;[8021] 6f
+                    ld        h,$00                         ;[8022] 26 00
+                    ret                                     ;[8024] c9
+
+_marvin_readchar:
+                    call      readchar_beanboard            ;[8025] cd 2b 00
+                    ld        h,$00                         ;[8028] 26 00
+                    ld        l,a                           ;[802a] 6f
+                    ret                                     ;[802b] c9
+
+_marvin_lcd_putchar:
+                    pop       bc                            ;[802c] c1
+                    pop       hl                            ;[802d] e1
+                    push      hl                            ;[802e] e5
+                    push      bc                            ;[802f] c5
+                    ld        a,l                           ;[8030] 7d
+                    call      lcd_putchar_beanboard         ;[8031] cd 48 02
+                    ret                                     ;[8034] c9
+
+_marvin_lcd_putcmd:
+                    pop       bc                            ;[8035] c1
+                    pop       hl                            ;[8036] e1
+                    push      hl                            ;[8037] e5
+                    push      bc                            ;[8038] c5
+                    ld        a,l                           ;[8039] 7d
+                    call      lcd_putcmd_beanboard          ;[803a] cd 32 02
+                    ret                                     ;[803d] c9
+
+_marvin_lcd_init:
+                    call      lcd_init_beanboard            ;[803e] cd 1b 02
+                    ret                                     ;[8041] c9
+
+_marvin_lcd_puts:
+                    pop       bc                            ;[8042] c1
+                    pop       hl                            ;[8043] e1
+                    push      hl                            ;[8044] e5
+                    push      bc                            ;[8045] c5
+                    call      lcd_puts_beanboard            ;[8046] cd c3 02
+                    ret                                     ;[8049] c9
+
+crt0_init:
+                    xor       a                             ;[804a] af
+                    ld        hl,$885d                      ;[804b] 21 5d 88
+                    ld        bc,$006b                      ;[804e] 01 6b 00
+                    ld        de,$885e                      ;[8051] 11 5e 88
+                    ld        (hl),a                        ;[8054] 77
+                    ldir                                    ;[8055] ed b0
+                    ld        hl,$8861                      ;[8057] 21 61 88
+                    ld        (hl),$13                      ;[805a] 36 13
+                    ld        hl,$886b                      ;[805c] 21 6b 88
+                    ld        (hl),$15                      ;[805f] 36 15
+                    ld        hl,$8875                      ;[8061] 21 75 88
+                    ld        (hl),$15                      ;[8064] 36 15
+                    ld        hl,$885d                      ;[8066] 21 5d 88
+                    ld        de,$88c8                      ;[8069] 11 c8 88
+                    ld        bc,$0001                      ;[806c] 01 01 00
+                    ldir                                    ;[806f] ed b0
+                    ret                                     ;[8071] c9
+
+crt0_exit:
+                    ret                                     ;[8072] c9
+
+l_long_neg:
+                    ld        a,l                           ;[8073] 7d
+                    cpl                                     ;[8074] 2f
+                    ld        l,a                           ;[8075] 6f
+                    ld        a,h                           ;[8076] 7c
+                    cpl                                     ;[8077] 2f
+                    ld        h,a                           ;[8078] 67
+                    ld        a,e                           ;[8079] 7b
+                    cpl                                     ;[807a] 2f
+                    ld        e,a                           ;[807b] 5f
+                    ld        a,d                           ;[807c] 7a
+                    cpl                                     ;[807d] 2f
+                    ld        d,a                           ;[807e] 57
+                    inc       l                             ;[807f] 2c
+                    ret       nz                            ;[8080] c0
+                    inc       h                             ;[8081] 24
+                    ret       nz                            ;[8082] c0
+                    inc       de                            ;[8083] 13
+                    ret                                     ;[8084] c9
+
+l_load_64_dehldehl_mbc:
+                    call      again_l_load_64_dehldehl_mbc  ;[8085] cd 88 80
+again_l_load_64_dehldehl_mbc:
+                    ld        a,(bc)                        ;[8088] 0a
+                    inc       bc                            ;[8089] 03
+                    ld        l,a                           ;[808a] 6f
+                    ld        a,(bc)                        ;[808b] 0a
+                    inc       bc                            ;[808c] 03
+                    ld        h,a                           ;[808d] 67
+                    ld        a,(bc)                        ;[808e] 0a
+                    inc       bc                            ;[808f] 03
+                    ld        e,a                           ;[8090] 5f
+                    ld        a,(bc)                        ;[8091] 0a
+                    inc       bc                            ;[8092] 03
+                    ld        d,a                           ;[8093] 57
+                    push      bc                            ;[8094] c5
+                    exx                                     ;[8095] d9
+                    pop       bc                            ;[8096] c1
+                    ret                                     ;[8097] c9
+
+l_neg_64_mhl:
+                    push      hl                            ;[8098] e5
+                    call      l_cpl_64_mhl                  ;[8099] cd b4 80
+                    pop       hl                            ;[809c] e1
+                    inc       (hl)                          ;[809d] 34
+                    ret       nz                            ;[809e] c0
+                    inc       hl                            ;[809f] 23
+                    inc       (hl)                          ;[80a0] 34
+                    ret       nz                            ;[80a1] c0
+                    inc       hl                            ;[80a2] 23
+                    inc       (hl)                          ;[80a3] 34
+                    ret       nz                            ;[80a4] c0
+                    inc       hl                            ;[80a5] 23
+                    inc       (hl)                          ;[80a6] 34
+                    ret       nz                            ;[80a7] c0
+                    inc       hl                            ;[80a8] 23
+                    inc       (hl)                          ;[80a9] 34
+                    ret       nz                            ;[80aa] c0
+                    inc       hl                            ;[80ab] 23
+                    inc       (hl)                          ;[80ac] 34
+                    ret       nz                            ;[80ad] c0
+                    inc       hl                            ;[80ae] 23
+                    inc       (hl)                          ;[80af] 34
+                    ret       nz                            ;[80b0] c0
+                    inc       hl                            ;[80b1] 23
+                    inc       (hl)                          ;[80b2] 34
+                    ret                                     ;[80b3] c9
+
+l_cpl_64_mhl:
+                    call      again_l_cpl_64_mhl            ;[80b4] cd b7 80
+again_l_cpl_64_mhl:
+                    ld        a,(hl)                        ;[80b7] 7e
+                    cpl                                     ;[80b8] 2f
+                    ld        (hl),a                        ;[80b9] 77
+                    inc       hl                            ;[80ba] 23
+                    ld        a,(hl)                        ;[80bb] 7e
+                    cpl                                     ;[80bc] 2f
+                    ld        (hl),a                        ;[80bd] 77
+                    inc       hl                            ;[80be] 23
+                    ld        a,(hl)                        ;[80bf] 7e
+                    cpl                                     ;[80c0] 2f
+                    ld        (hl),a                        ;[80c1] 77
+                    inc       hl                            ;[80c2] 23
+                    ld        a,(hl)                        ;[80c3] 7e
+                    cpl                                     ;[80c4] 2f
+                    ld        (hl),a                        ;[80c5] 77
+                    inc       hl                            ;[80c6] 23
+                    ret                                     ;[80c7] c9
+
+l_testzero_64_dehldehl:
+                    exx                                     ;[80c8] d9
+                    ld        a,d                           ;[80c9] 7a
+                    or        e                             ;[80ca] b3
+                    or        h                             ;[80cb] b4
+                    or        l                             ;[80cc] b5
+                    exx                                     ;[80cd] d9
+                    or        d                             ;[80ce] b2
+                    or        e                             ;[80cf] b3
+                    or        h                             ;[80d0] b4
+                    or        l                             ;[80d1] b5
+                    ret                                     ;[80d2] c9
+
+l_eat_sign:
+                    ld        a,(hl)                        ;[80d3] 7e
+                    inc       hl                            ;[80d4] 23
+                    cp        $2b                           ;[80d5] fe 2b
+                    ret       z                             ;[80d7] c8
+                    cp        $2d                           ;[80d8] fe 2d
+                    scf                                     ;[80da] 37
+                    ret       z                             ;[80db] c8
+                    dec       hl                            ;[80dc] 2b
+                    or        a                             ;[80dd] b7
+                    ret                                     ;[80de] c9
+
+l_eat_ws:
+                    ld        a,(hl)                        ;[80df] 7e
+                    call      asm_isspace                   ;[80e0] cd f4 86
+                    ret       c                             ;[80e3] d8
+                    inc       hl                            ;[80e4] 23
+                    jr        l_eat_ws                      ;[80e5] 18 f8
+l_num2char:
+                    cp        $0a                           ;[80e7] fe 0a
+                    jr        nc,alpha                      ;[80e9] 30 03
+                    add       $30                           ;[80eb] c6 30
+                    ret                                     ;[80ed] c9
+
+alpha:
+                    add       $37                           ;[80ee] c6 37
+                    ret                                     ;[80f0] c9
+
+l_valid_base:
+                    ld        a,b                           ;[80f1] 78
+                    or        a                             ;[80f2] b7
+                    ret       nz                            ;[80f3] c0
+                    or        c                             ;[80f4] b1
+                    ret       z                             ;[80f5] c8
+                    ld        a,c                           ;[80f6] 79
+                    cp        $25                           ;[80f7] fe 25
+                    ret       nc                            ;[80f9] d0
+                    cp        $02                           ;[80fa] fe 02
+                    ccf                                     ;[80fc] 3f
+                    ret                                     ;[80fd] c9
+
+l_atou:
+                    ld        hl,$0000                      ;[80fe] 21 00 00
+                    dec       de                            ;[8101] 1b
+                    push      hl                            ;[8102] e5
+loop:
+                    pop       af                            ;[8103] f1
+                    inc       de                            ;[8104] 13
+                    ld        a,(de)                        ;[8105] 1a
+                    sub       $30                           ;[8106] d6 30
+                    ccf                                     ;[8108] 3f
+                    ret       nc                            ;[8109] d0
+                    cp        $0a                           ;[810a] fe 0a
+                    ret       nc                            ;[810c] d0
+                    push      hl                            ;[810d] e5
+                    add       hl,hl                         ;[810e] 29
+                    jr        c,overflow_l_small_atou       ;[810f] 38 12
+                    ld        c,l                           ;[8111] 4d
+                    ld        b,h                           ;[8112] 44
+                    add       hl,hl                         ;[8113] 29
+                    jr        c,overflow_l_small_atou       ;[8114] 38 0d
+                    add       hl,hl                         ;[8116] 29
+                    jr        c,overflow_l_small_atou       ;[8117] 38 0a
+                    add       hl,bc                         ;[8119] 09
+                    jr        c,overflow_l_small_atou       ;[811a] 38 07
+                    add       l                             ;[811c] 85
+                    ld        l,a                           ;[811d] 6f
+                    jr        nc,loop                       ;[811e] 30 e3
+                    inc       h                             ;[8120] 24
+                    jr        nz,loop                       ;[8121] 20 e0
+overflow_l_small_atou:
+                    pop       hl                            ;[8123] e1
+                    scf                                     ;[8124] 37
+                    ret                                     ;[8125] c9
+
+l_neg_hl:
+                    ld        a,l                           ;[8126] 7d
+                    cpl                                     ;[8127] 2f
+                    ld        l,a                           ;[8128] 6f
+                    ld        a,h                           ;[8129] 7c
+                    cpl                                     ;[812a] 2f
+                    ld        h,a                           ;[812b] 67
+                    inc       hl                            ;[812c] 23
+                    ret                                     ;[812d] c9
+
+l_long_mod_u:
+                    and       a                             ;[812e] a7
+                    jr        common                        ;[812f] 18 01
+l_long_div_u:
+                    scf                                     ;[8131] 37
+common:
+                    exx                                     ;[8132] d9
+                    pop       bc                            ;[8133] c1
+                    pop       hl                            ;[8134] e1
+                    pop       de                            ;[8135] d1
+                    push      bc                            ;[8136] c5
+                    jp        c,$86fe                       ;[8137] da fe 86
+                    call      $86fe                         ;[813a] cd fe 86
+                    exx                                     ;[813d] d9
+                    ret                                     ;[813e] c9
+
+l_int2long_s:
+                    ld        de,$0000                      ;[813f] 11 00 00
+                    bit       7,h                           ;[8142] cb 7c
+                    ret       z                             ;[8144] c8
+                    dec       de                            ;[8145] 1b
+                    ret                                     ;[8146] c9
+
+l_ge:
+                    ld        a,h                           ;[8147] 7c
+                    add       $80                           ;[8148] c6 80
+                    ld        b,a                           ;[814a] 47
+                    ld        a,d                           ;[814b] 7a
+                    add       $80                           ;[814c] c6 80
+                    cp        b                             ;[814e] b8
+                    ccf                                     ;[814f] 3f
+                    jp        nz,l_compare_result           ;[8150] c2 59 81
+                    ld        a,e                           ;[8153] 7b
+                    cp        l                             ;[8154] bd
+                    ccf                                     ;[8155] 3f
+                    jp        l_compare_result              ;[8156] c3 59 81
+l_compare_result:
+                    ld        hl,$0000                      ;[8159] 21 00 00
+                    ret       nc                            ;[815c] d0
+                    inc       hl                            ;[815d] 23
+                    ret                                     ;[815e] c9
+
+l_jphl:
+                    jp        (hl)                          ;[815f] e9
+                    pop       hl                            ;[8160] e1
+                    pop       hl                            ;[8161] e1
+                    pop       hl                            ;[8162] e1
+__printf_pickup_far:
+                    ret                                     ;[8163] c9
+
+l_uge:
+                    ld        a,d                           ;[8164] 7a
+                    cp        h                             ;[8165] bc
+                    ccf                                     ;[8166] 3f
+                    jp        nz,l_compare_result           ;[8167] c2 59 81
+                    ld        a,e                           ;[816a] 7b
+                    cp        l                             ;[816b] bd
+                    ccf                                     ;[816c] 3f
+                    jp        l_compare_result              ;[816d] c3 59 81
+_main:
+                    ld        hl,$87fd                      ;[8170] 21 fd 87
+                    push      hl                            ;[8173] e5
+                    ld        a,$01                         ;[8174] 3e 01
+                    call      printf                        ;[8176] cd fd 82
+                    ld        hl,$0038                      ;[8179] 21 38 00
+                    ex        (sp),hl                       ;[817c] e3
+                    call      _marvin_lcd_putcmd            ;[817d] cd 35 80
+                    ld        hl,$000f                      ;[8180] 21 0f 00
+                    ex        (sp),hl                       ;[8183] e3
+                    call      _marvin_lcd_putcmd            ;[8184] cd 35 80
+                    ld        hl,$0001                      ;[8187] 21 01 00
+                    ex        (sp),hl                       ;[818a] e3
+                    call      _marvin_lcd_putcmd            ;[818b] cd 35 80
+                    ld        hl,$0080                      ;[818e] 21 80 00
+                    ex        (sp),hl                       ;[8191] e3
+                    call      _marvin_lcd_putcmd            ;[8192] cd 35 80
+                    ld        hl,$8813                      ;[8195] 21 13 88
+                    ex        (sp),hl                       ;[8198] e3
+                    call      _marvin_lcd_puts              ;[8199] cd 42 80
+                    ld        hl,$00c2                      ;[819c] 21 c2 00
+                    ex        (sp),hl                       ;[819f] e3
+                    call      _marvin_lcd_putcmd            ;[81a0] cd 35 80
+                    ld        hl,$8813                      ;[81a3] 21 13 88
+                    ex        (sp),hl                       ;[81a6] e3
+                    call      _marvin_lcd_puts              ;[81a7] cd 42 80
+                    ld        hl,$0098                      ;[81aa] 21 98 00
+                    ex        (sp),hl                       ;[81ad] e3
+                    call      _marvin_lcd_putcmd            ;[81ae] cd 35 80
+                    ld        hl,$8813                      ;[81b1] 21 13 88
+                    ex        (sp),hl                       ;[81b4] e3
+                    call      _marvin_lcd_puts              ;[81b5] cd 42 80
+                    ld        hl,$00da                      ;[81b8] 21 da 00
+                    ex        (sp),hl                       ;[81bb] e3
+                    call      _marvin_lcd_putcmd            ;[81bc] cd 35 80
+                    ld        hl,$8813                      ;[81bf] 21 13 88
+                    ex        (sp),hl                       ;[81c2] e3
+                    call      _marvin_lcd_puts              ;[81c3] cd 42 80
+                    pop       bc                            ;[81c6] c1
+                    ld        hl,$885f                      ;[81c7] 21 5f 88
+                    push      hl                            ;[81ca] e5
+                    call      ___fgetc                      ;[81cb] cd d5 81
+                    pop       bc                            ;[81ce] c1
+                    push      hl                            ;[81cf] e5
+                    call      _marvin_lcd_init              ;[81d0] cd 3e 80
+                    pop       bc                            ;[81d3] c1
+                    ret                                     ;[81d4] c9
+
+___fgetc:
+                    pop       bc                            ;[81d5] c1
+                    pop       hl                            ;[81d6] e1
+                    push      hl                            ;[81d7] e5
+                    push      bc                            ;[81d8] c5
+                    push      ix                            ;[81d9] dd e5
+                    push      hl                            ;[81db] e5
+                    pop       ix                            ;[81dc] dd e1
+                    ld        a,(ix+$02)                    ;[81de] dd 7e 02
+                    and       a                             ;[81e1] a7
+                    jp        z,is_eof                      ;[81e2] ca 62 82
+                    and       $08                           ;[81e5] e6 08
+                    jp        nz,is_eof                     ;[81e7] c2 62 82
+                    ld        a,(ix+$03)                    ;[81ea] dd 7e 03
+                    and       a                             ;[81ed] a7
+                    jr        z,no_ungetc                   ;[81ee] 28 09
+                    ld        l,a                           ;[81f0] 6f
+                    ld        h,$00                         ;[81f1] 26 00
+                    ld        (ix+$03),h                    ;[81f3] dd 74 03
+                    jp        fgetc_end                     ;[81f6] c3 6d 82
+no_ungetc:
+                    ld        a,(ix+$02)                    ;[81f9] dd 7e 02
+                    and       $80                           ;[81fc] e6 80
+                    jr        z,no_string_stdio_fgetc_c     ;[81fe] 28 28
+                    ld        l,(ix+$04)                    ;[8200] dd 6e 04
+                    ld        h,(ix+$05)                    ;[8203] dd 66 05
+                    ld        a,h                           ;[8206] 7c
+                    or        l                             ;[8207] b5
+                    jp        z,is_eof                      ;[8208] ca 62 82
+                    dec       hl                            ;[820b] 2b
+                    ld        (ix+$04),l                    ;[820c] dd 75 04
+                    ld        (ix+$05),h                    ;[820f] dd 74 05
+                    ld        l,(ix+$00)                    ;[8212] dd 6e 00
+                    ld        h,(ix+$01)                    ;[8215] dd 66 01
+                    ld        a,(hl)                        ;[8218] 7e
+                    inc       hl                            ;[8219] 23
+                    ld        (ix+$00),l                    ;[821a] dd 75 00
+                    ld        (ix+$01),h                    ;[821d] dd 74 01
+                    and       a                             ;[8220] a7
+                    jr        z,is_eof                      ;[8221] 28 3f
+                    ld        l,a                           ;[8223] 6f
+                    ld        h,$00                         ;[8224] 26 00
+                    jr        fgetc_end                     ;[8226] 18 45
+no_string_stdio_fgetc_c:
+                    ld        a,(ix+$02)                    ;[8228] dd 7e 02
+                    and       $20                           ;[822b] e6 20
+                    jr        z,not_extra_fp                ;[822d] 28 0f
+                    ld        l,(ix+$04)                    ;[822f] dd 6e 04
+                    ld        h,(ix+$05)                    ;[8232] dd 66 05
+                    ld        a,$01                         ;[8235] 3e 01
+                    call      l_jphl                        ;[8237] cd 5f 81
+                    jr        nc,fgetc_end                  ;[823a] 30 31
+                    jr        seteof                        ;[823c] 18 27
+not_extra_fp:
+                    push      ix                            ;[823e] dd e5
+                    call      ___fchkstd                    ;[8240] cd 70 82
+                    pop       ix                            ;[8243] dd e1
+                    jr        c,no_stdin                    ;[8245] 38 0a
+                    call      _fgetc_cons                   ;[8247] cd 1e 80
+                    push      hl                            ;[824a] e5
+                    call      _fputc_cons                   ;[824b] cd 15 80
+                    pop       hl                            ;[824e] e1
+                    jr        fgetc_end                     ;[824f] 18 1c
+no_stdin:
+                    ld        l,(ix+$00)                    ;[8251] dd 6e 00
+                    ld        h,(ix+$01)                    ;[8254] dd 66 01
+                    push      ix                            ;[8257] dd e5
+                    call      _readbyte                     ;[8259] cd f2 86
+                    pop       ix                            ;[825c] dd e1
+                    ld        a,h                           ;[825e] 7c
+                    inc       a                             ;[825f] 3c
+                    jr        nz,fgetc_end                  ;[8260] 20 0b
+is_eof:
+                    ld        hl,$ffff                      ;[8262] 21 ff ff
+seteof:
+                    ld        a,(ix+$02)                    ;[8265] dd 7e 02
+                    or        $08                           ;[8268] f6 08
+                    ld        (ix+$02),a                    ;[826a] dd 77 02
+fgetc_end:
+                    pop       ix                            ;[826d] dd e1
+                    ret                                     ;[826f] c9
+
+___fchkstd:
+                    pop       hl                            ;[8270] e1
+                    pop       de                            ;[8271] d1
+                    push      de                            ;[8272] d5
+                    push      hl                            ;[8273] e5
+                    ld        hl,$0000                      ;[8274] 21 00 00
+                    inc       de                            ;[8277] 13
+                    inc       de                            ;[8278] 13
+                    ld        a,(de)                        ;[8279] 1a
+                    and       $10                           ;[827a] e6 10
+                    scf                                     ;[827c] 37
+                    ret       z                             ;[827d] c8
+                    dec       hl                            ;[827e] 2b
+                    ld        a,(de)                        ;[827f] 1a
+                    and       $02                           ;[8280] e6 02
+                    ret       nz                            ;[8282] c0
+                    inc       hl                            ;[8283] 23
+                    inc       hl                            ;[8284] 23
+                    and       a                             ;[8285] a7
+                    ret                                     ;[8286] c9
+
+_fputc_callee:
+                    pop       de                            ;[8287] d1
+                    pop       hl                            ;[8288] e1
+                    pop       bc                            ;[8289] c1
+                    push      de                            ;[828a] d5
+                    push      ix                            ;[828b] dd e5
+                    push      hl                            ;[828d] e5
+                    pop       ix                            ;[828e] dd e1
+                    call      asm_fputc_callee              ;[8290] cd 96 82
+                    pop       ix                            ;[8293] dd e1
+                    ret                                     ;[8295] c9
+
+asm_fputc_callee:
+                    ld        hl,$ffff                      ;[8296] 21 ff ff
+                    ld        a,(ix+$02)                    ;[8299] dd 7e 02
+                    and       a                             ;[829c] a7
+                    ret       z                             ;[829d] c8
+                    ld        a,(ix+$02)                    ;[829e] dd 7e 02
+                    and       $80                           ;[82a1] e6 80
+                    jr        z,no_string_stdio_fputc_callee_c;[82a3] 28 26
+                    ld        e,(ix+$04)                    ;[82a5] dd 5e 04
+                    ld        d,(ix+$05)                    ;[82a8] dd 56 05
+                    ld        a,d                           ;[82ab] 7a
+                    or        e                             ;[82ac] b3
+                    jr        nz,print_char_to_buf          ;[82ad] 20 03
+                    ex        de,hl                         ;[82af] eb
+                    dec       hl                            ;[82b0] 2b
+                    ret                                     ;[82b1] c9
+
+print_char_to_buf:
+                    dec       de                            ;[82b2] 1b
+                    ld        (ix+$04),e                    ;[82b3] dd 73 04
+                    ld        (ix+$05),d                    ;[82b6] dd 72 05
+                    ld        l,(ix+$00)                    ;[82b9] dd 6e 00
+                    ld        h,(ix+$01)                    ;[82bc] dd 66 01
+                    ld        (hl),c                        ;[82bf] 71
+                    inc       hl                            ;[82c0] 23
+                    ld        (ix+$00),l                    ;[82c1] dd 75 00
+                    ld        (ix+$01),h                    ;[82c4] dd 74 01
+                    ld        l,c                           ;[82c7] 69
+                    ld        h,$00                         ;[82c8] 26 00
+                    ret                                     ;[82ca] c9
+
+no_string_stdio_fputc_callee_c:
+                    ld        a,(ix+$02)                    ;[82cb] dd 7e 02
+                    and       $20                           ;[82ce] e6 20
+                    jr        z,no_net                      ;[82d0] 28 0e
+                    ld        l,(ix+$04)                    ;[82d2] dd 6e 04
+                    ld        h,(ix+$05)                    ;[82d5] dd 66 05
+                    ld        a,$02                         ;[82d8] 3e 02
+                    push      bc                            ;[82da] c5
+                    call      l_jphl                        ;[82db] cd 5f 81
+                    pop       hl                            ;[82de] e1
+                    ret                                     ;[82df] c9
+
+no_net:
+                    push      ix                            ;[82e0] dd e5
+                    call      ___fchkstd                    ;[82e2] cd 70 82
+                    pop       ix                            ;[82e5] dd e1
+                    jr        c,no_cons                     ;[82e7] 38 06
+                    push      bc                            ;[82e9] c5
+                    call      _fputc_cons                   ;[82ea] cd 15 80
+                    pop       hl                            ;[82ed] e1
+                    ret                                     ;[82ee] c9
+
+no_cons:
+                    ld        l,(ix+$00)                    ;[82ef] dd 6e 00
+                    ld        h,(ix+$01)                    ;[82f2] dd 66 01
+                    push      hl                            ;[82f5] e5
+                    push      bc                            ;[82f6] c5
+                    call      ___writebyte                  ;[82f7] cd f3 86
+                    pop       hl                            ;[82fa] e1
+                    pop       bc                            ;[82fb] c1
+                    ret                                     ;[82fc] c9
+
+printf:
+                    ld        l,a                           ;[82fd] 6f
+                    ld        h,$00                         ;[82fe] 26 00
+                    add       hl,hl                         ;[8300] 29
+                    add       hl,sp                         ;[8301] 39
+                    push      ix                            ;[8302] dd e5
+                    ld        bc,$8869                      ;[8304] 01 69 88
+                    push      bc                            ;[8307] c5
+                    ld        bc,$8287                      ;[8308] 01 87 82
+                    push      bc                            ;[830b] c5
+                    ld        bc,$0001                      ;[830c] 01 01 00
+                    push      bc                            ;[830f] c5
+                    ld        e,(hl)                        ;[8310] 5e
+                    inc       hl                            ;[8311] 23
+                    ld        d,(hl)                        ;[8312] 56
+                    push      de                            ;[8313] d5
+                    dec       hl                            ;[8314] 2b
+                    dec       hl                            ;[8315] 2b
+                    dec       hl                            ;[8316] 2b
+                    push      hl                            ;[8317] e5
+                    call      asm_printf                    ;[8318] cd 23 83
+                    pop       bc                            ;[831b] c1
+                    pop       bc                            ;[831c] c1
+                    pop       bc                            ;[831d] c1
+                    pop       bc                            ;[831e] c1
+                    pop       bc                            ;[831f] c1
+                    pop       ix                            ;[8320] dd e1
+                    ret                                     ;[8322] c9
+
+asm_printf:
+                    ld        ix,$0000                      ;[8323] dd 21 00 00
+                    add       ix,sp                         ;[8327] dd 39
+                    ld        hl,$ffb0                      ;[8329] 21 b0 ff
+                    add       hl,sp                         ;[832c] 39
+                    ld        sp,hl                         ;[832d] f9
+                    ld        e,(ix+$02)                    ;[832e] dd 5e 02
+                    ld        d,(ix+$03)                    ;[8331] dd 56 03
+                    ld        l,(ix+$04)                    ;[8334] dd 6e 04
+                    ld        h,(ix+$05)                    ;[8337] dd 66 05
+                    xor       a                             ;[833a] af
+                    ld        (ix-$01),a                    ;[833b] dd 77 ff
+                    ld        (ix-$02),a                    ;[833e] dd 77 fe
+                    dec       a                             ;[8341] 3d
+                    ld        (ix-$05),a                    ;[8342] dd 77 fb
+                    ld        (ix-$06),a                    ;[8345] dd 77 fa
+                    ld        (ix-$07),a                    ;[8348] dd 77 f9
+                    ld        (ix-$08),a                    ;[834b] dd 77 f8
+__printf_loop:
+                    ld        (ix-$09),$0a                  ;[834e] dd 36 f7 0a
+                    xor       a                             ;[8352] af
+                    ld        (ix-$03),a                    ;[8353] dd 77 fd
+                    ld        (ix-$04),a                    ;[8356] dd 77 fc
+                    ld        (ix-$0a),a                    ;[8359] dd 77 f6
+                    ld        a,(hl)                        ;[835c] 7e
+                    inc       hl                            ;[835d] 23
+                    and       a                             ;[835e] a7
+                    jr        nz,cont                       ;[835f] 20 07
+                    ld        hl,$004e                      ;[8361] 21 4e 00
+                    add       hl,sp                         ;[8364] 39
+                    ld        sp,hl                         ;[8365] f9
+                    pop       hl                            ;[8366] e1
+__printf_get_flags_noop:
+                    ret                                     ;[8367] c9
+
+cont:
+                    cp        $25                           ;[8368] fe 25
+                    jr        z,handle_percent              ;[836a] 28 05
+print_format_character:
+                    call      __printf_doprint              ;[836c] cd b4 83
+                    jr        __printf_loop                 ;[836f] 18 dd
+handle_percent:
+                    ld        a,(hl)                        ;[8371] 7e
+                    inc       hl                            ;[8372] 23
+                    cp        $25                           ;[8373] fe 25
+                    jr        z,print_format_character      ;[8375] 28 f5
+                    call      __printf_get_flags            ;[8377] cd eb 83
+                    res       6,(ix-$04)                    ;[837a] dd cb fc b6
+                    cp        $7a                           ;[837e] fe 7a
+                    jr        z,get_next_char               ;[8380] 28 14
+                    cp        $68                           ;[8382] fe 68
+                    jr        nz,check_long_qualifier       ;[8384] 20 08
+                    ld        a,(hl)                        ;[8386] 7e
+                    inc       hl                            ;[8387] 23
+                    cp        $68                           ;[8388] fe 68
+                    jr        nz,no_long_qualifier          ;[838a] 20 0c
+                    jr        get_next_char                 ;[838c] 18 08
+check_long_qualifier:
+                    cp        $6c                           ;[838e] fe 6c
+                    jr        nz,no_long_qualifier          ;[8390] 20 06
+                    set       6,(ix-$04)                    ;[8392] dd cb fc f6
+get_next_char:
+                    ld        a,(hl)                        ;[8396] 7e
+                    inc       hl                            ;[8397] 23
+no_long_qualifier:
+                    push      hl                            ;[8398] e5
+                    ld        hl,$8821                      ;[8399] 21 21 88
+                    ld        c,a                           ;[839c] 4f
+__printf_format_search_loop:
+                    ld        a,(hl)                        ;[839d] 7e
+                    and       a                             ;[839e] a7
+                    jr        z,no_format_found             ;[839f] 28 0f
+                    cp        c                             ;[83a1] b9
+                    jr        nz,no_format_match            ;[83a2] 20 07
+                    inc       hl                            ;[83a4] 23
+                    ld        c,(hl)                        ;[83a5] 4e
+                    inc       hl                            ;[83a6] 23
+                    ld        b,(hl)                        ;[83a7] 46
+                    pop       hl                            ;[83a8] e1
+                    push      bc                            ;[83a9] c5
+                    ret                                     ;[83aa] c9
+
+no_format_match:
+                    inc       hl                            ;[83ab] 23
+                    inc       hl                            ;[83ac] 23
+                    inc       hl                            ;[83ad] 23
+                    jr        __printf_format_search_loop   ;[83ae] 18 ed
+no_format_found:
+                    pop       hl                            ;[83b0] e1
+                    ld        a,c                           ;[83b1] 79
+                    jr        print_format_character        ;[83b2] 18 b8
+__printf_doprint:
+                    push      hl                            ;[83b4] e5
+                    push      de                            ;[83b5] d5
+                    push      bc                            ;[83b6] c5
+                    push      ix                            ;[83b7] dd e5
+                    exx                                     ;[83b9] d9
+                    push      bc                            ;[83ba] c5
+                    push      de                            ;[83bb] d5
+                    exx                                     ;[83bc] d9
+                    ex        af,af'                        ;[83bd] 08
+                    push      af                            ;[83be] f5
+                    ex        af,af'                        ;[83bf] 08
+                    inc       (ix-$02)                      ;[83c0] dd 34 fe
+                    jr        nz,no_inc                     ;[83c3] 20 03
+                    inc       (ix-$01)                      ;[83c5] dd 34 ff
+no_inc:
+                    ld        c,a                           ;[83c8] 4f
+                    ld        b,$00                         ;[83c9] 06 00
+                    push      bc                            ;[83cb] c5
+                    ld        c,(ix+$0a)                    ;[83cc] dd 4e 0a
+                    ld        b,(ix+$0b)                    ;[83cf] dd 46 0b
+                    push      bc                            ;[83d2] c5
+                    ld        bc,$83de                      ;[83d3] 01 de 83
+                    push      bc                            ;[83d6] c5
+                    ld        l,(ix+$08)                    ;[83d7] dd 6e 08
+                    ld        h,(ix+$09)                    ;[83da] dd 66 09
+                    jp        (hl)                          ;[83dd] e9
+doprint_return:
+                    ex        af,af'                        ;[83de] 08
+                    pop       af                            ;[83df] f1
+                    ex        af,af'                        ;[83e0] 08
+                    exx                                     ;[83e1] d9
+                    pop       de                            ;[83e2] d1
+                    pop       bc                            ;[83e3] c1
+                    exx                                     ;[83e4] d9
+                    pop       ix                            ;[83e5] dd e1
+                    pop       bc                            ;[83e7] c1
+                    pop       de                            ;[83e8] d1
+                    pop       hl                            ;[83e9] e1
+                    ret                                     ;[83ea] c9
+
+__printf_get_flags:
+                    ld        c,$00                         ;[83eb] 0e 00
+flags_again:
+                    push      hl                            ;[83ed] e5
+                    ld        b,$05                         ;[83ee] 06 05
+                    ld        hl,$83ff                      ;[83f0] 21 ff 83
+flag_loop:
+                    cp        (hl)                          ;[83f3] be
+                    inc       hl                            ;[83f4] 23
+                    jr        nz,no_flag                    ;[83f5] 20 12
+                    ld        a,(hl)                        ;[83f7] 7e
+                    or        c                             ;[83f8] b1
+                    ld        c,a                           ;[83f9] 4f
+                    pop       hl                            ;[83fa] e1
+                    ld        a,(hl)                        ;[83fb] 7e
+                    inc       hl                            ;[83fc] 23
+                    jr        flags_again                   ;[83fd] 18 ee
+flags:
+                    dec       l                             ;[83ff] 2d
+                    ld        bc,$022b                      ;[8400] 01 2b 02
+                    jr        nz,$840d                      ;[8403] 20 08
+                    inc       hl                            ;[8405] 23
+                    djnz      $8438                         ;[8406] 10 30
+                    inc       b                             ;[8408] 04
+no_flag:
+                    inc       hl                            ;[8409] 23
+                    djnz      flag_loop                     ;[840a] 10 e7
+                    pop       hl                            ;[840c] e1
+                    ld        (ix-$04),c                    ;[840d] dd 71 fc
+check_width:
+                    ld        (ix-$05),$00                  ;[8410] dd 36 fb 00
+                    ld        (ix-$06),$00                  ;[8414] dd 36 fa 00
+                    cp        $2a                           ;[8418] fe 2a
+                    jr        nz,check_width_from_format    ;[841a] 20 08
+starred_width:
+                    push      hl                            ;[841c] e5
+                    call      get_16bit_ap_parameter        ;[841d] cd c5 86
+                    ex        de,hl                         ;[8420] eb
+                    ex        (sp),hl                       ;[8421] e3
+                    jr        save_width                    ;[8422] 18 0e
+check_width_from_format:
+                    cp        $30                           ;[8424] fe 30
+                    jr        c,check_precision             ;[8426] 38 13
+                    cp        $3a                           ;[8428] fe 3a
+                    jr        nc,check_precision            ;[842a] 30 0f
+                    push      de                            ;[842c] d5
+                    dec       hl                            ;[842d] 2b
+                    call      asm_atoi                      ;[842e] cd ac 87
+                    ex        de,hl                         ;[8431] eb
+save_width:
+                    ld        (ix-$05),d                    ;[8432] dd 72 fb
+                    ld        (ix-$06),e                    ;[8435] dd 73 fa
+                    pop       de                            ;[8438] d1
+                    ld        a,(hl)                        ;[8439] 7e
+                    inc       hl                            ;[843a] 23
+check_precision:
+                    ld        (ix-$07),$ff                  ;[843b] dd 36 f9 ff
+                    ld        (ix-$08),$ff                  ;[843f] dd 36 f8 ff
+                    cp        $2e                           ;[8443] fe 2e
+                    jr        nz,no_precision               ;[8445] 20 1c
+                    ld        a,(hl)                        ;[8447] 7e
+                    cp        $2a                           ;[8448] fe 2a
+                    jr        nz,check_precision_from_format;[844a] 20 09
+                    inc       hl                            ;[844c] 23
+                    push      hl                            ;[844d] e5
+                    call      get_16bit_ap_parameter        ;[844e] cd c5 86
+                    ex        de,hl                         ;[8451] eb
+                    ex        (sp),hl                       ;[8452] e3
+                    jr        save_precision                ;[8453] 18 05
+check_precision_from_format:
+                    push      de                            ;[8455] d5
+                    call      asm_atoi                      ;[8456] cd ac 87
+                    ex        de,hl                         ;[8459] eb
+save_precision:
+                    ld        (ix-$07),d                    ;[845a] dd 72 f9
+                    ld        (ix-$08),e                    ;[845d] dd 73 f8
+                    ld        a,(hl)                        ;[8460] 7e
+                    inc       hl                            ;[8461] 23
+                    pop       de                            ;[8462] d1
+no_precision:
+                    ret                                     ;[8463] c9
+
+__printf_handle_B:
+                    ld        (ix-$09),$02                  ;[8464] dd 36 f7 02
+                    res       1,(ix-$04)                    ;[8468] dd cb fc 8e
+                    ld        c,$00                         ;[846c] 0e 00
+                    jp        __printf_number               ;[846e] c3 2e 85
+__printf_handle_X:
+                    ld        (ix-$09),$10                  ;[8471] dd 36 f7 10
+                    ld        (ix-$03),$e0                  ;[8475] dd 36 fd e0
+                    res       1,(ix-$04)                    ;[8479] dd cb fc 8e
+                    ld        c,$00                         ;[847d] 0e 00
+                    jp        __printf_number               ;[847f] c3 2e 85
+__printf_handle_c:
+                    push      hl                            ;[8482] e5
+                    call      get_16bit_ap_parameter        ;[8483] cd c5 86
+                    push      de                            ;[8486] d5
+                    ld        a,l                           ;[8487] 7d
+                    call      __printf_print_to_buf         ;[8488] cd b3 86
+                    jp        __printf_print_the_buffer     ;[848b] c3 a1 86
+__printf_handle_d:
+                    ld        c,$01                         ;[848e] 0e 01
+                    jp        __printf_number               ;[8490] c3 2e 85
+__printf_handle_ll:
+                    ld        c,(hl)                        ;[8493] 4e
+                    inc       hl                            ;[8494] 23
+                    push      hl                            ;[8495] e5
+                    ld        hl,$8843                      ;[8496] 21 43 88
+                    jp        __printf_format_search_loop   ;[8499] c3 9d 83
+__printf_handle_llB:
+                    ld        c,$00                         ;[849c] 0e 00
+                    ld        (ix-$09),$02                  ;[849e] dd 36 f7 02
+                    res       1,(ix-$04)                    ;[84a2] dd cb fc 8e
+                    jp        __printf_number64             ;[84a6] c3 c8 85
+__printf_handle_llX:
+                    ld        c,$00                         ;[84a9] 0e 00
+                    ld        (ix-$09),$10                  ;[84ab] dd 36 f7 10
+                    ld        (ix-$03),$e0                  ;[84af] dd 36 fd e0
+                    res       1,(ix-$04)                    ;[84b3] dd cb fc 8e
+                    jp        __printf_number64             ;[84b7] c3 c8 85
+__printf_handle_lld:
+                    ld        c,$01                         ;[84ba] 0e 01
+                    jp        __printf_number64             ;[84bc] c3 c8 85
+__printf_handle_llo:
+                    ld        c,$00                         ;[84bf] 0e 00
+                    ld        (ix-$09),$08                  ;[84c1] dd 36 f7 08
+                    jp        __printf_number64             ;[84c5] c3 c8 85
+__printf_handle_llu:
+                    ld        c,$00                         ;[84c8] 0e 00
+                    jp        __printf_number64             ;[84ca] c3 c8 85
+__printf_handle_llx:
+                    ld        c,$00                         ;[84cd] 0e 00
+                    ld        (ix-$09),$10                  ;[84cf] dd 36 f7 10
+                    res       1,(ix-$04)                    ;[84d3] dd cb fc 8e
+                    jp        __printf_number64             ;[84d7] c3 c8 85
+__printf_handle_n:
+                    push      hl                            ;[84da] e5
+                    call      get_16bit_ap_parameter        ;[84db] cd c5 86
+                    ld        a,(ix-$02)                    ;[84de] dd 7e fe
+                    ld        (hl),a                        ;[84e1] 77
+                    ld        a,(ix-$01)                    ;[84e2] dd 7e ff
+                    inc       hl                            ;[84e5] 23
+                    ld        (hl),a                        ;[84e6] 77
+                    pop       hl                            ;[84e7] e1
+                    jp        __printf_loop                 ;[84e8] c3 4e 83
+__printf_handle_o:
+                    ld        (ix-$09),$08                  ;[84eb] dd 36 f7 08
+                    ld        c,$00                         ;[84ef] 0e 00
+                    jp        __printf_number               ;[84f1] c3 2e 85
+__printf_handle_s:
+                    push      hl                            ;[84f4] e5
+                    call      get_16bit_ap_parameter        ;[84f5] cd c5 86
+                    push      de                            ;[84f8] d5
+                    ld        a,h                           ;[84f9] 7c
+                    or        l                             ;[84fa] b5
+                    jr        nz,printstr                   ;[84fb] 20 03
+                    ld        hl,$8856                      ;[84fd] 21 56 88
+printstr:
+                    push      hl                            ;[8500] e5
+                    call      asm_strlen                    ;[8501] cd f2 87
+                    ex        de,hl                         ;[8504] eb
+                    ld        l,(ix-$08)                    ;[8505] dd 6e f8
+                    ld        h,(ix-$07)                    ;[8508] dd 66 f9
+                    push      hl                            ;[850b] e5
+                    call      l_uge                         ;[850c] cd 64 81
+                    pop       hl                            ;[850f] e1
+                    jr        nc,use_strlen                 ;[8510] 30 01
+                    ex        de,hl                         ;[8512] eb
+use_strlen:
+                    pop       bc                            ;[8513] c1
+                    call      __printf_print_aligned        ;[8514] cd 50 86
+printstr_end:
+                    pop       de                            ;[8517] d1
+                    pop       hl                            ;[8518] e1
+                    jp        __printf_loop                 ;[8519] c3 4e 83
+__printf_handle_u:
+                    ld        c,$00                         ;[851c] 0e 00
+                    jp        __printf_number               ;[851e] c3 2e 85
+__printf_handle_p:
+                    ld        (ix-$09),$10                  ;[8521] dd 36 f7 10
+                    res       1,(ix-$04)                    ;[8525] dd cb fc 8e
+                    ld        c,$00                         ;[8529] 0e 00
+                    jp        __printf_number               ;[852b] c3 2e 85
+__printf_number:
+                    push      hl                            ;[852e] e5
+                    bit       6,(ix-$04)                    ;[852f] dd cb fc 76
+                    jr        z,printf_number16             ;[8533] 28 08
+                    call      get_32bit_ap_parameter        ;[8535] cd d6 86
+printlong:
+                    push      hl                            ;[8538] e5
+                    ld        l,a                           ;[8539] 6f
+                    ld        h,b                           ;[853a] 60
+                    jr        miniprintn                    ;[853b] 18 0c
+printf_number16:
+                    call      get_16bit_ap_parameter        ;[853d] cd c5 86
+                    push      de                            ;[8540] d5
+                    ld        de,$0000                      ;[8541] 11 00 00
+                    ld        a,c                           ;[8544] 79
+                    and       a                             ;[8545] a7
+                    call      nz,l_int2long_s               ;[8546] c4 3f 81
+miniprintn:
+                    ld        b,a                           ;[8549] 47
+                    ld        a,d                           ;[854a] 7a
+                    rlca                                    ;[854b] 07
+                    and       $01                           ;[854c] e6 01
+                    and       b                             ;[854e] a0
+                    jr        z,noneg___printf_number       ;[854f] 28 0a
+                    call      l_long_neg                    ;[8551] cd 73 80
+                    ld        a,$2d                         ;[8554] 3e 2d
+printsign___printf_number:
+                    call      __printf_print_to_buf         ;[8556] cd b3 86
+                    jr        miniprintn_start_process      ;[8559] 18 30
+noneg___printf_number:
+                    ld        a,$20                         ;[855b] 3e 20
+                    bit       3,(ix-$04)                    ;[855d] dd cb fc 5e
+                    jr        nz,printsign___printf_number  ;[8561] 20 f3
+                    ld        a,$2b                         ;[8563] 3e 2b
+                    bit       1,(ix-$04)                    ;[8565] dd cb fc 4e
+                    jr        nz,printsign___printf_number  ;[8569] 20 eb
+                    bit       4,(ix-$04)                    ;[856b] dd cb fc 66
+                    jr        z,miniprintn_start_process    ;[856f] 28 1a
+                    ld        a,(ix-$09)                    ;[8571] dd 7e f7
+                    cp        $0a                           ;[8574] fe 0a
+                    jr        z,miniprintn_start_process    ;[8576] 28 13
+                    push      af                            ;[8578] f5
+                    ld        a,$30                         ;[8579] 3e 30
+                    call      __printf_print_to_buf         ;[857b] cd b3 86
+                    pop       af                            ;[857e] f1
+                    cp        $10                           ;[857f] fe 10
+                    jr        nz,miniprintn_start_process   ;[8581] 20 08
+                    ld        a,$78                         ;[8583] 3e 78
+                    add       (ix-$03)                      ;[8585] dd 86 fd
+                    call      __printf_print_to_buf         ;[8588] cd b3 86
+miniprintn_start_process:
+                    xor       a                             ;[858b] af
+                    push      af                            ;[858c] f5
+divloop:
+                    push      de                            ;[858d] d5
+                    push      hl                            ;[858e] e5
+                    ld        l,(ix-$09)                    ;[858f] dd 6e f7
+                    ld        h,$00                         ;[8592] 26 00
+                    ld        d,h                           ;[8594] 54
+                    ld        e,h                           ;[8595] 5c
+                    call      l_long_div_u                  ;[8596] cd 31 81
+                    exx                                     ;[8599] d9
+                    ld        a,l                           ;[859a] 7d
+                    cp        $ff                           ;[859b] fe ff
+                    push      af                            ;[859d] f5
+                    exx                                     ;[859e] d9
+                    ld        a,h                           ;[859f] 7c
+                    or        d                             ;[85a0] b2
+                    or        e                             ;[85a1] b3
+                    or        l                             ;[85a2] b5
+                    jr        nz,divloop                    ;[85a3] 20 e8
+printloop:
+                    pop       af                            ;[85a5] f1
+                    jp        z,__printf_print_the_buffer   ;[85a6] ca a1 86
+                    add       $30                           ;[85a9] c6 30
+                    cp        $3a                           ;[85ab] fe 3a
+                    jr        c,printloop1                  ;[85ad] 38 05
+                    add       $27                           ;[85af] c6 27
+                    add       (ix-$03)                      ;[85b1] dd 86 fd
+printloop1:
+                    call      __printf_print_to_buf         ;[85b4] cd b3 86
+                    jr        printloop                     ;[85b7] 18 ec
+pickup_sccz80_llong:
+                    dec       de                            ;[85b9] 1b
+                    dec       de                            ;[85ba] 1b
+                    dec       de                            ;[85bb] 1b
+                    dec       de                            ;[85bc] 1b
+                    dec       de                            ;[85bd] 1b
+                    dec       de                            ;[85be] 1b
+                    dec       de                            ;[85bf] 1b
+                    dec       de                            ;[85c0] 1b
+                    push      de                            ;[85c1] d5
+                    inc       de                            ;[85c2] 13
+                    inc       de                            ;[85c3] 13
+                    ld        l,e                           ;[85c4] 6b
+                    ld        h,d                           ;[85c5] 62
+                    jr        continue                      ;[85c6] 18 13
+__printf_number64:
+                    push      hl                            ;[85c8] e5
+                    bit       0,(ix+$06)                    ;[85c9] dd cb 06 46
+                    jr        nz,pickup_sccz80_llong        ;[85cd] 20 ea
+                    ld        l,e                           ;[85cf] 6b
+                    ld        h,d                           ;[85d0] 62
+                    inc       hl                            ;[85d1] 23
+                    inc       hl                            ;[85d2] 23
+                    inc       hl                            ;[85d3] 23
+                    inc       hl                            ;[85d4] 23
+                    inc       hl                            ;[85d5] 23
+                    inc       hl                            ;[85d6] 23
+                    inc       hl                            ;[85d7] 23
+                    inc       hl                            ;[85d8] 23
+                    push      hl                            ;[85d9] e5
+                    ex        de,hl                         ;[85da] eb
+continue:
+                    push      hl                            ;[85db] e5
+                    ld        a,c                           ;[85dc] 79
+                    and       a                             ;[85dd] a7
+                    jr        z,noneg___printf_number64     ;[85de] 28 0e
+                    bit       7,(hl)                        ;[85e0] cb 7e
+                    jr        z,noneg___printf_number64     ;[85e2] 28 0a
+                    call      l_neg_64_mhl                  ;[85e4] cd 98 80
+                    ld        a,$2d                         ;[85e7] 3e 2d
+printsign___printf_number64:
+                    call      __printf_print_to_buf         ;[85e9] cd b3 86
+                    jr        number64_start_process        ;[85ec] 18 30
+noneg___printf_number64:
+                    ld        a,$20                         ;[85ee] 3e 20
+                    bit       3,(ix-$04)                    ;[85f0] dd cb fc 5e
+                    jr        nz,printsign___printf_number64;[85f4] 20 f3
+                    ld        a,$2b                         ;[85f6] 3e 2b
+                    bit       1,(ix-$04)                    ;[85f8] dd cb fc 4e
+                    jr        nz,printsign___printf_number64;[85fc] 20 eb
+                    bit       4,(ix-$04)                    ;[85fe] dd cb fc 66
+                    jr        z,number64_start_process      ;[8602] 28 1a
+                    ld        a,(ix-$09)                    ;[8604] dd 7e f7
+                    cp        $0a                           ;[8607] fe 0a
+                    jr        z,number64_start_process      ;[8609] 28 13
+                    push      af                            ;[860b] f5
+                    ld        a,$30                         ;[860c] 3e 30
+                    call      __printf_print_to_buf         ;[860e] cd b3 86
+                    pop       af                            ;[8611] f1
+                    cp        $10                           ;[8612] fe 10
+                    jr        nz,number64_start_process     ;[8614] 20 08
+                    ld        a,$78                         ;[8616] 3e 78
+                    add       (ix-$03)                      ;[8618] dd 86 fd
+                    call      __printf_print_to_buf         ;[861b] cd b3 86
+number64_start_process:
+                    call      __printf_get_buffer_address   ;[861e] cd 48 86
+                    ld        c,(ix-$0a)                    ;[8621] dd 4e f6
+                    ld        b,$00                         ;[8624] 06 00
+                    add       hl,bc                         ;[8626] 09
+                    ld        e,(ix-$09)                    ;[8627] dd 5e f7
+                    ld        d,$00                         ;[862a] 16 00
+                    pop       bc                            ;[862c] c1
+                    push      ix                            ;[862d] dd e5
+                    push      de                            ;[862f] d5
+                    push      hl                            ;[8630] e5
+                    call      l_load_64_dehldehl_mbc        ;[8631] cd 85 80
+                    pop       ix                            ;[8634] dd e1
+                    pop       bc                            ;[8636] c1
+                    call      asm1_ulltoa                   ;[8637] cd d7 87
+                    pop       ix                            ;[863a] dd e1
+                    call      __printf_get_buffer_address   ;[863c] cd 48 86
+                    call      asm_strlen                    ;[863f] cd f2 87
+                    ld        (ix-$0a),l                    ;[8642] dd 75 f6
+                    jp        __printf_print_the_buffer     ;[8645] c3 a1 86
+__printf_get_buffer_address:
+                    push      ix                            ;[8648] dd e5
+                    pop       hl                            ;[864a] e1
+                    ld        bc,$ffb0                      ;[864b] 01 b0 ff
+                    add       hl,bc                         ;[864e] 09
+                    ret                                     ;[864f] c9
+
+__printf_print_aligned:
+                    ld        l,(ix-$06)                    ;[8650] dd 6e fa
+                    ld        h,(ix-$05)                    ;[8653] dd 66 fb
+                    ld        a,h                           ;[8656] 7c
+                    or        l                             ;[8657] b5
+                    jr        z,width_done                  ;[8658] 28 11
+                    push      hl                            ;[865a] e5
+                    push      bc                            ;[865b] c5
+                    call      l_ge                          ;[865c] cd 47 81
+                    pop       bc                            ;[865f] c1
+                    pop       hl                            ;[8660] e1
+                    jr        nc,adjust_width               ;[8661] 30 05
+                    ld        hl,$0000                      ;[8663] 21 00 00
+                    jr        width_done                    ;[8666] 18 03
+adjust_width:
+                    and       a                             ;[8668] a7
+                    sbc       hl,de                         ;[8669] ed 52
+width_done:
+                    bit       0,(ix-$04)                    ;[866b] dd cb fc 46
+                    push      bc                            ;[866f] c5
+                    call      z,print_padding               ;[8670] cc 95 86
+                    pop       bc                            ;[8673] c1
+print_buffer:
+                    ld        a,d                           ;[8674] 7a
+                    or        e                             ;[8675] b3
+                    jr        z,buffer_done                 ;[8676] 28 0f
+                    ld        a,(bc)                        ;[8678] 0a
+                    bit       7,(ix-$04)                    ;[8679] dd cb fc 7e
+                    call      nz,__printf_pickup_far        ;[867d] c4 63 81
+                    call      __printf_doprint              ;[8680] cd b4 83
+                    inc       bc                            ;[8683] 03
+                    dec       de                            ;[8684] 1b
+                    jr        print_buffer                  ;[8685] 18 ed
+buffer_done:
+                    ld        c,$20                         ;[8687] 0e 20
+print_padding_loop:
+                    ld        a,h                           ;[8689] 7c
+                    or        l                             ;[868a] b5
+                    ret       z                             ;[868b] c8
+                    push      bc                            ;[868c] c5
+                    ld        a,c                           ;[868d] 79
+                    call      __printf_doprint              ;[868e] cd b4 83
+                    pop       bc                            ;[8691] c1
+                    dec       hl                            ;[8692] 2b
+                    jr        print_padding                 ;[8693] 18 00
+print_padding:
+                    ld        c,$20                         ;[8695] 0e 20
+                    bit       2,(ix-$04)                    ;[8697] dd cb fc 56
+                    jr        z,print_padding_loop          ;[869b] 28 ec
+                    ld        c,$30                         ;[869d] 0e 30
+                    jr        print_padding_loop            ;[869f] 18 e8
+__printf_print_the_buffer:
+                    ld        d,$00                         ;[86a1] 16 00
+                    ld        e,(ix-$0a)                    ;[86a3] dd 5e f6
+                    call      __printf_get_buffer_address   ;[86a6] cd 48 86
+                    ld        c,l                           ;[86a9] 4d
+                    ld        b,h                           ;[86aa] 44
+                    call      __printf_print_aligned        ;[86ab] cd 50 86
+                    pop       de                            ;[86ae] d1
+                    pop       hl                            ;[86af] e1
+                    jp        __printf_loop                 ;[86b0] c3 4e 83
+__printf_print_to_buf:
+                    push      hl                            ;[86b3] e5
+                    push      bc                            ;[86b4] c5
+                    call      __printf_get_buffer_address   ;[86b5] cd 48 86
+                    ld        c,(ix-$0a)                    ;[86b8] dd 4e f6
+                    ld        b,$00                         ;[86bb] 06 00
+                    add       hl,bc                         ;[86bd] 09
+                    inc       (ix-$0a)                      ;[86be] dd 34 f6
+                    ld        (hl),a                        ;[86c1] 77
+                    pop       bc                            ;[86c2] c1
+                    pop       hl                            ;[86c3] e1
+                    ret                                     ;[86c4] c9
+
+get_16bit_ap_parameter:
+                    ex        de,hl                         ;[86c5] eb
+                    ld        e,(hl)                        ;[86c6] 5e
+                    inc       hl                            ;[86c7] 23
+                    ld        d,(hl)                        ;[86c8] 56
+                    ex        de,hl                         ;[86c9] eb
+                    bit       0,(ix+$06)                    ;[86ca] dd cb 06 46
+                    jr        nz,change_ap_decrement        ;[86ce] 20 02
+                    inc       de                            ;[86d0] 13
+                    ret                                     ;[86d1] c9
+
+change_ap_decrement:
+                    dec       de                            ;[86d2] 1b
+                    dec       de                            ;[86d3] 1b
+                    dec       de                            ;[86d4] 1b
+                    ret                                     ;[86d5] c9
+
+get_32bit_ap_parameter:
+                    bit       0,(ix+$06)                    ;[86d6] dd cb 06 46
+                    jr        nz,pickuplong_sccz80          ;[86da] 20 0a
+                    ex        de,hl                         ;[86dc] eb
+                    ld        a,(hl)                        ;[86dd] 7e
+                    inc       hl                            ;[86de] 23
+                    ld        b,(hl)                        ;[86df] 46
+                    inc       hl                            ;[86e0] 23
+                    ld        e,(hl)                        ;[86e1] 5e
+                    inc       hl                            ;[86e2] 23
+                    ld        d,(hl)                        ;[86e3] 56
+                    inc       hl                            ;[86e4] 23
+                    ret                                     ;[86e5] c9
+
+pickuplong_sccz80:
+                    ex        de,hl                         ;[86e6] eb
+                    ld        e,(hl)                        ;[86e7] 5e
+                    inc       hl                            ;[86e8] 23
+                    ld        d,(hl)                        ;[86e9] 56
+                    dec       hl                            ;[86ea] 2b
+                    dec       hl                            ;[86eb] 2b
+                    ld        b,(hl)                        ;[86ec] 46
+                    dec       hl                            ;[86ed] 2b
+                    ld        a,(hl)                        ;[86ee] 7e
+                    dec       hl                            ;[86ef] 2b
+                    dec       hl                            ;[86f0] 2b
+                    ret                                     ;[86f1] c9
+
+_readbyte:
+                    ret                                     ;[86f2] c9
+
+___writebyte:
+                    ret                                     ;[86f3] c9
+
+asm_isspace:
+                    cp        $20                           ;[86f4] fe 20
+                    ret       z                             ;[86f6] c8
+                    cp        $09                           ;[86f7] fe 09
+                    ret       c                             ;[86f9] d8
+                    cp        $0e                           ;[86fa] fe 0e
+                    ccf                                     ;[86fc] 3f
+                    ret                                     ;[86fd] c9
+
+                    exx                                     ;[86fe] d9
+l_divu_32_32x32:
+                    ld        a,d                           ;[86ff] 7a
+                    or        e                             ;[8700] b3
+                    or        h                             ;[8701] b4
+                    or        l                             ;[8702] b5
+                    jr        z,divide_zero                 ;[8703] 28 42
+l0_divu_32_32x32:
+                    xor       a                             ;[8705] af
+                    push      hl                            ;[8706] e5
+                    exx                                     ;[8707] d9
+                    ld        b,h                           ;[8708] 44
+                    ld        c,l                           ;[8709] 4d
+                    pop       hl                            ;[870a] e1
+                    push      de                            ;[870b] d5
+                    ex        de,hl                         ;[870c] eb
+                    ld        l,a                           ;[870d] 6f
+                    ld        h,a                           ;[870e] 67
+                    exx                                     ;[870f] d9
+                    pop       bc                            ;[8710] c1
+                    ld        l,a                           ;[8711] 6f
+                    ld        h,a                           ;[8712] 67
+l1_small_divu_32_32x32:
+                    ld        a,b                           ;[8713] 78
+                    ld        b,$20                         ;[8714] 06 20
+loop_0:
+                    exx                                     ;[8716] d9
+                    rl        c                             ;[8717] cb 11
+                    rl        b                             ;[8719] cb 10
+                    exx                                     ;[871b] d9
+                    rl        c                             ;[871c] cb 11
+                    rla                                     ;[871e] 17
+                    exx                                     ;[871f] d9
+                    adc       hl,hl                         ;[8720] ed 6a
+                    exx                                     ;[8722] d9
+                    adc       hl,hl                         ;[8723] ed 6a
+                    exx                                     ;[8725] d9
+                    sbc       hl,de                         ;[8726] ed 52
+                    exx                                     ;[8728] d9
+                    sbc       hl,de                         ;[8729] ed 52
+                    jr        nc,loop_1                     ;[872b] 30 05
+                    exx                                     ;[872d] d9
+                    add       hl,de                         ;[872e] 19
+                    exx                                     ;[872f] d9
+                    adc       hl,de                         ;[8730] ed 5a
+loop_1:
+                    ccf                                     ;[8732] 3f
+                    djnz      loop_0                        ;[8733] 10 e1
+                    exx                                     ;[8735] d9
+                    rl        c                             ;[8736] cb 11
+                    rl        b                             ;[8738] cb 10
+                    exx                                     ;[873a] d9
+                    rl        c                             ;[873b] cb 11
+                    rla                                     ;[873d] 17
+                    push      hl                            ;[873e] e5
+                    exx                                     ;[873f] d9
+                    pop       de                            ;[8740] d1
+                    push      bc                            ;[8741] c5
+                    exx                                     ;[8742] d9
+                    pop       hl                            ;[8743] e1
+                    ld        e,c                           ;[8744] 59
+                    ld        d,a                           ;[8745] 57
+                    ret                                     ;[8746] c9
+
+divide_zero:
+                    dec       de                            ;[8747] 1b
+                    jp        error_divide_by_zero_mc       ;[8748] c3 8a 87
+l_divu_64_64x8:
+                    ld        a,c                           ;[874b] 79
+                    or        a                             ;[874c] b7
+                    jr        z,divide_by_zero              ;[874d] 28 1c
+l0_divu_64_64x8:
+                    xor       a                             ;[874f] af
+                    ld        b,$40                         ;[8750] 06 40
+loop_11:
+                    add       hl,hl                         ;[8752] 29
+                    rl        e                             ;[8753] cb 13
+                    rl        d                             ;[8755] cb 12
+                    exx                                     ;[8757] d9
+                    adc       hl,hl                         ;[8758] ed 6a
+                    rl        e                             ;[875a] cb 13
+                    rl        d                             ;[875c] cb 12
+                    exx                                     ;[875e] d9
+                    rla                                     ;[875f] 17
+                    jr        c,loop_02                     ;[8760] 38 03
+                    cp        c                             ;[8762] b9
+                    jr        c,loop_03                     ;[8763] 38 02
+loop_02:
+                    sub       c                             ;[8765] 91
+                    inc       l                             ;[8766] 2c
+loop_03:
+                    djnz      loop_11                       ;[8767] 10 e9
+                    or        a                             ;[8769] b7
+                    ret                                     ;[876a] c9
+
+divide_by_zero:
+                    call      error_llmc                    ;[876b] cd 9d 87
+                    jp        error_divide_by_zero_mc       ;[876e] c3 8a 87
+                    pop       hl                            ;[8771] e1
+                    pop       hl                            ;[8772] e1
+                    pop       hl                            ;[8773] e1
+error_einval_zc:
+                    ld        l,$ff                         ;[8774] 2e ff
+errno_zc:
+                    ld        h,$00                         ;[8776] 26 00
+                    ld        (_errno),hl                   ;[8778] 22 5d 88
+                    jp        error_zc                      ;[877b] c3 82 87
+                    pop       hl                            ;[877e] e1
+                    pop       hl                            ;[877f] e1
+                    pop       hl                            ;[8780] e1
+                    pop       hl                            ;[8781] e1
+error_zc:
+                    ld        hl,$0000                      ;[8782] 21 00 00
+                    scf                                     ;[8785] 37
+                    ret                                     ;[8786] c9
+
+                    pop       hl                            ;[8787] e1
+                    pop       hl                            ;[8788] e1
+                    pop       hl                            ;[8789] e1
+error_divide_by_zero_mc:
+                    ld        l,$ff                         ;[878a] 2e ff
+errno_mc:
+                    ld        h,$00                         ;[878c] 26 00
+                    ld        (_errno),hl                   ;[878e] 22 5d 88
+                    jp        error_mc                      ;[8791] c3 97 87
+                    pop       hl                            ;[8794] e1
+                    pop       hl                            ;[8795] e1
+                    pop       hl                            ;[8796] e1
+error_mc:
+                    ld        hl,$ffff                      ;[8797] 21 ff ff
+                    scf                                     ;[879a] 37
+                    ret                                     ;[879b] c9
+
+                    pop       hl                            ;[879c] e1
+error_llmc:
+                    exx                                     ;[879d] d9
+                    call      error_lmc                     ;[879e] cd a6 87
+                    exx                                     ;[87a1] d9
+                    jp        error_lmc                     ;[87a2] c3 a6 87
+                    pop       hl                            ;[87a5] e1
+error_lmc:
+                    ld        de,$ffff                      ;[87a6] 11 ff ff
+                    jp        error_mc                      ;[87a9] c3 97 87
+asm_atoi:
+                    call      l_eat_ws                      ;[87ac] cd df 80
+asm0_atoi:
+                    call      l_eat_sign                    ;[87af] cd d3 80
+                    jr        nc,not_negative               ;[87b2] 30 08
+                    call      not_negative                  ;[87b4] cd bc 87
+                    jp        nc,l_neg_hl                   ;[87b7] d2 26 81
+                    inc       hl                            ;[87ba] 23
+                    ret                                     ;[87bb] c9
+
+not_negative:
+                    ex        de,hl                         ;[87bc] eb
+                    call      l_atou                        ;[87bd] cd fe 80
+                    jr        c,overflow_asm_atoi           ;[87c0] 38 04
+                    bit       7,h                           ;[87c2] cb 7c
+                    ret       z                             ;[87c4] c8
+                    scf                                     ;[87c5] 37
+overflow_asm_atoi:
+                    ld        hl,$7fff                      ;[87c6] 21 ff 7f
+                    ret                                     ;[87c9] c9
+
+asm_ulltoa:
+                    ld        a,ixh                         ;[87ca] dd 7c
+                    or        ixl                           ;[87cc] dd b5
+                    jp        z,error_zc                    ;[87ce] ca 82 87
+asm0_ulltoa:
+                    call      l_valid_base                  ;[87d1] cd f1 80
+                    jp        nc,error_einval_zc            ;[87d4] d2 74 87
+asm1_ulltoa:
+                    xor       a                             ;[87d7] af
+                    push      af                            ;[87d8] f5
+compute_lp:
+                    push      bc                            ;[87d9] c5
+                    call      l0_divu_64_64x8               ;[87da] cd 4f 87
+                    pop       bc                            ;[87dd] c1
+                    call      l_num2char                    ;[87de] cd e7 80
+                    scf                                     ;[87e1] 37
+                    push      af                            ;[87e2] f5
+                    call      l_testzero_64_dehldehl        ;[87e3] cd c8 80
+                    jr        nz,compute_lp                 ;[87e6] 20 f1
+                    push      ix                            ;[87e8] dd e5
+                    pop       hl                            ;[87ea] e1
+write_lp:
+                    pop       af                            ;[87eb] f1
+                    ld        (hl),a                        ;[87ec] 77
+                    inc       hl                            ;[87ed] 23
+                    jr        c,write_lp                    ;[87ee] 38 fb
+                    dec       hl                            ;[87f0] 2b
+                    ret                                     ;[87f1] c9
+
+asm_strlen:
+                    xor       a                             ;[87f2] af
+                    ld        c,a                           ;[87f3] 4f
+                    ld        b,a                           ;[87f4] 47
+                    cpir                                    ;[87f5] ed b1
+                    ld        hl,$ffff                      ;[87f7] 21 ff ff
+                    sbc       hl,bc                         ;[87fa] ed 42
+                    ret                                     ;[87fc] c9
+
+i_1:
+                    defb      $50                           ;[87fd] 50
+                    defb      $72                           ;[87fe] 72
+                    defb      $65                           ;[87ff] 65
+                    defb      $73                           ;[8800] 73
+                    defb      $73                           ;[8801] 73
+                    defb      $20                           ;[8802] 20
+                    defb      $61                           ;[8803] 61
+                    defb      $6e                           ;[8804] 6e
+                    defb      $79                           ;[8805] 79
+                    defb      $20                           ;[8806] 20
+                    defb      $6b                           ;[8807] 6b
+                    defb      $65                           ;[8808] 65
+                    defb      $79                           ;[8809] 79
+                    defb      $20                           ;[880a] 20
+                    defb      $74                           ;[880b] 74
+                    defb      $6f                           ;[880c] 6f
+                    defb      $20                           ;[880d] 20
+                    defb      $65                           ;[880e] 65
+                    defb      $78                           ;[880f] 78
+                    defb      $69                           ;[8810] 69
+                    defb      $74                           ;[8811] 74
+                    defb      $00                           ;[8812] 00
+                    defb      $48                           ;[8813] 48
+                    defb      $65                           ;[8814] 65
+                    defb      $6c                           ;[8815] 6c
+                    defb      $6c                           ;[8816] 6c
+                    defb      $6f                           ;[8817] 6f
+                    defb      $2c                           ;[8818] 2c
+                    defb      $20                           ;[8819] 20
+                    defb      $77                           ;[881a] 77
+                    defb      $6f                           ;[881b] 6f
+                    defb      $72                           ;[881c] 72
+                    defb      $6c                           ;[881d] 6c
+                    defb      $64                           ;[881e] 64
+                    defb      $21                           ;[881f] 21
+                    defb      $00                           ;[8820] 00
+__printf_format_table:
+                    defb      $73                           ;[8821] 73
+                    defb      $f4                           ;[8822] f4
+                    defb      $84                           ;[8823] 84
+                    defb      $63                           ;[8824] 63
+                    defb      $82                           ;[8825] 82
+                    defb      $84                           ;[8826] 84
+                    defb      $64                           ;[8827] 64
+                    defb      $8e                           ;[8828] 8e
+                    defb      $84                           ;[8829] 84
+                    defb      $75                           ;[882a] 75
+                    defb      $1c                           ;[882b] 1c
+                    defb      $85                           ;[882c] 85
+                    defb      $78                           ;[882d] 78
+                    defb      $21                           ;[882e] 21
+                    defb      $85                           ;[882f] 85
+                    defb      $6f                           ;[8830] 6f
+                    defb      $eb                           ;[8831] eb
+                    defb      $84                           ;[8832] 84
+                    defb      $70                           ;[8833] 70
+                    defb      $21                           ;[8834] 21
+                    defb      $85                           ;[8835] 85
+                    defb      $58                           ;[8836] 58
+                    defb      $71                           ;[8837] 71
+                    defb      $84                           ;[8838] 84
+                    defb      $6e                           ;[8839] 6e
+                    defb      $da                           ;[883a] da
+                    defb      $84                           ;[883b] 84
+                    defb      $42                           ;[883c] 42
+                    defb      $64                           ;[883d] 64
+                    defb      $84                           ;[883e] 84
+                    defb      $6c                           ;[883f] 6c
+                    defb      $93                           ;[8840] 93
+                    defb      $84                           ;[8841] 84
+                    defb      $00                           ;[8842] 00
+__printf_format_table64:
+                    defb      $64                           ;[8843] 64
+                    defb      $ba                           ;[8844] ba
+                    defb      $84                           ;[8845] 84
+                    defb      $75                           ;[8846] 75
+                    defb      $c8                           ;[8847] c8
+                    defb      $84                           ;[8848] 84
+                    defb      $78                           ;[8849] 78
+                    defb      $cd                           ;[884a] cd
+                    defb      $84                           ;[884b] 84
+                    defb      $6f                           ;[884c] 6f
+                    defb      $bf                           ;[884d] bf
+                    defb      $84                           ;[884e] 84
+                    defb      $58                           ;[884f] 58
+                    defb      $a9                           ;[8850] a9
+                    defb      $84                           ;[8851] 84
+                    defb      $42                           ;[8852] 42
+                    defb      $9c                           ;[8853] 9c
+                    defb      $84                           ;[8854] 84
+                    defb      $00                           ;[8855] 00
+nullstr:
+                    defb      $28                           ;[8856] 28
+                    defb      $6e                           ;[8857] 6e
+                    defb      $75                           ;[8858] 75
+                    defb      $6c                           ;[8859] 6c
+                    defb      $6c                           ;[885a] 6c
+                    defb      $29                           ;[885b] 29
+                    defb      $00                           ;[885c] 00
+_errno:
+                    defb      $00                           ;[885d] 00
+                    defb      $00                           ;[885e] 00
+__sgoioblk:
+                    defb      $00                           ;[885f] 00
+                    defb      $00                           ;[8860] 00
+                    defb      $00                           ;[8861] 00
+                    defb      $00                           ;[8862] 00
+                    defb      $00                           ;[8863] 00
+                    defb      $00                           ;[8864] 00
+                    defb      $00                           ;[8865] 00
+                    defb      $00                           ;[8866] 00
+                    defb      $00                           ;[8867] 00
+                    defb      $00                           ;[8868] 00
+                    defb      $00                           ;[8869] 00
+                    defb      $00                           ;[886a] 00
+                    defb      $00                           ;[886b] 00
+                    defb      $00                           ;[886c] 00
+                    defb      $00                           ;[886d] 00
+                    defb      $00                           ;[886e] 00
+                    defb      $00                           ;[886f] 00
+                    defb      $00                           ;[8870] 00
+                    defb      $00                           ;[8871] 00
+                    defb      $00                           ;[8872] 00
+                    defb      $00                           ;[8873] 00
+                    defb      $00                           ;[8874] 00
+                    defb      $00                           ;[8875] 00
+                    defb      $00                           ;[8876] 00
+                    defb      $00                           ;[8877] 00
+                    defb      $00                           ;[8878] 00
+                    defb      $00                           ;[8879] 00
+                    defb      $00                           ;[887a] 00
+                    defb      $00                           ;[887b] 00
+                    defb      $00                           ;[887c] 00
+                    defb      $00                           ;[887d] 00
+                    defb      $00                           ;[887e] 00
+                    defb      $00                           ;[887f] 00
+                    defb      $00                           ;[8880] 00
+                    defb      $00                           ;[8881] 00
+                    defb      $00                           ;[8882] 00
+                    defb      $00                           ;[8883] 00
+                    defb      $00                           ;[8884] 00
+                    defb      $00                           ;[8885] 00
+                    defb      $00                           ;[8886] 00
+                    defb      $00                           ;[8887] 00
+                    defb      $00                           ;[8888] 00
+                    defb      $00                           ;[8889] 00
+                    defb      $00                           ;[888a] 00
+                    defb      $00                           ;[888b] 00
+                    defb      $00                           ;[888c] 00
+                    defb      $00                           ;[888d] 00
+                    defb      $00                           ;[888e] 00
+                    defb      $00                           ;[888f] 00
+                    defb      $00                           ;[8890] 00
+                    defb      $00                           ;[8891] 00
+                    defb      $00                           ;[8892] 00
+                    defb      $00                           ;[8893] 00
+                    defb      $00                           ;[8894] 00
+                    defb      $00                           ;[8895] 00
+                    defb      $00                           ;[8896] 00
+                    defb      $00                           ;[8897] 00
+                    defb      $00                           ;[8898] 00
+                    defb      $00                           ;[8899] 00
+                    defb      $00                           ;[889a] 00
+                    defb      $00                           ;[889b] 00
+                    defb      $00                           ;[889c] 00
+                    defb      $00                           ;[889d] 00
+                    defb      $00                           ;[889e] 00
+                    defb      $00                           ;[889f] 00
+                    defb      $00                           ;[88a0] 00
+                    defb      $00                           ;[88a1] 00
+                    defb      $00                           ;[88a2] 00
+                    defb      $00                           ;[88a3] 00
+                    defb      $00                           ;[88a4] 00
+                    defb      $00                           ;[88a5] 00
+                    defb      $00                           ;[88a6] 00
+                    defb      $00                           ;[88a7] 00
+                    defb      $00                           ;[88a8] 00
+                    defb      $00                           ;[88a9] 00
+                    defb      $00                           ;[88aa] 00
+                    defb      $00                           ;[88ab] 00
+                    defb      $00                           ;[88ac] 00
+                    defb      $00                           ;[88ad] 00
+                    defb      $00                           ;[88ae] 00
+                    defb      $00                           ;[88af] 00
+                    defb      $00                           ;[88b0] 00
+                    defb      $00                           ;[88b1] 00
+                    defb      $00                           ;[88b2] 00
+                    defb      $00                           ;[88b3] 00
+                    defb      $00                           ;[88b4] 00
+                    defb      $00                           ;[88b5] 00
+                    defb      $00                           ;[88b6] 00
+                    defb      $00                           ;[88b7] 00
+                    defb      $00                           ;[88b8] 00
+                    defb      $00                           ;[88b9] 00
+                    defb      $00                           ;[88ba] 00
+                    defb      $00                           ;[88bb] 00
+                    defb      $00                           ;[88bc] 00
+                    defb      $00                           ;[88bd] 00
+                    defb      $00                           ;[88be] 00
+                    defb      $00                           ;[88bf] 00
+                    defb      $00                           ;[88c0] 00
+                    defb      $00                           ;[88c1] 00
+                    defb      $00                           ;[88c2] 00
+__sgoioblk_end:
+                    defb      $00                           ;[88c3] 00
+                    defb      $00                           ;[88c4] 00
+__exit_atexit_count:
+                    defb      $00                           ;[88c5] 00
+__exit_atexit_funcs:
+                    defb      $00                           ;[88c6] 00
+                    defb      $00                           ;[88c7] 00
+                    defb      $00                           ;[88c8] 00
