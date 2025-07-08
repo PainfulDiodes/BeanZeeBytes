@@ -11,7 +11,7 @@ restart=0x0010
 f=${1%.*} #extract base filename
 
 if [ $# -gt 1 ]
-then # terget,org
+then # target,org
     org=$2
 else # target
     org=0x8000
