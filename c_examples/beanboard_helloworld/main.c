@@ -21,14 +21,14 @@ int main()
     }
     int c = getchar(); // wait for a key
 
-    // sending a message via a pointer time using marvin_lcd_puts
-    char *str2 = "Message 2...\n";
+    // sending a string using marvin_lcd_puts
+    marvin_lcd_puts("Message 2...\n");
+    c = getchar(); // wait for a key
+
+    // using a pointer with marvin_lcd_puts 
+    char *str2 = "Message 3...\n";
     marvin_lcd_puts(str2);
     c = getchar(); // wait for a key
 
-    // This also works - string constant is passed as a pointer
-    marvin_lcd_puts("Message 3...\n");
-    c = getchar(); // wait for a key
-
-    marvin_lcd_init();
+    marvin_lcd_init(); // reinitialise the display before returning to the monitor
 }
