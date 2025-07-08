@@ -1,5 +1,5 @@
 start:
-    ; the following LCD set-up can be accomplished with call lcd_init
+    ; the following LCD set-up can be accomplished with: call lcd_init
 	ld a,LCD_FUNCTION_SET+LCD_DATA_LEN_8+LCD_DISP_LINES_2+LCD_FONT_8
 	call lcd_putcmd
 	ld a,LCD_DISPLAY_ON_OFF_CONTROL+LCD_DISPLAY_ON+LCD_CURSOR_ON+LCD_BLINK_ON
