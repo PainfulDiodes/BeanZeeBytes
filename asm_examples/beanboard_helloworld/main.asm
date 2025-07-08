@@ -9,25 +9,39 @@ start:
     ld a,LCD_SET_DDRAM_ADDR+LCD_LINE_3_ADDR
 	call lcd_putcmd
 
+; print message using lcd_putchar
     ld hl,message
-_loop:
+_charloop:
     ld a,(hl)
     ; is it zero?
     cp 0
     ; yes
-    jr z, end
+    jr z, _endloop
     ; no - send character
     call lcd_putchar
     ; next character position
     inc hl
     ; loop for next character
-    jr _loop
-end:
+    jr _charloop
+_endloop:
+
     ; wait
     call getchar
+
+; print message using lcd_puts
+    ld hl,message2
+    call lcd_puts
+
+    ; wait
+    call getchar
+
+; end
     call lcd_init
     jp WARMSTART
 
 message: 
     db "Hello world!\n"     
+    db "(hit any key)\n",0
+message2: 
+    db "Another message!\n"     
     db "(hit any key)\n",0
