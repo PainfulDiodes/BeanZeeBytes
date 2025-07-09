@@ -2,7 +2,13 @@ char marvin_readchar(void);
 void marvin_lcd_putcmd(char);
 void marvin_lcd_putchar(char);
 void marvin_lcd_init(void);
+
 void marvin_lcd_puts(char *str);
+
+// inline asm macros to access GPIO
+// see stdlib.h: M_INP8(port), M_OUTP8(port,byte)
+#define GPIO_INP() asm("in\ta,(0x07)\nld\tl,a\nld\th,0\n");
+#define GPIO_OUTP(byte) asm("ld\ta,"#byte"\nout\t(0x06),a\n");
 
 #define LCD_BLINK_ON                    0x01
 #define LCD_CLEAR_DISPLAY               0x01
