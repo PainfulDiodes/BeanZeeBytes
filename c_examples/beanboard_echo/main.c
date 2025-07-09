@@ -13,15 +13,16 @@ int main()
 	marvin_lcd_putcmd(LCD_CLEAR_DISPLAY);
     marvin_lcd_putcmd(LCD_SET_DDRAM_ADDR+LCD_LINE_3_ADDR);
 	
-    printf("Echoing from console\nto the LCD\n'Enter' to end\n");
+    printf("Echoing from console\nto the LCD\n'Esc' to end\n");
     
     int c;
 
     while(1) {
-        // note that c getchar will echo to the console, so using \e to end will 
-        // have undesireable side-effects, so using \n 
-        c = getchar();
-        if(c=='\n') break; 
+        // note that getchar also echoes to the console - which we don't want
+        // also: using \e to end, when echoed to the console has undesirable effects 
+        // so using fgetc_cons in place of getchar - which simply calls marvin getchar
+        c = fgetc_cons();
+        if(c=='\e') break; 
         marvin_lcd_putchar(c);
     }
 
