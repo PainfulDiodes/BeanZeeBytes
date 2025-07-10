@@ -31,64 +31,64 @@ _marvin_readchar:
                     ld        l,a                           ;[802a] 6f
                     ret                                     ;[802b] c9
 
-_marvin_gpio_in:
-                    in        a,($07)                       ;[802c] db 07
-                    ld        h,$00                         ;[802e] 26 00
-                    ld        l,a                           ;[8030] 6f
-                    ret                                     ;[8031] c9
-
-_marvin_gpio_out:
-                    pop       bc                            ;[8032] c1
-                    pop       hl                            ;[8033] e1
-                    push      hl                            ;[8034] e5
-                    push      bc                            ;[8035] c5
-                    ld        a,l                           ;[8036] 7d
-                    out       ($06),a                       ;[8037] d3 06
-                    ret                                     ;[8039] c9
-
-_marvin_keyscan_in:
-                    in        a,($03)                       ;[803a] db 03
-                    ld        h,$00                         ;[803c] 26 00
-                    ld        l,a                           ;[803e] 6f
-                    ret                                     ;[803f] c9
-
-_marvin_keyscan_out:
-                    pop       bc                            ;[8040] c1
-                    pop       hl                            ;[8041] e1
-                    push      hl                            ;[8042] e5
-                    push      bc                            ;[8043] c5
-                    ld        a,l                           ;[8044] 7d
-                    out       ($02),a                       ;[8045] d3 02
-                    ret                                     ;[8047] c9
-
 _marvin_lcd_putchar:
-                    pop       bc                            ;[8048] c1
-                    pop       hl                            ;[8049] e1
-                    push      hl                            ;[804a] e5
-                    push      bc                            ;[804b] c5
-                    ld        a,l                           ;[804c] 7d
-                    call      lcd_putchar_beanboard         ;[804d] cd 48 02
-                    ret                                     ;[8050] c9
+                    pop       bc                            ;[802c] c1
+                    pop       hl                            ;[802d] e1
+                    push      hl                            ;[802e] e5
+                    push      bc                            ;[802f] c5
+                    ld        a,l                           ;[8030] 7d
+                    call      lcd_putchar_beanboard         ;[8031] cd 48 02
+                    ret                                     ;[8034] c9
 
 _marvin_lcd_putcmd:
-                    pop       bc                            ;[8051] c1
-                    pop       hl                            ;[8052] e1
-                    push      hl                            ;[8053] e5
-                    push      bc                            ;[8054] c5
-                    ld        a,l                           ;[8055] 7d
-                    call      lcd_putcmd_beanboard          ;[8056] cd 32 02
-                    ret                                     ;[8059] c9
+                    pop       bc                            ;[8035] c1
+                    pop       hl                            ;[8036] e1
+                    push      hl                            ;[8037] e5
+                    push      bc                            ;[8038] c5
+                    ld        a,l                           ;[8039] 7d
+                    call      lcd_putcmd_beanboard          ;[803a] cd 32 02
+                    ret                                     ;[803d] c9
 
 _marvin_lcd_init:
-                    call      lcd_init_beanboard            ;[805a] cd 1b 02
-                    ret                                     ;[805d] c9
+                    call      lcd_init_beanboard            ;[803e] cd 1b 02
+                    ret                                     ;[8041] c9
 
 _marvin_lcd_puts:
+                    pop       bc                            ;[8042] c1
+                    pop       hl                            ;[8043] e1
+                    push      hl                            ;[8044] e5
+                    push      bc                            ;[8045] c5
+                    call      lcd_puts_beanboard            ;[8046] cd c3 02
+                    ret                                     ;[8049] c9
+
+_marvin_gpio_in:
+                    in        a,($07)                       ;[804a] db 07
+                    ld        h,$00                         ;[804c] 26 00
+                    ld        l,a                           ;[804e] 6f
+                    ret                                     ;[804f] c9
+
+_marvin_gpio_out:
+                    pop       bc                            ;[8050] c1
+                    pop       hl                            ;[8051] e1
+                    push      hl                            ;[8052] e5
+                    push      bc                            ;[8053] c5
+                    ld        a,l                           ;[8054] 7d
+                    out       ($06),a                       ;[8055] d3 06
+                    ret                                     ;[8057] c9
+
+_marvin_keyscan_in:
+                    in        a,($03)                       ;[8058] db 03
+                    ld        h,$00                         ;[805a] 26 00
+                    ld        l,a                           ;[805c] 6f
+                    ret                                     ;[805d] c9
+
+_marvin_keyscan_out:
                     pop       bc                            ;[805e] c1
                     pop       hl                            ;[805f] e1
                     push      hl                            ;[8060] e5
                     push      bc                            ;[8061] c5
-                    call      lcd_puts_beanboard            ;[8062] cd c3 02
+                    ld        a,l                           ;[8062] 7d
+                    out       ($02),a                       ;[8063] d3 02
                     ret                                     ;[8065] c9
 
 crt0_init:
@@ -143,16 +143,16 @@ l_jphl:
 _main:
                     ld        hl,$0038                      ;[80a2] 21 38 00
                     push      hl                            ;[80a5] e5
-                    call      _marvin_lcd_putcmd            ;[80a6] cd 51 80
+                    call      _marvin_lcd_putcmd            ;[80a6] cd 35 80
                     ld        hl,$000f                      ;[80a9] 21 0f 00
                     ex        (sp),hl                       ;[80ac] e3
-                    call      _marvin_lcd_putcmd            ;[80ad] cd 51 80
+                    call      _marvin_lcd_putcmd            ;[80ad] cd 35 80
                     ld        hl,$0001                      ;[80b0] 21 01 00
                     ex        (sp),hl                       ;[80b3] e3
-                    call      _marvin_lcd_putcmd            ;[80b4] cd 51 80
+                    call      _marvin_lcd_putcmd            ;[80b4] cd 35 80
                     ld        hl,$00d4                      ;[80b7] 21 d4 00
                     ex        (sp),hl                       ;[80ba] e3
-                    call      _marvin_lcd_putcmd            ;[80bb] cd 51 80
+                    call      _marvin_lcd_putcmd            ;[80bb] cd 35 80
                     pop       bc                            ;[80be] c1
                     ld        hl,$8206                      ;[80bf] 21 06 82
                     push      hl                            ;[80c2] e5
@@ -190,7 +190,7 @@ i_4:
                     add       hl,de                         ;[80f9] 19
                     call      l_gchar                       ;[80fa] cd 9b 80
                     push      hl                            ;[80fd] e5
-                    call      _marvin_lcd_putchar           ;[80fe] cd 48 80
+                    call      _marvin_lcd_putchar           ;[80fe] cd 2c 80
                     pop       bc                            ;[8101] c1
                     jp        i_2                           ;[8102] c3 cb 80
 i_3:
@@ -208,7 +208,7 @@ i_3:
                     push      hl                            ;[8116] e5
                     ld        hl,$8224                      ;[8117] 21 24 82
                     push      hl                            ;[811a] e5
-                    call      _marvin_lcd_puts              ;[811b] cd 5e 80
+                    call      _marvin_lcd_puts              ;[811b] cd 42 80
                     pop       bc                            ;[811e] c1
                     ld        hl,$0000                      ;[811f] 21 00 00
                     add       hl,sp                         ;[8122] 39
@@ -223,7 +223,7 @@ i_3:
                     ld        hl,$8232                      ;[812f] 21 32 82
                     push      hl                            ;[8132] e5
                     push      hl                            ;[8133] e5
-                    call      _marvin_lcd_puts              ;[8134] cd 5e 80
+                    call      _marvin_lcd_puts              ;[8134] cd 42 80
                     pop       bc                            ;[8137] c1
                     ld        hl,$0002                      ;[8138] 21 02 00
                     add       hl,sp                         ;[813b] 39
@@ -237,7 +237,7 @@ i_3:
                     pop       de                            ;[8149] d1
                     ld        a,l                           ;[814a] 7d
                     ld        (de),a                        ;[814b] 12
-                    call      _marvin_lcd_init              ;[814c] cd 5a 80
+                    call      _marvin_lcd_init              ;[814c] cd 3e 80
                     inc       sp                            ;[814f] 33
                     pop       bc                            ;[8150] c1
                     pop       bc                            ;[8151] c1

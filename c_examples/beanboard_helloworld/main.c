@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include "../lib/marvin.h"
+#include "../lib/beanboard.h"
 
 int main()
 {
