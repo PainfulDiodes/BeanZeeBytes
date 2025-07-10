@@ -144,46 +144,49 @@ beanboard.asm:
    141                          usb_readchar                    = $008A ; addr, local, , beanboard, , asm/UM245R.asm:16
    142                          
 beanboard.asm:
-     2                          ORG ORGDEF
-     3                          include "main.asm"
-main.asm:
+     2                          include "../lib/extra.map"
+../lib/extra.map:
      1                          GPIO_OUT    equ 6 ; either 6 or 7 will work
      2                          GPIO_IN     equ 7 ; either 6 or 7 will work
      3                          
-     4                          start:
-     5  0000  212200                ld hl,start_message
-     6  0003  cd6500            	call puts
-     7                          loop:
-     8                              ; get a character from USB - will wait for a character
-     9  0006  cd2300                call getchar
-    10                              ; escape?
-    11  0009  fe1b                  cp '\e'
-    12                              ; yes - end
-    13  000b  ca1a00                jp z,end
-    14                              ; echo to console
-    15  000e  cd4500                call putchar
-    16  0011  d306                  out (GPIO_OUT),a
-    17  0013  db07                  in a,(GPIO_IN)
-    18                              ; echo to console
-    19  0015  cd4500                call putchar
-    20                              ; repeat
-    21  0018  18ec                  jr loop
-    22                          
-    23                          end:
-    24                              ; add a line break
-    25  001a  3e0a                  ld a,'\n'
-    26                              ; to the console
-    27  001c  cd4500                call putchar
-    28                              ; jump to the reset address - will jump back to the monitor
-    29  001f  c31000                jp WARMSTART
-    30                          
-    31                          start_message:
-    32  0022  436f6e736f6c6520      db "Console to GPO\nGPI to console\n'Esc' to quit\n",0
+beanboard.asm:
+     3                          ORG ORGDEF
+     4                          include "main.asm"
+main.asm:
+     1                          start:
+     2  0000  212200                ld hl,start_message
+     3  0003  cd6500            	call puts
+     4                          loop:
+     5                              ; get a character from USB - will wait for a character
+     6  0006  cd2300                call getchar
+     7                              ; escape?
+     8  0009  fe1b                  cp '\e'
+     9                              ; yes - end
+    10  000b  ca1a00                jp z,end
+    11                              ; echo to console
+    12  000e  cd4500                call putchar
+    13  0011  d306                  out (GPIO_OUT),a
+    14  0013  db07                  in a,(GPIO_IN)
+    15                              ; echo to console
+    16  0015  cd4500                call putchar
+    17                              ; repeat
+    18  0018  18ec                  jr loop
+    19                          
+    20                          end:
+    21                              ; add a line break
+    22  001a  3e0a                  ld a,'\n'
+    23                              ; to the console
+    24  001c  cd4500                call putchar
+    25                              ; jump to the reset address - will jump back to the monitor
+    26  001f  c31000                jp WARMSTART
+    27                          
+    28                          start_message:
+    29  0022  436f6e736f6c6520      db "Console to GPO\nGPI to console\n'Esc' to quit\n",0
               746f2047504f0a47  
               504920746f20636f  
               6e736f6c650a2745  
               73632720746f2071  
               7569740a00        
-    33                          
+    30                          
 beanboard.asm:
-     4                          
+     5                          
