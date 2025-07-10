@@ -39,3 +39,48 @@ _marvin_readchar:
     ld l,a
     ret 
 
+PUBLIC marvin_gpio_in
+PUBLIC _marvin_gpio_in
+
+marvin_gpio_in:
+_marvin_gpio_in:
+    in a,(GPIO_IN)
+    ld h,0
+    ld l, a
+    ret
+
+PUBLIC marvin_gpio_out
+PUBLIC _marvin_gpio_out
+
+marvin_gpio_out:
+_marvin_gpio_out:
+    pop     bc      ; return address
+    pop     hl      ; arg
+    push    hl
+    push    bc
+    ld      a,l
+    out (GPIO_OUT),a
+    ret
+
+PUBLIC marvin_keyscan_in
+PUBLIC _marvin_keyscan_in
+
+marvin_keyscan_in:
+_marvin_keyscan_in:
+    in a,(KEYSCAN_IN)
+    ld h,0
+    ld l, a
+    ret
+
+PUBLIC marvin_keyscan_out
+PUBLIC _marvin_keyscan_out
+
+marvin_keyscan_out:
+_marvin_keyscan_out:
+    pop     bc      ; return address
+    pop     hl      ; arg
+    push    hl
+    push    bc
+    ld      a,l
+    out(KEYSCAN_OUT),a
+    ret
