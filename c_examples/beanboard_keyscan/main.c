@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "../lib/marvin.h"
+#include "../lib/beanboard.h"
 
 int main()
 {
@@ -16,9 +17,9 @@ int main()
     while(1) {
         rowbit = 0b00000001;
         for(unsigned char row=0; row<8; row++) {
-            // KEYSCAN_OUTP(rowbit); // doesn't work!
+            printf("%d 0x%02x ",row,rowbit); // debug
+            marvin_gpio_out(rowbit);
             
-            printf("%d 0x%02x ",row,rowbit);
 
             // k = KEYSCAN_INP();
             // if(k==key_buffer)
