@@ -26,7 +26,7 @@ int main()
     marvin_lcd_putcmd(LCD_SET_DDRAM_ADDR+LCD_LINE_3_ADDR+6);
     marvin_lcd_puts("Hello, world!");
     
-    int c = getchar(); // wait for a key
+    char c = getchar(); // wait for a key
 
     marvin_lcd_init(); // reinitialise the display before returning to the monitor
 }

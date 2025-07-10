@@ -16,10 +16,10 @@ int main()
     
     // sending a message 1 character at a time using marvin_lcd_putchar
     char *str = "Hello, world!\nHit any key...\n";
-    for(int i = 0; str[i]!=0; i++) {
+    for(char i = 0; str[i]!=0; i++) {
         marvin_lcd_putchar((char)str[i]);
     }
-    int c = getchar(); // wait for a key
+    char c = getchar(); // wait for a key
 
     // sending a string using marvin_lcd_puts
     marvin_lcd_puts("Message 2...\n");

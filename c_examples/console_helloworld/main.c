@@ -9,5 +9,5 @@
 int main()
 {
     printf("Hello, world!\n(hit any key)\n");
-    int c = getchar(); // wait for a key
+    char c = getchar(); // wait for a key
 }

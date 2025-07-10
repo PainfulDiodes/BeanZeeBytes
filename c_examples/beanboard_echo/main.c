@@ -15,7 +15,7 @@ int main()
 	
     printf("Echoing from console\nto the LCD\n'Esc' to end\n");
     
-    int c;
+    char c;
 
     while(1) {
         // note that getchar also echoes to the console - which we don't want
