@@ -18,3 +18,9 @@ f=beanboard
 z88dk-z80asm -l -b -m -DORGDEF=$org $f.asm -Ooutput
 hexdump -C output/$f.bin > output/$f.hex
 z88dk-appmake +hex --org $org -b output/$f.bin -o output/$f.ihx
+
+# f=beanzee
+
+# z88dk-z80asm -l -b -m -DORGDEF=$org $f.asm -Ooutput
+# hexdump -C output/$f.bin > output/$f.hex
+# z88dk-appmake +hex --org $org -b output/$f.bin -o output/$f.ihx
