@@ -39,6 +39,7 @@ void clearScreen() {
     printf("\e[2J");
 }
 
+// ANSI cursor positions are 1-based
 void setCursor(int x, int y) {
     printf("\e[%d;%dH",y,x);
 }
