@@ -1,5 +1,5 @@
 include "beanboard.map"
-include "extra.map" ;stuff that is missing from beanboard.map
+include "extra.map" ;definitions missing from beanboard.map because they are defined in marvin but not used there
 include "marvin.asm"
 
 PUBLIC marvin_lcd_putchar
