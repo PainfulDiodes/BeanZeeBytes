@@ -1,24 +1,20 @@
 # usage: 
-# with or without extension
-#  ./build.sh beanzee
-#  ./build.sh beanzee.asm
 # provide an org value
-#  ./build.sh beanzee $8000
+#  ./build.sh $8000
 # defaults to 0x8000
+#  ./build.sh
 
 # set -x #echo on
 
-orgname=ORGDEF
-
-f=${1%.*} #extract base filename
-
-if [ $# -gt 1 ]
+if [ $# -gt 0 ]
 then
-    org=$2
+    org=$1
 else
     org=0x8000
 fi
 
-z88dk-z80asm -l -b -m -D$orgname=$org $f.asm -Ooutput
+f=beanboard
+
+z88dk-z80asm -l -b -m -DORGDEF=$org $f.asm -Ooutput
 hexdump -C output/$f.bin > output/$f.hex
 z88dk-appmake +hex --org $org -b output/$f.bin -o output/$f.ihx
