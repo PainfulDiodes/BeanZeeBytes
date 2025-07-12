@@ -23,3 +23,5 @@ loop                            = $801A ; addr, local, , beanboard, , main.asm:1
 puts                            = $0065 ; const, local, , beanboard, , ../../lib/beanboard.map:137
 start                           = $8000 ; addr, local, , beanboard, , main.asm:1
 start_message                   = $802D ; addr, local, , beanboard, , main.asm:29
+
+
