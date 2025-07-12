@@ -1,6 +1,6 @@
 beanzee.asm:
-     1                          include "../lib/beanzee.map"
-../lib/beanzee.map:
+     1                          include "../../lib/beanzee.map"
+../../lib/beanzee.map:
      1                          BAD_CMD_MSG                     = $0248 ; addr, local, , beanzee, , asm/messages.asm:7
      2                          BEANBOARD                       = $0000 ; const, local, , beanzee, , beanzee.asm:5
      3                          CMD_BUFFER                      = $F020 ; const, local, , beanzee, , asm/main.inc:9

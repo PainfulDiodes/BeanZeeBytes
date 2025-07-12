@@ -1,3 +1,3 @@
-include "../lib/beanboard.map"
+include "../../lib/beanboard.map"
 ORG ORGDEF
 include "main.asm"
