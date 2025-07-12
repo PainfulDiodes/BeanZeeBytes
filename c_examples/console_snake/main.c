@@ -1,7 +1,7 @@
 // snake
 // classic snake game for BeanZee over VT100 terminal
 // built with z88dk
-// tested on BeanBoard v1, BeanZee v1 and Marvin v1.2 for beanzee and for beanboard
+// tested on BeanBoard v1, BeanZee v1 and Marvin v1.2.1-beanzee / v1.2.1-beanboard
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -60,7 +60,7 @@ int main()
         while(alive) gameLoop();
         gameOver();
         while(true) {
-            k=readchar();
+            k=marvin_readchar();
             if(k=='q') {
                 clearScreen();
                 showCursor();
@@ -107,19 +107,19 @@ void splash() {
 bool splashBox(int x1, int x2, int y1, int y2) {
     for(int x=x1; x<=x2; x++) {
         splashDot(x,y1); 
-        if(readchar()!=0) return true;
+        if(marvin_readchar()!=0) return true;
     }
     for(int y=y1; y<=y2; y++) {
         splashDot(x2,y);
-        if(readchar()!=0) return true;
+        if(marvin_readchar()!=0) return true;
     }
     for(int x=x2; x>=x1; x--) {
         splashDot(x,y2);
-        if(readchar()!=0) return true;
+        if(marvin_readchar()!=0) return true;
     }
     for(int y=y2; y>=y1; y--) {
         splashDot(x1,y);
-        if(readchar()!=0) return true;
+        if(marvin_readchar()!=0) return true;
     }
     return false;
 }
@@ -151,7 +151,7 @@ void setupGame() {
 
 void gameLoop() {
 
-    unsigned int k = readchar();
+    unsigned int k = marvin_readchar();
     if(k!=0)
     {     
       switch (motion) {

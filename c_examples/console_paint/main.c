@@ -2,7 +2,7 @@
 // using ANSI escape codes to paint to the console
 // https://en.wikipedia.org/wiki/ANSI_escape_code
 // built with z88dk
-// tested on BeanBoard v1, BeanZee v1 and Marvin v1.2 for beanzee and for beanboard
+// tested on BeanBoard v1, BeanZee v1 and Marvin v1.2.1-beanzee / v1.2.1-beanboard
 
 #include <stdio.h>
 
@@ -39,6 +39,7 @@ void clearScreen() {
     printf("\e[2J");
 }
 
+// ANSI cursor positions are 1-based
 void setCursor(int x, int y) {
     printf("\e[%d;%dH",y,x);
 }

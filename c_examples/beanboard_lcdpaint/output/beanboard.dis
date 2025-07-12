@@ -1,0 +1,450 @@
+start:
+                    call      crt0_init                     ;[8000] cd 66 80
+                    ld        hl,$ffc0                      ;[8003] 21 c0 ff
+                    add       hl,sp                         ;[8006] 39
+                    ld        sp,hl                         ;[8007] f9
+                    ld        (__exit_atexit_funcs),hl      ;[8008] 22 4a 82
+                    call      _main                         ;[800b] cd 99 80
+__Exit:
+                    call      crt0_exit                     ;[800e] cd 8e 80
+                    jp        WARMSTART                     ;[8011] c3 10 00
+l_dcal:
+                    jp        (hl)                          ;[8014] e9
+_fputc_cons:
+                    pop       bc                            ;[8015] c1
+                    pop       hl                            ;[8016] e1
+                    push      hl                            ;[8017] e5
+                    push      bc                            ;[8018] c5
+                    ld        a,l                           ;[8019] 7d
+                    call      putchar_beanboard             ;[801a] cd 45 00
+                    ret                                     ;[801d] c9
+
+_fgetc_cons:
+                    call      getchar_beanboard             ;[801e] cd 23 00
+                    ld        l,a                           ;[8021] 6f
+                    ld        h,$00                         ;[8022] 26 00
+                    ret                                     ;[8024] c9
+
+_marvin_readchar:
+                    call      readchar_beanboard            ;[8025] cd 2b 00
+                    ld        h,$00                         ;[8028] 26 00
+                    ld        l,a                           ;[802a] 6f
+                    ret                                     ;[802b] c9
+
+_marvin_lcd_putchar:
+                    pop       bc                            ;[802c] c1
+                    pop       hl                            ;[802d] e1
+                    push      hl                            ;[802e] e5
+                    push      bc                            ;[802f] c5
+                    ld        a,l                           ;[8030] 7d
+                    call      lcd_putchar_beanboard         ;[8031] cd 48 02
+                    ret                                     ;[8034] c9
+
+_marvin_lcd_putcmd:
+                    pop       bc                            ;[8035] c1
+                    pop       hl                            ;[8036] e1
+                    push      hl                            ;[8037] e5
+                    push      bc                            ;[8038] c5
+                    ld        a,l                           ;[8039] 7d
+                    call      lcd_putcmd_beanboard          ;[803a] cd 32 02
+                    ret                                     ;[803d] c9
+
+_marvin_lcd_init:
+                    call      lcd_init_beanboard            ;[803e] cd 1b 02
+                    ret                                     ;[8041] c9
+
+_marvin_lcd_puts:
+                    pop       bc                            ;[8042] c1
+                    pop       hl                            ;[8043] e1
+                    push      hl                            ;[8044] e5
+                    push      bc                            ;[8045] c5
+                    call      lcd_puts_beanboard            ;[8046] cd c3 02
+                    ret                                     ;[8049] c9
+
+_marvin_gpio_in:
+                    in        a,($07)                       ;[804a] db 07
+                    ld        h,$00                         ;[804c] 26 00
+                    ld        l,a                           ;[804e] 6f
+                    ret                                     ;[804f] c9
+
+_marvin_gpio_out:
+                    pop       bc                            ;[8050] c1
+                    pop       hl                            ;[8051] e1
+                    push      hl                            ;[8052] e5
+                    push      bc                            ;[8053] c5
+                    ld        a,l                           ;[8054] 7d
+                    out       ($06),a                       ;[8055] d3 06
+                    ret                                     ;[8057] c9
+
+_marvin_keyscan_in:
+                    in        a,($03)                       ;[8058] db 03
+                    ld        h,$00                         ;[805a] 26 00
+                    ld        l,a                           ;[805c] 6f
+                    ret                                     ;[805d] c9
+
+_marvin_keyscan_out:
+                    pop       bc                            ;[805e] c1
+                    pop       hl                            ;[805f] e1
+                    push      hl                            ;[8060] e5
+                    push      bc                            ;[8061] c5
+                    ld        a,l                           ;[8062] 7d
+                    out       ($02),a                       ;[8063] d3 02
+                    ret                                     ;[8065] c9
+
+crt0_init:
+                    xor       a                             ;[8066] af
+                    ld        hl,$81e3                      ;[8067] 21 e3 81
+                    ld        bc,$0069                      ;[806a] 01 69 00
+                    ld        de,$81e4                      ;[806d] 11 e4 81
+                    ld        (hl),a                        ;[8070] 77
+                    ldir                                    ;[8071] ed b0
+                    ld        hl,$81e5                      ;[8073] 21 e5 81
+                    ld        (hl),$13                      ;[8076] 36 13
+                    ld        hl,$81ef                      ;[8078] 21 ef 81
+                    ld        (hl),$15                      ;[807b] 36 15
+                    ld        hl,$81f9                      ;[807d] 21 f9 81
+                    ld        (hl),$15                      ;[8080] 36 15
+                    ld        hl,$81e3                      ;[8082] 21 e3 81
+                    ld        de,$824c                      ;[8085] 11 4c 82
+                    ld        bc,$0001                      ;[8088] 01 01 00
+                    ldir                                    ;[808b] ed b0
+                    ret                                     ;[808d] c9
+
+crt0_exit:
+                    ret                                     ;[808e] c9
+
+l_jphl:
+                    jp        (hl)                          ;[808f] e9
+l_gchar3:
+                    inc       hl                            ;[8090] 23
+l_gchar2:
+                    inc       hl                            ;[8091] 23
+l_gchar1:
+                    inc       hl                            ;[8092] 23
+l_gchar:
+                    ld        a,(hl)                        ;[8093] 7e
+l_gchar_sxt:
+                    ld        l,a                           ;[8094] 6f
+                    rlca                                    ;[8095] 07
+                    sbc       a                             ;[8096] 9f
+                    ld        h,a                           ;[8097] 67
+                    ret                                     ;[8098] c9
+
+_main:
+                    call      _marvin_lcd_init              ;[8099] cd 3e 80
+                    ld        hl,$0004                      ;[809c] 21 04 00
+                    push      hl                            ;[809f] e5
+                    ld        l,$00                         ;[80a0] 2e 00
+                    push      hl                            ;[80a2] e5
+                    call      _lcdSetCursor                 ;[80a3] cd ef 80
+                    pop       bc                            ;[80a6] c1
+                    ld        hl,$81cb                      ;[80a7] 21 cb 81
+                    ex        (sp),hl                       ;[80aa] e3
+                    call      _marvin_lcd_puts              ;[80ab] cd 42 80
+                    pop       bc                            ;[80ae] c1
+                    ld        hl,$0004                      ;[80af] 21 04 00
+                    push      hl                            ;[80b2] e5
+                    ld        l,$01                         ;[80b3] 2e 01
+                    push      hl                            ;[80b5] e5
+                    call      _lcdSetCursor                 ;[80b6] cd ef 80
+                    pop       bc                            ;[80b9] c1
+                    ld        hl,$81d7                      ;[80ba] 21 d7 81
+                    ex        (sp),hl                       ;[80bd] e3
+                    call      _marvin_lcd_puts              ;[80be] cd 42 80
+                    pop       bc                            ;[80c1] c1
+                    ld        hl,$0004                      ;[80c2] 21 04 00
+                    push      hl                            ;[80c5] e5
+                    ld        l,$02                         ;[80c6] 2e 02
+                    push      hl                            ;[80c8] e5
+                    call      _lcdSetCursor                 ;[80c9] cd ef 80
+                    pop       bc                            ;[80cc] c1
+                    ld        hl,$81cb                      ;[80cd] 21 cb 81
+                    ex        (sp),hl                       ;[80d0] e3
+                    call      _marvin_lcd_puts              ;[80d1] cd 42 80
+                    pop       bc                            ;[80d4] c1
+                    ld        hl,$0000                      ;[80d5] 21 00 00
+                    push      hl                            ;[80d8] e5
+                    ld        l,$03                         ;[80d9] 2e 03
+                    push      hl                            ;[80db] e5
+                    call      _lcdSetCursor                 ;[80dc] cd ef 80
+                    pop       bc                            ;[80df] c1
+                    pop       bc                            ;[80e0] c1
+                    ld        hl,$81e3                      ;[80e1] 21 e3 81
+                    push      hl                            ;[80e4] e5
+                    call      ___fgetc                      ;[80e5] cd 14 81
+                    pop       bc                            ;[80e8] c1
+                    push      hl                            ;[80e9] e5
+                    call      _marvin_lcd_init              ;[80ea] cd 3e 80
+                    pop       bc                            ;[80ed] c1
+                    ret                                     ;[80ee] c9
+
+_lcdSetCursor:
+                    ld        de,$81c7                      ;[80ef] 11 c7 81
+                    ld        hl,$0002                      ;[80f2] 21 02 00
+                    add       hl,sp                         ;[80f5] 39
+                    ld        l,(hl)                        ;[80f6] 6e
+                    ld        h,$00                         ;[80f7] 26 00
+                    add       hl,de                         ;[80f9] 19
+                    ld        l,(hl)                        ;[80fa] 6e
+                    ld        h,$00                         ;[80fb] 26 00
+                    ld        bc,$0080                      ;[80fd] 01 80 00
+                    add       hl,bc                         ;[8100] 09
+                    ex        de,hl                         ;[8101] eb
+                    ld        hl,$0004                      ;[8102] 21 04 00
+                    add       hl,sp                         ;[8105] 39
+                    ld        l,(hl)                        ;[8106] 6e
+                    ld        h,$00                         ;[8107] 26 00
+                    add       hl,de                         ;[8109] 19
+                    ld        a,l                           ;[810a] 7d
+                    call      l_gchar_sxt                   ;[810b] cd 94 80
+                    push      hl                            ;[810e] e5
+                    call      _marvin_lcd_putcmd            ;[810f] cd 35 80
+                    pop       bc                            ;[8112] c1
+                    ret                                     ;[8113] c9
+
+___fgetc:
+                    pop       bc                            ;[8114] c1
+                    pop       hl                            ;[8115] e1
+                    push      hl                            ;[8116] e5
+                    push      bc                            ;[8117] c5
+                    push      ix                            ;[8118] dd e5
+                    push      hl                            ;[811a] e5
+                    pop       ix                            ;[811b] dd e1
+                    ld        a,(ix+$02)                    ;[811d] dd 7e 02
+                    and       a                             ;[8120] a7
+                    jp        z,is_eof                      ;[8121] ca a1 81
+                    and       $08                           ;[8124] e6 08
+                    jp        nz,is_eof                     ;[8126] c2 a1 81
+                    ld        a,(ix+$03)                    ;[8129] dd 7e 03
+                    and       a                             ;[812c] a7
+                    jr        z,no_ungetc                   ;[812d] 28 09
+                    ld        l,a                           ;[812f] 6f
+                    ld        h,$00                         ;[8130] 26 00
+                    ld        (ix+$03),h                    ;[8132] dd 74 03
+                    jp        fgetc_end                     ;[8135] c3 ac 81
+no_ungetc:
+                    ld        a,(ix+$02)                    ;[8138] dd 7e 02
+                    and       $80                           ;[813b] e6 80
+                    jr        z,no_string                   ;[813d] 28 28
+                    ld        l,(ix+$04)                    ;[813f] dd 6e 04
+                    ld        h,(ix+$05)                    ;[8142] dd 66 05
+                    ld        a,h                           ;[8145] 7c
+                    or        l                             ;[8146] b5
+                    jp        z,is_eof                      ;[8147] ca a1 81
+                    dec       hl                            ;[814a] 2b
+                    ld        (ix+$04),l                    ;[814b] dd 75 04
+                    ld        (ix+$05),h                    ;[814e] dd 74 05
+                    ld        l,(ix+$00)                    ;[8151] dd 6e 00
+                    ld        h,(ix+$01)                    ;[8154] dd 66 01
+                    ld        a,(hl)                        ;[8157] 7e
+                    inc       hl                            ;[8158] 23
+                    ld        (ix+$00),l                    ;[8159] dd 75 00
+                    ld        (ix+$01),h                    ;[815c] dd 74 01
+                    and       a                             ;[815f] a7
+                    jr        z,is_eof                      ;[8160] 28 3f
+                    ld        l,a                           ;[8162] 6f
+                    ld        h,$00                         ;[8163] 26 00
+                    jr        fgetc_end                     ;[8165] 18 45
+no_string:
+                    ld        a,(ix+$02)                    ;[8167] dd 7e 02
+                    and       $20                           ;[816a] e6 20
+                    jr        z,not_extra_fp                ;[816c] 28 0f
+                    ld        l,(ix+$04)                    ;[816e] dd 6e 04
+                    ld        h,(ix+$05)                    ;[8171] dd 66 05
+                    ld        a,$01                         ;[8174] 3e 01
+                    call      l_jphl                        ;[8176] cd 8f 80
+                    jr        nc,fgetc_end                  ;[8179] 30 31
+                    jr        seteof                        ;[817b] 18 27
+not_extra_fp:
+                    push      ix                            ;[817d] dd e5
+                    call      ___fchkstd                    ;[817f] cd af 81
+                    pop       ix                            ;[8182] dd e1
+                    jr        c,no_stdin                    ;[8184] 38 0a
+                    call      _fgetc_cons                   ;[8186] cd 1e 80
+                    push      hl                            ;[8189] e5
+                    call      _fputc_cons                   ;[818a] cd 15 80
+                    pop       hl                            ;[818d] e1
+                    jr        fgetc_end                     ;[818e] 18 1c
+no_stdin:
+                    ld        l,(ix+$00)                    ;[8190] dd 6e 00
+                    ld        h,(ix+$01)                    ;[8193] dd 66 01
+                    push      ix                            ;[8196] dd e5
+                    call      _readbyte                     ;[8198] cd c6 81
+                    pop       ix                            ;[819b] dd e1
+                    ld        a,h                           ;[819d] 7c
+                    inc       a                             ;[819e] 3c
+                    jr        nz,fgetc_end                  ;[819f] 20 0b
+is_eof:
+                    ld        hl,$ffff                      ;[81a1] 21 ff ff
+seteof:
+                    ld        a,(ix+$02)                    ;[81a4] dd 7e 02
+                    or        $08                           ;[81a7] f6 08
+                    ld        (ix+$02),a                    ;[81a9] dd 77 02
+fgetc_end:
+                    pop       ix                            ;[81ac] dd e1
+                    ret                                     ;[81ae] c9
+
+___fchkstd:
+                    pop       hl                            ;[81af] e1
+                    pop       de                            ;[81b0] d1
+                    push      de                            ;[81b1] d5
+                    push      hl                            ;[81b2] e5
+                    ld        hl,$0000                      ;[81b3] 21 00 00
+                    inc       de                            ;[81b6] 13
+                    inc       de                            ;[81b7] 13
+                    ld        a,(de)                        ;[81b8] 1a
+                    and       $10                           ;[81b9] e6 10
+                    scf                                     ;[81bb] 37
+                    ret       z                             ;[81bc] c8
+                    dec       hl                            ;[81bd] 2b
+                    ld        a,(de)                        ;[81be] 1a
+                    and       $02                           ;[81bf] e6 02
+                    ret       nz                            ;[81c1] c0
+                    inc       hl                            ;[81c2] 23
+                    inc       hl                            ;[81c3] 23
+                    and       a                             ;[81c4] a7
+                    ret                                     ;[81c5] c9
+
+_readbyte:
+                    ret                                     ;[81c6] c9
+
+_lineaddr:
+                    defb      $00                           ;[81c7] 00
+                    defb      $40                           ;[81c8] 40
+                    defb      $14                           ;[81c9] 14
+                    defb      $54                           ;[81ca] 54
+i_1:
+                    defb      $2a                           ;[81cb] 2a
+                    defb      $2a                           ;[81cc] 2a
+                    defb      $2a                           ;[81cd] 2a
+                    defb      $2a                           ;[81ce] 2a
+                    defb      $2a                           ;[81cf] 2a
+                    defb      $2a                           ;[81d0] 2a
+                    defb      $2a                           ;[81d1] 2a
+                    defb      $2a                           ;[81d2] 2a
+                    defb      $2a                           ;[81d3] 2a
+                    defb      $2a                           ;[81d4] 2a
+                    defb      $2a                           ;[81d5] 2a
+                    defb      $00                           ;[81d6] 00
+                    defb      $2a                           ;[81d7] 2a
+                    defb      $20                           ;[81d8] 20
+                    defb      $48                           ;[81d9] 48
+                    defb      $65                           ;[81da] 65
+                    defb      $6c                           ;[81db] 6c
+                    defb      $6c                           ;[81dc] 6c
+                    defb      $6f                           ;[81dd] 6f
+                    defb      $21                           ;[81de] 21
+                    defb      $21                           ;[81df] 21
+                    defb      $20                           ;[81e0] 20
+                    defb      $2a                           ;[81e1] 2a
+                    defb      $00                           ;[81e2] 00
+__sgoioblk:
+                    defb      $00                           ;[81e3] 00
+                    defb      $00                           ;[81e4] 00
+                    defb      $00                           ;[81e5] 00
+                    defb      $00                           ;[81e6] 00
+                    defb      $00                           ;[81e7] 00
+                    defb      $00                           ;[81e8] 00
+                    defb      $00                           ;[81e9] 00
+                    defb      $00                           ;[81ea] 00
+                    defb      $00                           ;[81eb] 00
+                    defb      $00                           ;[81ec] 00
+                    defb      $00                           ;[81ed] 00
+                    defb      $00                           ;[81ee] 00
+                    defb      $00                           ;[81ef] 00
+                    defb      $00                           ;[81f0] 00
+                    defb      $00                           ;[81f1] 00
+                    defb      $00                           ;[81f2] 00
+                    defb      $00                           ;[81f3] 00
+                    defb      $00                           ;[81f4] 00
+                    defb      $00                           ;[81f5] 00
+                    defb      $00                           ;[81f6] 00
+                    defb      $00                           ;[81f7] 00
+                    defb      $00                           ;[81f8] 00
+                    defb      $00                           ;[81f9] 00
+                    defb      $00                           ;[81fa] 00
+                    defb      $00                           ;[81fb] 00
+                    defb      $00                           ;[81fc] 00
+                    defb      $00                           ;[81fd] 00
+                    defb      $00                           ;[81fe] 00
+                    defb      $00                           ;[81ff] 00
+                    defb      $00                           ;[8200] 00
+                    defb      $00                           ;[8201] 00
+                    defb      $00                           ;[8202] 00
+                    defb      $00                           ;[8203] 00
+                    defb      $00                           ;[8204] 00
+                    defb      $00                           ;[8205] 00
+                    defb      $00                           ;[8206] 00
+                    defb      $00                           ;[8207] 00
+                    defb      $00                           ;[8208] 00
+                    defb      $00                           ;[8209] 00
+                    defb      $00                           ;[820a] 00
+                    defb      $00                           ;[820b] 00
+                    defb      $00                           ;[820c] 00
+                    defb      $00                           ;[820d] 00
+                    defb      $00                           ;[820e] 00
+                    defb      $00                           ;[820f] 00
+                    defb      $00                           ;[8210] 00
+                    defb      $00                           ;[8211] 00
+                    defb      $00                           ;[8212] 00
+                    defb      $00                           ;[8213] 00
+                    defb      $00                           ;[8214] 00
+                    defb      $00                           ;[8215] 00
+                    defb      $00                           ;[8216] 00
+                    defb      $00                           ;[8217] 00
+                    defb      $00                           ;[8218] 00
+                    defb      $00                           ;[8219] 00
+                    defb      $00                           ;[821a] 00
+                    defb      $00                           ;[821b] 00
+                    defb      $00                           ;[821c] 00
+                    defb      $00                           ;[821d] 00
+                    defb      $00                           ;[821e] 00
+                    defb      $00                           ;[821f] 00
+                    defb      $00                           ;[8220] 00
+                    defb      $00                           ;[8221] 00
+                    defb      $00                           ;[8222] 00
+                    defb      $00                           ;[8223] 00
+                    defb      $00                           ;[8224] 00
+                    defb      $00                           ;[8225] 00
+                    defb      $00                           ;[8226] 00
+                    defb      $00                           ;[8227] 00
+                    defb      $00                           ;[8228] 00
+                    defb      $00                           ;[8229] 00
+                    defb      $00                           ;[822a] 00
+                    defb      $00                           ;[822b] 00
+                    defb      $00                           ;[822c] 00
+                    defb      $00                           ;[822d] 00
+                    defb      $00                           ;[822e] 00
+                    defb      $00                           ;[822f] 00
+                    defb      $00                           ;[8230] 00
+                    defb      $00                           ;[8231] 00
+                    defb      $00                           ;[8232] 00
+                    defb      $00                           ;[8233] 00
+                    defb      $00                           ;[8234] 00
+                    defb      $00                           ;[8235] 00
+                    defb      $00                           ;[8236] 00
+                    defb      $00                           ;[8237] 00
+                    defb      $00                           ;[8238] 00
+                    defb      $00                           ;[8239] 00
+                    defb      $00                           ;[823a] 00
+                    defb      $00                           ;[823b] 00
+                    defb      $00                           ;[823c] 00
+                    defb      $00                           ;[823d] 00
+                    defb      $00                           ;[823e] 00
+                    defb      $00                           ;[823f] 00
+                    defb      $00                           ;[8240] 00
+                    defb      $00                           ;[8241] 00
+                    defb      $00                           ;[8242] 00
+                    defb      $00                           ;[8243] 00
+                    defb      $00                           ;[8244] 00
+                    defb      $00                           ;[8245] 00
+                    defb      $00                           ;[8246] 00
+__sgoioblk_end:
+                    defb      $00                           ;[8247] 00
+                    defb      $00                           ;[8248] 00
+__exit_atexit_count:
+                    defb      $00                           ;[8249] 00
+__exit_atexit_funcs:
+                    defb      $00                           ;[824a] 00
+                    defb      $00                           ;[824b] 00
+                    defb      $00                           ;[824c] 00

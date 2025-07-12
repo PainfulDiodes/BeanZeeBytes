@@ -5,8 +5,8 @@ start:
 	call lcd_putcmd
 	ld a,LCD_CLEAR_DISPLAY
 	call lcd_putcmd
-    ld a,0
-    call lcd_putchar
+    ld a,LCD_SET_DDRAM_ADDR+LCD_LINE_3_ADDR
+	call lcd_putcmd
     ; load the message address into HL
     ld hl,start_message         
 	call puts
@@ -23,8 +23,7 @@ loop:
     jr loop
     
 end:
-    ld a,'\n'
-    call lcd_putchar
+    call lcd_init
     jp WARMSTART
 
 start_message: 
