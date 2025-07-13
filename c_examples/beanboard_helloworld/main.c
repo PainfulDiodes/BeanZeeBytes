@@ -16,18 +16,18 @@ int main()
     marvin_lcd_putcmd(LCD_SET_DDRAM_ADDR+LCD_LINE_3_ADDR);
     
     // sending a message 1 character at a time using marvin_lcd_putchar
-    char *str = "Hello, world!\nHit any key...\n";
+    char str[] = "Hello, world!\nHit any key...\n";
     for(char i = 0; str[i]!=0; i++) {
         marvin_lcd_putchar((char)str[i]);
     }
     char c = getchar(); // wait for a key
 
-    // sending a string using marvin_lcd_puts
-    marvin_lcd_puts("Message 2...\n");
+    // sending an inline string using marvin_lcd_puts
+    marvin_lcd_puts("Hello again!\nHit any key...\n");
     c = getchar(); // wait for a key
 
     // using a pointer with marvin_lcd_puts 
-    char *str2 = "Message 3...\n";
+    char *str2 = "Finally!\nHit any key...\n";
     marvin_lcd_puts(str2);
     c = getchar(); // wait for a key
 
