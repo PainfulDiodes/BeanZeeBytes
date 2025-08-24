@@ -1,6 +1,6 @@
 start:
     ld hl,start_message
-	call puts
+    call puts
 loop:
     ; first char
     call getchar
@@ -15,7 +15,7 @@ loop:
     ; escape?
     cp '\e'
     jr z,end
-    call ConvertAsciiHexToBin
+    call convert_ascii_hex_to_bin
     out (GPIO_OUT),a
     call putchar
     ; add a line break at the console
@@ -37,13 +37,13 @@ start_message:
 ; Input:  B = ASCII hex (high nibble), A = ASCII hex (low nibble)
 ; Output: A = combined binary byte
 
-ConvertAsciiHexToBin:
+convert_ascii_hex_to_bin:
     push bc             ; Save BC
     ld c, a             ; Save low nibble (A) in C
 
     ; Convert high nibble in B
     ld a, b
-    call ConvertNibble  ; Result in A
+    call convert_nibble  ; Result in A
     rlca                ; Shift left 4 bits
     rlca
     rlca
@@ -52,7 +52,7 @@ ConvertAsciiHexToBin:
 
     ; Convert low nibble in C
     ld a, c
-    call ConvertNibble  ; Result in A
+    call convert_nibble  ; Result in A
 
     ; Combine nibbles
     or b                ; A = (high << 4) | low
@@ -61,28 +61,28 @@ ConvertAsciiHexToBin:
     ret
 
 ; --- Helper: Convert ASCII hex in A to binary nibble (0-15) ---
-ConvertNibble:
+convert_nibble:
     cp '0'
-    jr c, InvalidNibble
+    jr c, invalid_nibble
     cp '9'+1
-    jr c, IsDigit
+    jr c, is_digit
     cp 'A'
-    jr c, InvalidNibble
+    jr c, invalid_nibble
     cp 'F'+1
-    jr c, IsUpper
+    jr c, is_upper
     cp 'a'
-    jr c, InvalidNibble
+    jr c, invalid_nibble
     cp 'f'+1
-    jr nc, InvalidNibble
+    jr nc, invalid_nibble
     sub 'a'-10
     ret
-IsDigit:
+is_digit:
     sub '0'
     ret
-IsUpper:
+is_upper:
     sub 'A'-10
     ret
-InvalidNibble:
+invalid_nibble:
     xor a
     ret
 
