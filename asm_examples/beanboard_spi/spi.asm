@@ -21,27 +21,26 @@ bitbang_spi_loop:
   ld a, d
   rlca                   ; shift left, msb in carry
   ld d, a                ; update d
-  ld a, (mosi_bit)
   jr nc, _mosi_low
   ; set MOSI high
   in a, (GPIO_OUT)
-  or (mosi_bit)
+  or MOSI_BIT
   out (GPIO_OUT), a
   jr _mosi_done
 _mosi_low:
   in a, (GPIO_OUT)
-  and ~(mosi_bit)
+  and ~MOSI_BIT
   out (GPIO_OUT), a
 _mosi_done:
 
   ; set SCK high
   in a, (GPIO_OUT)
-  or (sck_bit)
+  or SCK_BIT
   out (GPIO_OUT), a
 
   ; read MISO
   in a, (GPIO_IN)
-  and (miso_bit)
+  and MISO_BIT
   jr z, _miso_low
   ; set bit in e
   ld a, e
@@ -62,7 +61,7 @@ _skip_shift_e:
 
   ; set SCK low
   in a, (GPIO_OUT)
-  and ~(sck_bit)
+  and ~SCK_BIT
   out (GPIO_OUT), a
 
   djnz bitbang_spi_loop
@@ -72,7 +71,7 @@ _skip_shift_e:
   pop bc
   ret
 
-; Helper bitmask definitions (example values, adjust as needed)
-mosi_bit: db 0x01
-miso_bit: db 0x02
-sck_bit:  db 0x04
+; Helper bitmask definitions as constants
+MOSI_BIT equ 0x01
+MISO_BIT equ 0x02
+SCK_BIT  equ 0x04

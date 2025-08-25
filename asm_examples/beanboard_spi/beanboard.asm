@@ -3,3 +3,4 @@ include "../../lib/extra.map"
 ORG ORGDEF
 include "main.asm"
 include "spi.asm"
+include "spi_gpio.asm"
