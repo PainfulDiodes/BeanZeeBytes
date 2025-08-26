@@ -18,7 +18,7 @@ SPI_CS_BIT   equ 2
 SPI_MISO_BIT equ 0
 
 ; Current state of output port (since we can't read it back)
-OUTPUT_STATE: db 0x00
+SPI_OUTPUT_STATE: db 0x00
 
 ; Initialize SPI interface
 ; Sets initial pin states and saves initial output state
@@ -29,7 +29,7 @@ sonnet_spi_init:
   ; CS high, others low
   ld a, 1 << SPI_CS_BIT
   ; Save state
-  ld (OUTPUT_STATE), a
+  ld (SPI_OUTPUT_STATE), a
   ; Set initial output
   out (GPIO_OUT), a
   
@@ -46,7 +46,7 @@ _update_output:
   ld b, a
   
   ; Get current state
-  ld a, (OUTPUT_STATE)
+  ld a, (SPI_OUTPUT_STATE)
   
   ; Clear bits that we want to modify
   ; Store mask in b temporarily
@@ -64,7 +64,7 @@ _update_output:
   or b
   
   ; Save and output new state
-  ld (OUTPUT_STATE), a
+  ld (SPI_OUTPUT_STATE), a
   out (GPIO_OUT), a
   
   pop bc
@@ -236,3 +236,6 @@ _read_loop:
   pop bc
   pop af
   ret
+
+; Dedicated variable section for ROM compatibility
+SPI_OUTPUT_STATE: db 0x00
