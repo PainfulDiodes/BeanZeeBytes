@@ -1,4 +1,5 @@
-; bitbang_spi
+; Copilot Agent - GPI 4.1 
+; spi
 ; Send and receive one byte over SPI using bit-banging.
 ; Input:
 ;   a - byte to send
@@ -9,14 +10,14 @@
 ;   GPIO_IN  - port for MISO
 ;   mosi_bit, miso_bit, sck_bit - bit masks for respective lines
 
-bitbang_spi:
+spi:
   push bc
   push de
   ld b, 8                ; 8 bits to send
   ld d, a                ; d = byte to send
   ld e, 0                ; e = received byte
 
-bitbang_spi_loop:
+spi_loop:
   ; set MOSI line
   ld a, d
   rlca                   ; shift left, msb in carry
@@ -64,7 +65,7 @@ _skip_shift_e:
   and ~SCK_BIT
   out (GPIO_OUT), a
 
-  djnz bitbang_spi_loop
+  djnz spi_loop
 
   ld a, e                ; return received byte in a
   pop de

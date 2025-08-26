@@ -1,5 +1,4 @@
-; Agent mode with Claude Sonnet
-
+; Copilot Agent - Claude Sonnet 3.5
 ; SPI Implementation for Write-Only Output / Read-Only Input
 ; Hardware configuration:
 ; - Single 8-bit write-only output port
