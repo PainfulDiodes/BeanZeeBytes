@@ -1,6 +1,7 @@
 # copilot instructions
 - generate z80 assembly code
 - Use lowercase and underscores for all function labels in assembly files
+- use uppercase and underscores for all constant and variable labels
 - Prefer comments above code instead of inline comments
 - Always use two spaces for indentation in assembly files
 - Do not generate code for unsupported platforms
