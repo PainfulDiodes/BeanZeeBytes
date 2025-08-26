@@ -70,6 +70,9 @@ _skip_shift_e:
   and ~SCK_BIT
   out (GPIO_OUT), a
 
+  ; decrement bit counter
+  dec b
+
   djnz spi_loop
 
   ; return received byte in a
