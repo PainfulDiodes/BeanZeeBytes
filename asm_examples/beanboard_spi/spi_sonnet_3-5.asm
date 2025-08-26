@@ -18,18 +18,18 @@ SPI_CS_BIT   equ 2
 SPI_MISO_BIT equ 0
 
 ; Current state of output port (since we can't read it back)
-output_state: db 0x00
+OUTPUT_STATE: db 0x00
 
 ; Initialize SPI interface
 ; Sets initial pin states and saves initial output state
-spi_init:
+sonnet_spi_init:
   push af
   
   ; Set initial state: CS high, MOSI and SCK low
   ; CS high, others low
   ld a, 1 << SPI_CS_BIT
   ; Save state
-  ld (output_state), a
+  ld (OUTPUT_STATE), a
   ; Set initial output
   out (GPIO_OUT), a
   
@@ -46,7 +46,7 @@ _update_output:
   ld b, a
   
   ; Get current state
-  ld a, (output_state)
+  ld a, (OUTPUT_STATE)
   
   ; Clear bits that we want to modify
   ; Store mask in b temporarily
@@ -64,7 +64,7 @@ _update_output:
   or b
   
   ; Save and output new state
-  ld (output_state), a
+  ld (OUTPUT_STATE), a
   out (GPIO_OUT), a
   
   pop bc
@@ -107,7 +107,7 @@ _spi_deselect:
 ;   a - byte to send
 ; Output:
 ;   a - received byte
-spi_transfer:
+sonnet_spi_transfer:
   push bc
   push de
   
@@ -181,7 +181,7 @@ _skip_bit:
 ; Input:
 ;   hl - source buffer
 ;   bc - number of bytes
-spi_write:
+sonnet_spi_write:
   push af
   push bc
   push hl
@@ -191,7 +191,7 @@ spi_write:
 _write_loop:
   ; Get byte from buffer
   ld a, (hl)
-  call spi_transfer
+  call sonnet_spi_transfer
   ; Next byte
   inc hl
   dec bc
@@ -210,7 +210,7 @@ _write_loop:
 ; Input:
 ;   hl - destination buffer
 ;   bc - number of bytes
-spi_read:
+sonnet_spi_read:
   push af
   push bc
   push hl
@@ -220,7 +220,7 @@ spi_read:
 _read_loop:
   ; Send zeros while reading
   xor a
-  call spi_transfer
+  call sonnet_spi_transfer
   ; Store received byte
   ld (hl), a
   ; Next position
