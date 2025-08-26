@@ -17,9 +17,6 @@ SPI_CS_BIT   equ 2
 ; MISO on bit 0
 SPI_MISO_BIT equ 0
 
-; Current state of output port (since we can't read it back)
-SPI_OUTPUT_STATE: db 0x00
-
 ; Initialize SPI interface
 ; Sets initial pin states and saves initial output state
 sonnet_spi_init:
@@ -237,5 +234,6 @@ _read_loop:
   pop af
   ret
 
-; Dedicated variable section for ROM compatibility
+; Variables section for ROM compatibility
+; Current state of output port
 SPI_OUTPUT_STATE: db 0x00
