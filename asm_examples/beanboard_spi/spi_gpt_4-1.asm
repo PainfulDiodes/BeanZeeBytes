@@ -13,18 +13,23 @@
 spi:
   push bc
   push de
-  ld b, 8                ; 8 bits to send
-  ld d, a                ; d = byte to send
-  ld e, 0                ; e = received byte
+  ; 8 bits to send
+  ld b, 8
+  ; d = byte to send
+  ld d, a
+  ; e = received byte
+  ld e, 0
 
 spi_loop:
   ; set MOSI line
   ld a, d
-  rlca                   ; shift left, msb in carry
-  ld d, a                ; update d
+  ; shift left, msb in carry
+  rlca
+  ; update d
+  ld d, a
   jr nc, _mosi_low
   ; set MOSI high
-  in a, (GPIO_OUT)
+  in a, (GPIO_OUT)    ; ISSUE : assumption that GPIOs are bi-directional, which they are not
   or MOSI_BIT
   out (GPIO_OUT), a
   jr _mosi_done
@@ -67,7 +72,8 @@ _skip_shift_e:
 
   djnz spi_loop
 
-  ld a, e                ; return received byte in a
+  ; return received byte in a
+  ld a, e
   pop de
   pop bc
   ret
