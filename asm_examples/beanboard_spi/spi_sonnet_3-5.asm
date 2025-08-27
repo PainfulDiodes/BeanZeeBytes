@@ -39,32 +39,35 @@ sonnet_spi_init:
 ;   c - mask of bits to modify (1 = modify, 0 = leave alone)
 _update_output:
   push bc
+  push de           ; Save de to use as temporary storage
   ; Save desired bit values
-  ld b, a
+  ld d, a           ; Save input value in d instead of b
   
   ; Get current state
   ld a, (SPI_OUTPUT_STATE)
   
   ; Clear bits that we want to modify
-  ; Store mask in b temporarily
-  ld b, c
   ; Complement the mask
   ld a, c
   cpl
-  ld c, a
+  ld c, a           ; Save complemented mask
+  ld a, (SPI_OUTPUT_STATE)
   ; Clear bits where mask was 1
   and c
   
-  ; Restore original mask and desired values
-  ld c, b
   ; Set new bits where mask is 1
-  or b
+  ; Get saved input value
+  ld b, a           ; Save intermediate result
+  ld a, d           ; Get back input value
+  and c             ; Mask with the bits we want to modify
+  or b              ; Combine with preserved bits
   
   ; Save and output new state
   ld (SPI_OUTPUT_STATE), a
   out (GPIO_OUT), a
   
-  pop bc
+  pop de            ; Restore de
+  pop bc            ; Restore bc
   ret
 
 ; Begin SPI transaction (CS low)
@@ -142,17 +145,21 @@ _mosi_set:
   call _update_output
   
   ; Sample MISO
+  ; Sample and store MISO state
   in a, (GPIO_IN)
   ; Test MISO bit
   bit SPI_MISO_BIT, a
+  ; Save flags
+  push af
   
-  ; Store received bit
-  ; Get previous bits
+  ; Get previous received bits
   ld a, e
   ; Shift left
   rlca
+  ; Restore flags from MISO test
+  pop af
   ; If MISO was low, skip setting bit
-  jr nc, _skip_bit
+  jr z, _skip_bit
   ; Set bit 0 if MISO was high
   inc a
 _skip_bit:
