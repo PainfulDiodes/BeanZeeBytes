@@ -41,13 +41,13 @@ spi_deselect:
 spi_transfer:
     ld b, 8            ; 8 bits to transfer
     ld c, a            ; Save byte to send
-.bit_loop:
+_spi_transfer_bit_loop:
     ; Put MSB on MOSI
     rlc c              ; Rotate left through carry
     ld a, 0            ; Start with all pins low
-    jr nc, .mosi_low
+    jr nc, _spi_transfer_mosi_low
     or (1 << SPI_MOSI) ; Set MOSI if carry was set
-.mosi_low:
+_spi_transfer_mosi_low:
     out (GPIO_OUT), a  ; Output MOSI
 
     ; Generate clock pulse (rising edge)
@@ -64,7 +64,7 @@ spi_transfer:
     out (GPIO_OUT), a
 
     ; Next bit
-    djnz .bit_loop     ; Decrement counter and loop if not zero
+    djnz _spi_transfer_bit_loop  ; Decrement counter and loop if not zero
     
     ld a, c            ; Return received byte in A
     ret

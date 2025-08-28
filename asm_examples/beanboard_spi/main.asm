@@ -104,12 +104,12 @@ print_hex_byte:
 ; Input: A = value 0-15
 print_hex_digit:
     cp 10
-    jr nc,.letter
+    jr nc,_print_hex_digit_letter
     add '0'
-    jr .print
-.letter:
+    jr _print_hex_digit_print
+_print_hex_digit_letter:
     add 'A'-10
-.print:
+_print_hex_digit_print:
     jp putchar
 
 start_message: 
