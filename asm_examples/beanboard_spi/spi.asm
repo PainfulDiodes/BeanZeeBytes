@@ -5,11 +5,7 @@ SPI_MOSI    equ 1       ; Master Out Slave In (output)
 SPI_MISO    equ 2       ; Master In Slave Out (input)
 SPI_CS      equ 3       ; Chip Select (output)
 
-; GPIO port definitions (from extra.map)
-GPIO_OUT    equ 6       ; GPIO output port
-GPIO_IN     equ 7       ; GPIO input port
-
-section .text
+; Note: GPIO_OUT and GPIO_IN are defined in extra.map
 
 ; Initialize SPI
 ; Sets up GPIO pins for SPI operation
@@ -17,21 +13,21 @@ section .text
 spi_init:
     ; Set initial pin states (CS high, CLK low, MOSI low)
     ld a, 1 << SPI_CS  ; CS bit set, others clear
-    out GPIO_OUT, a
+    out (GPIO_OUT), a
     ret
 
 ; Select SPI device (CS low)
 ; Destroys: AF
 spi_select:
-    ld a, 0            ; CS low
-    out GPIO_OUT, a
+    ld a,0             ; CS low
+    out (GPIO_OUT),a
     ret
 
 ; Deselect SPI device (CS high)
 ; Destroys: AF
 spi_deselect:
-    ld a, 1 << SPI_CS  ; CS high
-    out GPIO_OUT, a
+    ld a,1 << SPI_CS   ; CS high
+    out (GPIO_OUT),a
     ret
 
 ; Write and read a byte over SPI
@@ -44,24 +40,24 @@ spi_transfer:
 _spi_transfer_bit_loop:
     ; Put MSB on MOSI
     rlc c              ; Rotate left through carry
-    ld a, 0            ; Start with all pins low
-    jr nc, _spi_transfer_mosi_low
+    ld a,0             ; Start with all pins low
+    jr nc,_spi_transfer_mosi_low
     or 1 << SPI_MOSI   ; Set MOSI if carry was set
 _spi_transfer_mosi_low:
-    out GPIO_OUT, a    ; Output MOSI
+    out (GPIO_OUT),a   ; Output MOSI
 
     ; Generate clock pulse (rising edge)
     or 1 << SPI_SCK    ; Set clock high
-    out GPIO_OUT, a
+    out (GPIO_OUT),a
     
     ; Read MISO
-    in a, GPIO_IN      ; Read GPIO input
+    in a,(GPIO_IN)     ; Read GPIO input
     rlc a              ; Move MISO bit to carry
     rr c               ; Store received bit
 
     ; Generate clock pulse (falling edge)
-    and ~(1 << SPI_SCK) ; Clear clock - Note: keeping parentheses here as it's a unary operator
-    out GPIO_OUT, a
+    and ~(1 << SPI_SCK) ; Clear clock 
+    out (GPIO_OUT), a
 
     ; Next bit
     djnz _spi_transfer_bit_loop  ; Decrement counter and loop if not zero
@@ -84,5 +80,5 @@ spi_read:
     call spi_transfer
     ret
 
-section .data
-SPI_TEMP: db 0         ; Temporary storage
+; Variables
+SPI_TEMP:  db 0         ; Temporary storage
