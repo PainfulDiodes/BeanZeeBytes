@@ -5,8 +5,6 @@ SPI_MOSI    equ 1       ; Master Out Slave In (output)
 SPI_MISO    equ 2       ; Master In Slave Out (input)
 SPI_CS      equ 3       ; Chip Select (output)
 
-; Note: GPIO_OUT and GPIO_IN are defined in extra.map
-
 ; Initialize SPI
 ; Sets up GPIO pins for SPI operation
 ; Destroys: AF
