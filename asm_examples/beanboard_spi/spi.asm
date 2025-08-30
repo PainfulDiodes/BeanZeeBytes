@@ -77,6 +77,3 @@ spi_read:
     ld a, 0xFF         ; Send all 1's while reading
     call spi_transfer
     ret
-
-; Variables
-SPI_TEMP:  db 0         ; Temporary storage
