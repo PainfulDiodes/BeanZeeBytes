@@ -39,9 +39,9 @@ _spi_transfer_bit_loop:
     ; Put MSB on MOSI
     rlc c              ; Rotate left through carry
     ld a,0             ; Start with all pins low
-    jr nc,_spi_transfer_mosi_low
+    jr nc,_spi_transfer_output_bit
     or 1 << SPI_MOSI   ; Set MOSI if carry was set
-_spi_transfer_mosi_low:
+_spi_transfer_output_bit:
     out (GPIO_OUT),a   ; Output MOSI
 
     ; Generate clock pulse (rising edge)
