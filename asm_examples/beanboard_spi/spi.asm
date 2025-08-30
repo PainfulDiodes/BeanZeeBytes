@@ -1,30 +1,37 @@
 ; SPI controller library for BeanZeeBytes
 ; Pin definitions for SPI on GPIO port
-SPI_SCK     equ 0       ; Serial Clock (output)
-SPI_MOSI    equ 1       ; Master Out Slave In (output)
-SPI_MISO    equ 2       ; Master In Slave Out (input)
-SPI_CS      equ 3       ; Chip Select (output)
+; Serial Clock (output)
+SPI_SCK     equ 0
+; Master Out Slave In (output)
+SPI_MOSI    equ 1
+; Master In Slave Out (input)
+SPI_MISO    equ 2
+; Chip Select (output)
+SPI_CS      equ 3
 
 ; Initialize SPI
 ; Sets up GPIO pins for SPI operation
 ; Destroys: AF
 spi_init:
     ; Set initial pin states (CS high, CLK low, MOSI low)
-    ld a, 1 << SPI_CS  ; CS bit set, others clear
-    out (GPIO_OUT), a
+    ; CS bit set, others clear
+    ld a,1 << SPI_CS
+    out (GPIO_OUT),a
     ret
 
 ; Select SPI device (CS low)
 ; Destroys: AF
 spi_select:
-    ld a,0             ; CS low
+    ; CS low
+    ld a,0
     out (GPIO_OUT),a
     ret
 
 ; Deselect SPI device (CS high)
 ; Destroys: AF
 spi_deselect:
-    ld a,1 << SPI_CS   ; CS high
+    ; CS high
+    ld a,1 << SPI_CS
     out (GPIO_OUT),a
     ret
 
@@ -33,41 +40,57 @@ spi_deselect:
 ; Output: A = byte received
 ; Destroys: BC
 spi_transfer:
-    ld b, 8            ; 8 bits to transfer
-    ld c, a            ; Save byte to send
+    ; Initialize bit counter
+    ld b,8
+    ; Save input byte
+    ld c,a
 _spi_transfer_bit_loop:
     ; Put MSB on MOSI
-    rlc c              ; Rotate left through carry
-    ld a,0             ; Start with all pins low
+    ; Rotate left through carry
+    rlc c
+    ; Start with all pins low
+    ld a,0
     jr nc,_spi_transfer_output_bit
-    or 1 << SPI_MOSI   ; Set MOSI if carry was set
+    ; Set MOSI if carry was set
+    or 1 << SPI_MOSI
 _spi_transfer_output_bit:
-    out (GPIO_OUT),a   ; Output MOSI
+    ; Output MOSI
+    out (GPIO_OUT),a
 
     ; Generate clock pulse (rising edge)
-    or 1 << SPI_SCK    ; Set clock high
+    ; Set clock high
+    or 1 << SPI_SCK
     out (GPIO_OUT),a
     
     ; Read MISO
-    in a,(GPIO_IN)     ; Read GPIO input
-    and 1 << SPI_MISO  ; Isolate MISO bit
+    ; Read GPIO input
+    in a,(GPIO_IN)
+    ; Isolate MISO bit
+    and 1 << SPI_MISO
     jr z,_spi_transfer_miso_low
-    scf                ; Set carry if MISO was high
+    ; Set carry if MISO was high
+    scf
     jr _spi_transfer_store_bit
 _spi_transfer_miso_low:
-    scf                ; Set carry
-    ccf                ; Complement carry to clear it
+    ; Set carry
+    scf
+    ; Complement carry to clear it
+    ccf
 _spi_transfer_store_bit:
-    rr c               ; Store received bit
+    ; Store received bit
+    rr c
 
     ; Generate clock pulse (falling edge)
-    and ~(1 << SPI_SCK) ; Clear clock 
-    out (GPIO_OUT), a
+    ; Clear clock 
+    and ~(1 << SPI_SCK)
+    out (GPIO_OUT),a
 
     ; Next bit
-    djnz _spi_transfer_bit_loop  ; Decrement counter and loop if not zero
+    ; Decrement counter and loop if not zero
+    djnz _spi_transfer_bit_loop
     
-    ld a, c            ; Return received byte in A
+    ; Return received byte in A
+    ld a,c
     ret
 
 ; Write a byte over SPI (no read)
@@ -81,6 +104,7 @@ spi_write:
 ; Output: A = byte received
 ; Destroys: AF, BC
 spi_read:
-    ld a, 0xFF         ; Send all 1's while reading
+    ; Send all 1's while reading
+    ld a,0xFF
     call spi_transfer
     ret
