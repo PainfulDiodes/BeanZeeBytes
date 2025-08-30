@@ -50,7 +50,14 @@ _spi_transfer_output_bit:
     
     ; Read MISO
     in a,(GPIO_IN)     ; Read GPIO input
-    rlc a              ; Move MISO bit to carry
+    and 1 << SPI_MISO  ; Isolate MISO bit
+    jr z,_spi_transfer_miso_low
+    scf                ; Set carry if MISO was high
+    jr _spi_transfer_store_bit
+_spi_transfer_miso_low:
+    scf                ; Set carry
+    ccf                ; Complement carry to clear it
+_spi_transfer_store_bit:
     rr c               ; Store received bit
 
     ; Generate clock pulse (falling edge)
