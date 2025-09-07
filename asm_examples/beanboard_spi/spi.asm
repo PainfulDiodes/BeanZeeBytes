@@ -1,9 +1,12 @@
 ; SPI controller library for BeanZeeBytes
 ; Pin definitions for SPI on GPIO port
+
 ; Serial Clock (output)
 SPI_SCK     equ 0
 ; Master Out Slave In (output)
 SPI_MOSI    equ 1
+; Master In Slave Out (input)
+SPI_MISO    equ 2
 ; Chip Select (output)
 SPI_CS      equ 3
 
