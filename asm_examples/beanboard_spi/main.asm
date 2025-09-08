@@ -19,4 +19,4 @@ done:
     jp WARMSTART
 
 test_string:
-    db 0b10101010,0xf0,0
+    db 0b10101010,0

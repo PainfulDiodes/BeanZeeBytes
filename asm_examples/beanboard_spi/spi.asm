@@ -17,6 +17,7 @@ spi_init:
     ; Set initial pin states (CS high, CLK low, MOSI low)
     ld a,1 << SPI_CS
     out (GPIO_OUT),a
+    call _spi_delay
     ret
 
 ; Select SPI device (CS low)
@@ -25,6 +26,7 @@ spi_select:
     ; CS low
     ld a,0
     out (GPIO_OUT),a
+    call _spi_delay
     ret
 
 ; Deselect SPI device (CS high)
@@ -33,6 +35,7 @@ spi_deselect:
     ; CS high
     ld a,1 << SPI_CS
     out (GPIO_OUT),a
+    call _spi_delay
     ret
 
 
@@ -51,8 +54,20 @@ spi_write_mosi_low:
     out (GPIO_OUT),a
     or 1 << SPI_SCK
     out (GPIO_OUT),a
+    call _spi_delay
     and ~(1 << SPI_SCK)
     out (GPIO_OUT),a
+    call _spi_delay
     ld a,d
     djnz spi_write_bit
+    ret
+; Simple delay routine for SPI clock
+; Uses E register, destroys E
+SPI_DELAY_COUNT  EQU 200
+_spi_delay:
+    ld e,SPI_DELAY_COUNT
+_spi_delay_loop:
+    nop
+    dec e
+    jr nz,_spi_delay_loop
     ret
