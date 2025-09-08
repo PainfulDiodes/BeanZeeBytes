@@ -2,21 +2,23 @@
 start:
     ; Initialize SPI interface
     call spi_init
-    ; HL points to test string
-    ld hl,test_string
+    ld hl,message
+    call puts
 send_loop:
-    ld a,(hl)
-    or a
-    jr z,done
+    call getchar
+    cp '\e'
+    jp z,done
+    call putchar
     ld b,a
     call spi_select
     ld a,b
     call spi_write
     call spi_deselect
-    inc hl
     jr send_loop
 done:
+    ld a,'\n'
+    call putchar
     jp WARMSTART
 
-test_string:
-    db 0b10101010,0
+message:
+    db "Echo to console and SPI\n",0
