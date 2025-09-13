@@ -1,14 +1,21 @@
-; SPI controller library for BeanZeeBytes
+; RA8875 SPI
 ; Pin definitions for SPI on GPIO port
 
-; Serial Clock (output)
-SPI_SCK     equ 0
-; Master Out Slave In (output)
-SPI_MOSI    equ 1
-; Master In Slave Out (input)
-SPI_MISO    equ 2
-; Chip Select (output)
-SPI_CS      equ 3
+; GPO
+; Serial Clock
+SPI_SCK        equ 0
+; Master Out Slave In
+SPI_MOSI       equ 1
+; RA8875 RESET - active LOW
+RA8875_RESET   equ 2
+; Chip Select - active LOW
+SPI_CS         equ 3
+
+; GPI
+; WAIT
+RA8875_WAIT    equ 0
+; Master In Slave Out
+SPI_MISO       equ 1
 
 ; Initialize SPI
 ; Sets up GPIO pins for SPI operation
