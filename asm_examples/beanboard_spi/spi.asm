@@ -7,7 +7,7 @@ SPI_SCK     equ 0
 SPI_MOSI    equ 1
 ; Master In Slave Out (input)
 SPI_MISO    equ 2
-; Chip Select (output)
+; Chip Select (output) - active LOW
 SPI_CS      equ 3
 
 ; Initialize SPI
