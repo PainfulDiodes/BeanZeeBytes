@@ -32,10 +32,12 @@ start:
     call spi_write
     ; receive value (sending 0x00)
     call spi_read
+    push af
     ; end SPI
     ; set CS high
     call spi_deselect
 
+    pop af
     ; print returned value to console
     call putchar_hex
 
