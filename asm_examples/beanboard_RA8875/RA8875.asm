@@ -8,25 +8,25 @@ RA8875_CMDREAD equ 0xC0
 
 ; GPO
 ; Serial Clock
-SPI_SCK        equ 0
+RA8875_SCK        equ 0
 ; Master Out Slave In
-SPI_MOSI       equ 1
+RA8875_MOSI       equ 1
 ; RA8875 RESET - active LOW
 RA8875_RESET   equ 2
 ; Chip Select - active LOW
-SPI_CS         equ 3
+RA8875_CS         equ 3
 
 ; GPI
 ; WAIT
 RA8875_WAIT    equ 0
 ; Master In Slave Out
-SPI_MISO       equ 1
+RA8875_MISO      equ 1
 
-GPO_RESET_STATE equ 1 << SPI_CS
-GPO_INIT_STATE equ 1 << SPI_CS | 1 << RA8875_RESET
+GPO_RESET_STATE equ 1 << RA8875_CS
+GPO_INIT_STATE equ 1 << RA8875_CS | 1 << RA8875_RESET
 GPO_SELECT_STATE equ 1 << RA8875_RESET
 GPO_LOW_STATE equ 1 << RA8875_RESET
-GPO_HIGH_STATE equ 1 << SPI_MOSI | 1 << RA8875_RESET
+GPO_HIGH_STATE equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
 ; Reset state
 ; Destroys: AF
@@ -78,10 +78,10 @@ spi_write_bit:
 spi_write_mosi:
     out (GPIO_OUT),a
     ; clock high
-    or 1 << SPI_SCK
+    or 1 << RA8875_SCK
     out (GPIO_OUT),a
     ; clock low
-    and ~(1 << SPI_SCK)
+    and ~(1 << RA8875_SCK)
     out (GPIO_OUT),a
     ; restore A
     ld a,d
@@ -105,11 +105,11 @@ spi_read_bit:
     ld a,GPO_LOW_STATE
     out (GPIO_OUT),a
     ; Set clock high
-    or 1 << SPI_SCK
+    or 1 << RA8875_SCK
     out (GPIO_OUT),a
     ; Read MISO bit
     in a,(GPIO_IN)
-    bit SPI_MISO,a
+    bit RA8875_MISO,a
     jr z,spi_read_miso_low
     ; MISO high - set LSB
     ld a,d
