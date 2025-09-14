@@ -1,4 +1,3 @@
-; RA8875 SPI
 ; Pin definitions for SPI on GPIO port
 
 ; GPO
@@ -11,17 +10,17 @@ RA8875_RESET   equ 2
 ; Chip Select - active LOW
 SPI_CS         equ 3
 
-GPO_RESET_STATE equ 1 << SPI_CS
-GPO_INIT_STATE equ 1 << SPI_CS | 1 << RA8875_RESET
-GPO_SELECT_STATE equ 1 << RA8875_RESET
-GPO_LOW_STATE equ 1 << RA8875_RESET
-GPO_HIGH_STATE equ 1 << SPI_MOSI | 1 << RA8875_RESET
-
 ; GPI
 ; WAIT
 RA8875_WAIT    equ 0
 ; Master In Slave Out
 SPI_MISO       equ 1
+
+GPO_RESET_STATE equ 1 << SPI_CS
+GPO_INIT_STATE equ 1 << SPI_CS | 1 << RA8875_RESET
+GPO_SELECT_STATE equ 1 << RA8875_RESET
+GPO_LOW_STATE equ 1 << RA8875_RESET
+GPO_HIGH_STATE equ 1 << SPI_MOSI | 1 << RA8875_RESET
 
 ; Reset state
 ; Destroys: AF
