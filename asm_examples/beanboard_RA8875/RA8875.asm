@@ -30,7 +30,7 @@ GPO_HIGH_STATE equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
 ; Reset state
 ; Destroys: AF
-spi_reset:
+ra8875_reset:
     ; Set initial pin states (RESET high, CS high, CLK low, MOSI low)
     ld a,GPO_RESET_STATE
     out (GPIO_OUT),a
@@ -39,7 +39,7 @@ spi_reset:
 ; Initial state
 ; Prepare GPIO pins for SPI operation
 ; Destroys: AF
-spi_init:
+ra8875_init:
     ; Set initial pin states (RESET high, CS high, CLK low, MOSI low)
     ld a,GPO_INIT_STATE
     out (GPIO_OUT),a
@@ -47,7 +47,7 @@ spi_init:
 
 ; Select SPI device (CS low)
 ; Destroys: AF
-spi_select:
+ra8875_select:
     ; CS low
     ld a,GPO_SELECT_STATE
     out (GPIO_OUT),a
@@ -55,7 +55,7 @@ spi_select:
 
 ; Deselect SPI device (CS high)
 ; Destroys: AF
-spi_deselect:
+ra8875_deselect:
     ; CS high
     ld a,GPO_INIT_STATE
     out (GPIO_OUT),a
@@ -64,18 +64,18 @@ spi_deselect:
 ; Write a byte over SPI (no readback)
 ; Input: A = byte to send
 ; Destroys: AF, B
-spi_write:
+ra8875_write:
     ld b,8
-spi_write_bit:
+ra8875_write_bit:
     ; MSB into carry flag
     rlca
     ; stash A
     ld d,a
     ; default to MOSI low
     ld a,GPO_LOW_STATE
-    jr nc,spi_write_mosi
+    jr nc,ra8875_write_mosi
     ld a,GPO_HIGH_STATE
-spi_write_mosi:
+ra8875_write_mosi:
     out (GPIO_OUT),a
     ; clock high
     or 1 << RA8875_SCK
@@ -85,18 +85,18 @@ spi_write_mosi:
     out (GPIO_OUT),a
     ; restore A
     ld a,d
-    djnz spi_write_bit
+    djnz ra8875_write_bit
     ret
 
 ; Read a byte over SPI (receive from MISO)
 ; Sends a dummy byte (0x00) during the read
 ; Output: A = byte received
 ; Destroys: AF, B
-spi_read:
+ra8875_read:
     ; Initialize bit counter and received byte
     ld b,8
     ld a,0
-spi_read_bit:
+ra8875_read_bit:
     ; Shift received bits left
     sla a
     ; stash A
@@ -110,21 +110,20 @@ spi_read_bit:
     ; Read MISO bit
     in a,(GPIO_IN)
     bit RA8875_MISO,a
-    jr z,spi_read_miso_low
+    jr z,ra8875_read_miso_low
     ; MISO high - set LSB
     ld a,d
     or 1
-    jr spi_read_clock_low
-spi_read_miso_low:
+    jr ra8875_read_clock_low
+ra8875_read_miso_low:
     ; MISO low - keep LSB clear
     ld a,d
-spi_read_clock_low:
+ra8875_read_clock_low:
     ; Set clock low
     ld d,a
     ld a,GPO_LOW_STATE
     out (GPIO_OUT),a
     ; Restore received byte
     ld a,d
-    djnz spi_read_bit
+    djnz ra8875_read_bit
     ret
-

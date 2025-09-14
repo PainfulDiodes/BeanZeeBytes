@@ -1,36 +1,36 @@
 start:
-    call spi_reset
+    call ra8875_reset
     ld hl,message
     call puts
     call getchar
-    call spi_init
+    call ra8875_init
 
 
     ; set CS low
-    call spi_select
+    call ra8875_select
     ; start SPI
     ; send RA8875_CMDWRITE (0x80)
     ld a,RA8875_CMDWRITE
-    call spi_write
+    call ra8875_write
     ; send 0x00 (register number)
     ld a,0x00
-    call spi_write
+    call ra8875_write
     ; end SPI
     ; set CS high
-    call spi_deselect
+    call ra8875_deselect
 
     ; set CS low
-    call spi_select
+    call ra8875_select
     ; start SPI
     ; send RA8875_DATAREAD (0x40)
     ld a,RA8875_DATAREAD
-    call spi_write
+    call ra8875_write
     ; receive value (sending 0x00)
-    call spi_read
+    call ra8875_read
     push af
     ; end SPI
     ; set CS high
-    call spi_deselect
+    call ra8875_deselect
 
     pop af
     ; print returned value to console
