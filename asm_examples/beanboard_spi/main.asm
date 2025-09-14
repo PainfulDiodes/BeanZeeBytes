@@ -33,4 +33,4 @@ done:
     jp WARMSTART
 
 message:
-    db "RA8875 test\nHit any key to continue...\n",0
+    db "SPI test\nHit any key to continue...\n",0
