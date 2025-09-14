@@ -1,3 +1,8 @@
+RA8875_DATAWRITE equ 0x00
+RA8875_DATAREAD equ 0x40
+RA8875_CMDWRITE equ 0x80
+RA8875_CMDREAD equ 0xC0
+
 ; RA8875 SPI
 ; Pin definitions for SPI on GPIO port
 
