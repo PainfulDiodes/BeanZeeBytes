@@ -1,24 +1,36 @@
+RA8875_DATAWRITE equ 0x00
+RA8875_DATAREAD equ 0x40
+RA8875_CMDWRITE equ 0x80
+RA8875_CMDREAD equ 0xC0
 
 start:
-    ; Initialize SPI interface
-    call spi_init
+    call spi_reset
     ld hl,message
     call puts
+    call getchar
+    call spi_init
+
 send_loop:
     call getchar
     cp '\e'
     jp z,done
     call putchar
-    ld b,a
+    push af
+    ld a, ' '
+    call putchar
     call spi_select
-    ld a,b
+    pop af
     call spi_write
     call spi_deselect
-    jr send_loop
-done:
+    call spi_select
+    call spi_read
+    call putchar_hex
+    call spi_deselect
     ld a,'\n'
     call putchar
+    jr send_loop
+done:
     jp WARMSTART
 
 message:
-    db "Echo to console and SPI\n",0
+    db "RA8875 test\nHit any key to continue...\n",0
