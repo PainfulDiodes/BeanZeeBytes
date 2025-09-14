@@ -1,10 +1,11 @@
+; RA8875 (SPI)
+
 RA8875_DATAWRITE equ 0x00
 RA8875_DATAREAD equ 0x40
 RA8875_CMDWRITE equ 0x80
 RA8875_CMDREAD equ 0xC0
 
-; RA8875 SPI
-; Pin definitions for SPI on GPIO port
+; Pin definitions for RA8875 SPI on GPIO port
 
 ; GPO
 ; Serial Clock
@@ -12,21 +13,21 @@ RA8875_SCK        equ 0
 ; Master Out Slave In
 RA8875_MOSI       equ 1
 ; RA8875 RESET - active LOW
-RA8875_RESET   equ 2
+RA8875_RESET      equ 2
 ; Chip Select - active LOW
 RA8875_CS         equ 3
 
 ; GPI
 ; WAIT
-RA8875_WAIT    equ 0
+RA8875_WAIT       equ 0
 ; Master In Slave Out
-RA8875_MISO      equ 1
+RA8875_MISO       equ 1
 
-GPO_RESET_STATE equ 1 << RA8875_CS
-GPO_INIT_STATE equ 1 << RA8875_CS | 1 << RA8875_RESET
+GPO_RESET_STATE  equ 1 << RA8875_CS
+GPO_INIT_STATE   equ 1 << RA8875_CS | 1 << RA8875_RESET
 GPO_SELECT_STATE equ 1 << RA8875_RESET
-GPO_LOW_STATE equ 1 << RA8875_RESET
-GPO_HIGH_STATE equ 1 << RA8875_MOSI | 1 << RA8875_RESET
+GPO_LOW_STATE    equ 1 << RA8875_RESET
+GPO_HIGH_STATE   equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
 ; Reset state
 ; Destroys: AF
@@ -37,39 +38,36 @@ ra8875_reset:
     ret
 
 ; Initial state
-; Prepare GPIO pins for SPI operation
 ; Destroys: AF
 ra8875_init:
-    ; Set initial pin states (RESET high, CS high, CLK low, MOSI low)
     ld a,GPO_INIT_STATE
     out (GPIO_OUT),a
     ret
 
-; Select SPI device (CS low)
+; Select RA8875 SPI device (CS low)
 ; Destroys: AF
 ra8875_select:
-    ; CS low
     ld a,GPO_SELECT_STATE
     out (GPIO_OUT),a
     ret
 
-; Deselect SPI device (CS high)
+; Deselect RA8875 SPI device (CS high)
 ; Destroys: AF
 ra8875_deselect:
-    ; CS high
     ld a,GPO_INIT_STATE
     out (GPIO_OUT),a
     ret
 
-; Write a byte over SPI (no readback)
+; Write a byte over SPI without readback
 ; Input: A = byte to send
 ; Destroys: AF, B
 ra8875_write:
+    ; bit counter
     ld b,8
 ra8875_write_bit:
-    ; MSB into carry flag
+    ; rotate msb into carry flag
     rlca
-    ; stash A
+    ; stash a
     ld d,a
     ; default to MOSI low
     ld a,GPO_LOW_STATE
@@ -93,13 +91,14 @@ ra8875_write_mosi:
 ; Output: A = byte received
 ; Destroys: AF, B
 ra8875_read:
-    ; Initialize bit counter and received byte
+    ; bit counter
     ld b,8
+    ; Initialize received byte
     ld a,0
 ra8875_read_bit:
     ; Shift received bits left
     sla a
-    ; stash A
+    ; stash a
     ld d,a
     ; Set initial low state
     ld a,GPO_LOW_STATE
