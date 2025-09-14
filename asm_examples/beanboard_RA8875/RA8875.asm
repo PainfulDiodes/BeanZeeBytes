@@ -31,7 +31,7 @@ GPO_HIGH_STATE   equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
 ; Reset state
 ; Destroys: AF
-ra8875_reset:
+ra8875_set_reset_state:
     ; Set initial pin states (RESET high, CS high, CLK low, MOSI low)
     ld a,GPO_RESET_STATE
     out (GPIO_OUT),a
@@ -39,21 +39,21 @@ ra8875_reset:
 
 ; Initial state
 ; Destroys: AF
-ra8875_init:
+ra8875_set_init_state:
     ld a,GPO_INIT_STATE
     out (GPIO_OUT),a
     ret
 
 ; Select RA8875 SPI device (CS low)
 ; Destroys: AF
-ra8875_select:
+ra8875_set_selected_state:
     ld a,GPO_SELECT_STATE
     out (GPIO_OUT),a
     ret
 
 ; Deselect RA8875 SPI device (CS high)
 ; Destroys: AF
-ra8875_deselect:
+ra8875_set_deselected_state:
     ld a,GPO_INIT_STATE
     out (GPIO_OUT),a
     ret
@@ -64,16 +64,16 @@ ra8875_deselect:
 ra8875_write:
     ; bit counter
     ld b,8
-ra8875_write_bit:
+_ra8875_write_bit:
     ; rotate msb into carry flag
     rlca
     ; stash a
     ld d,a
     ; default to MOSI low
     ld a,GPO_LOW_STATE
-    jr nc,ra8875_write_mosi
+    jr nc,_ra8875_write_mosi
     ld a,GPO_HIGH_STATE
-ra8875_write_mosi:
+_ra8875_write_mosi:
     out (GPIO_OUT),a
     ; clock high
     or 1 << RA8875_SCK
@@ -83,7 +83,7 @@ ra8875_write_mosi:
     out (GPIO_OUT),a
     ; restore A
     ld a,d
-    djnz ra8875_write_bit
+    djnz _ra8875_write_bit
     ret
 
 ; Read a byte over SPI (receive from MISO)
@@ -95,7 +95,7 @@ ra8875_read:
     ld b,8
     ; Initialize received byte
     ld a,0
-ra8875_read_bit:
+_ra8875_read_bit:
     ; Shift received bits left
     sla a
     ; stash a
@@ -109,20 +109,20 @@ ra8875_read_bit:
     ; Read MISO bit
     in a,(GPIO_IN)
     bit RA8875_MISO,a
-    jr z,ra8875_read_miso_low
+    jr z,_ra8875_read_miso_low
     ; MISO high - set LSB
     ld a,d
     or 1
-    jr ra8875_read_clock_low
-ra8875_read_miso_low:
+    jr _ra8875_read_clock_low
+_ra8875_read_miso_low:
     ; MISO low - keep LSB clear
     ld a,d
-ra8875_read_clock_low:
+_ra8875_read_clock_low:
     ; Set clock low
     ld d,a
     ld a,GPO_LOW_STATE
     out (GPIO_OUT),a
     ; Restore received byte
     ld a,d
-    djnz ra8875_read_bit
+    djnz _ra8875_read_bit
     ret

@@ -1,13 +1,13 @@
 start:
-    call ra8875_reset
+    call ra8875_set_reset_state
     ld hl,message
     call puts
     call getchar
-    call ra8875_init
+    call ra8875_set_init_state
 
 
     ; set CS low
-    call ra8875_select
+    call ra8875_set_selected_state
     ; start SPI
     ; send RA8875_CMDWRITE (0x80)
     ld a,RA8875_CMDWRITE
@@ -17,10 +17,10 @@ start:
     call ra8875_write
     ; end SPI
     ; set CS high
-    call ra8875_deselect
+    call ra8875_set_deselected_state
 
     ; set CS low
-    call ra8875_select
+    call ra8875_set_selected_state
     ; start SPI
     ; send RA8875_DATAREAD (0x40)
     ld a,RA8875_DATAREAD
@@ -30,7 +30,7 @@ start:
     push af
     ; end SPI
     ; set CS high
-    call ra8875_deselect
+    call ra8875_set_deselected_state
 
     pop af
     ; print returned value to console
