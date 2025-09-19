@@ -30,9 +30,20 @@ start:
     call ra8875_set_deselected_state
 
     pop af
-    ; print returned value to console
-    call putchar_hex
 
+    cp 0x75
+    jp nz,error_0
+
+    ; do some more stuff
+
+    ld hl,success_message
+    call puts
+    jp done
+
+error_0:
+    ld hl,error_message_0
+    call puts
+    call putchar_hex
     ld a,'\n'
     call putchar
 
@@ -41,3 +52,8 @@ done:
 
 message:
     db "RA8875 test\nHit any key to continue...\n",0
+error_message_0:
+    db "RA8875 init fail ",0
+
+success_message:
+    db "RA8875 success \n",0
