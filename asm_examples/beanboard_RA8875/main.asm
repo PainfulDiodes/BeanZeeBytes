@@ -5,10 +5,8 @@ start:
     call getchar
     call ra8875_set_init_state
 
-
     ; set CS low
     call ra8875_set_selected_state
-    ; start SPI
     ; send RA8875_CMDWRITE (0x80)
     ld a,RA8875_CMDWRITE
     call ra8875_write
@@ -21,14 +19,13 @@ start:
 
     ; set CS low
     call ra8875_set_selected_state
-    ; start SPI
     ; send RA8875_DATAREAD (0x40)
     ld a,RA8875_DATAREAD
     call ra8875_write
     ; receive value (sending 0x00)
     call ra8875_read
+    ; preserve returned value
     push af
-    ; end SPI
     ; set CS high
     call ra8875_set_deselected_state
 
