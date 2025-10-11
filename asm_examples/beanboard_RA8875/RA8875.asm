@@ -140,6 +140,18 @@ ra8875_write_command:
     pop af
     ret
 
-; read_data:
-
-; read_reg:  
+; read data from RA8875
+; returns data in A
+ra8875_read_data:
+    push bc
+    ld a,GPO_ACTIVE_STATE
+    out (GPIO_OUT),a
+    ld a,RA8875_DATAREAD
+    call ra8875_write
+    call ra8875_read
+    ld b,a ; stash data
+    ld a,GPO_INACTIVE_STATE
+    out (GPIO_OUT),a
+    ld a,b ; restore data
+    pop bc
+    ret
