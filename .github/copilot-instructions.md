@@ -11,7 +11,7 @@
 - Always put comments above the related code
 - Use lowercase and underscores for all function labels in assembly files
 - Use uppercase and underscores for all constant and variable labels
-- Always use two spaces for indentation in assembly files
+- Always use four spaces for indentation in assembly files
 - For private helper functions which won't be called from outside of the current file, use a leading underscore in the label name
 - Maintain consistency in naming conventions and code organization
 
