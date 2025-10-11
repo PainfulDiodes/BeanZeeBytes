@@ -1,6 +1,6 @@
 start:
     ; reset needs to be held for a short time, hence getchar before moving on
-    ; in reality we may want a delay
+    ; in reality we may want a delay - or the RESET is tied to the Z80 RESET
     call ra8875_start_reset
     ld hl,start_message
     call puts
