@@ -47,13 +47,6 @@ ra8875_setstate_inactive:
     out (GPIO_OUT),a
     ret
 
-; Select RA8875 SPI device (CS low)
-; Destroys: AF
-ra8875_setstate_active:
-    ld a,GPO_ACTIVE_STATE
-    out (GPIO_OUT),a
-    ret
-
 ; Write a byte over SPI without readback
 ; Input: A = byte to send
 ; Destroys: AF, B
