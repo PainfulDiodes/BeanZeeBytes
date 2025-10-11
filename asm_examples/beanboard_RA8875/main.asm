@@ -5,20 +5,20 @@ start:
     call getchar
     call ra8875_setstate_init
 
-    call ra8875_set_selected_state
+    call ra8875_setstate_selected
     ld a,RA8875_CMDWRITE
     call ra8875_write
     ; send 0x00 (register number)
     ld a,0x00
     call ra8875_write
-    call ra8875_set_deselected_state
+    call ra8875_setstate_deselected
 
-    call ra8875_set_selected_state
+    call ra8875_setstate_selected
     ld a,RA8875_DATAREAD
     call ra8875_write
     call ra8875_read
     push af
-    call ra8875_set_deselected_state
+    call ra8875_setstate_deselected
     pop af
 
     cp 0x75

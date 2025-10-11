@@ -46,14 +46,14 @@ ra8875_setstate_init:
 
 ; Select RA8875 SPI device (CS low)
 ; Destroys: AF
-ra8875_set_selected_state:
+ra8875_setstate_selected:
     ld a,GPO_SELECT_STATE
     out (GPIO_OUT),a
     ret
 
 ; Deselect RA8875 SPI device (CS high)
 ; Destroys: AF
-ra8875_set_deselected_state:
+ra8875_setstate_deselected:
     ld a,GPO_INIT_STATE
     out (GPIO_OUT),a
     ret
