@@ -23,9 +23,9 @@ RA8875_MISO       equ 1
 ; RESET active/low, CS inactive/high
 GPO_RESET_STATE  equ 1 << RA8875_CS
 ; RESET inactive/high, CS inactive/high
-GPO_INIT_STATE   equ 1 << RA8875_CS | 1 << RA8875_RESET
+GPO_INACTIVE_STATE   equ 1 << RA8875_CS | 1 << RA8875_RESET
 ; RESET inactive/high, CS active/low
-GPO_SELECT_STATE equ 1 << RA8875_RESET
+GPO_ACTIVE_STATE equ 1 << RA8875_RESET
 ; RESET inactive/high, CS active/low, MOSI low
 GPO_LOW_STATE    equ 1 << RA8875_RESET
 ; RESET inactive/high, CS active/low, MOSI high
@@ -39,24 +39,18 @@ ra8875_setstate_reset:
     out (GPIO_OUT),a
     ret
 
-; Initial state
+; Inactive state
+; Deselect RA8875 SPI device (CS high)
 ; Destroys: AF
-ra8875_setstate_init:
-    ld a,GPO_INIT_STATE
+ra8875_setstate_inactive:
+    ld a,GPO_INACTIVE_STATE
     out (GPIO_OUT),a
     ret
 
 ; Select RA8875 SPI device (CS low)
 ; Destroys: AF
-ra8875_setstate_selected:
-    ld a,GPO_SELECT_STATE
-    out (GPIO_OUT),a
-    ret
-
-; Deselect RA8875 SPI device (CS high)
-; Destroys: AF
-ra8875_setstate_deselected:
-    ld a,GPO_INIT_STATE
+ra8875_setstate_active:
+    ld a,GPO_ACTIVE_STATE
     out (GPIO_OUT),a
     ret
 
