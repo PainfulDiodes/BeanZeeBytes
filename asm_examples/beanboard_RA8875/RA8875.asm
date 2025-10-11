@@ -31,7 +31,7 @@ GPO_HIGH_STATE   equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
 ; Reset state
 ; Destroys: AF
-ra8875_set_reset_state:
+ra8875_setstate_reset:
     ; Set initial pin states (RESET high, CS high, CLK low, MOSI low)
     ld a,GPO_RESET_STATE
     out (GPIO_OUT),a

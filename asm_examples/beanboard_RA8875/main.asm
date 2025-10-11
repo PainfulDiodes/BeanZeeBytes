@@ -1,5 +1,5 @@
 start:
-    call ra8875_set_reset_state
+    call ra8875_setstate_reset
     ld hl,message
     call puts
     call getchar
