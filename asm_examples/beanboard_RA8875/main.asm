@@ -7,13 +7,8 @@ start:
     call getchar
     call ra8875_setstate_inactive
 
-    call ra8875_setstate_active
-    ld a,RA8875_CMDWRITE
-    call ra8875_write
-    ; send 0x00 (register number)
-    ld a,0x00
-    call ra8875_write
-    call ra8875_setstate_inactive
+    ld a,0x00 ; register number
+    call ra8875_write_command
 
     call ra8875_setstate_active
     ld a,RA8875_DATAREAD

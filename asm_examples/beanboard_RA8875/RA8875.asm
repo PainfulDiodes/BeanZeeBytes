@@ -122,3 +122,24 @@ _ra8875_read_bit_done:
     ld a,d
     djnz _ra8875_read_loop
     ret
+
+; Write a command to RA8875
+ra8875_write_command:
+    push af
+    push bc
+    ld c,a ; stash the data
+    ld a,GPO_ACTIVE_STATE
+    out (GPIO_OUT),a
+    ld a,RA8875_CMDWRITE
+    call ra8875_write
+    ld a,c ; recover the data to send
+    call ra8875_write
+    ld a,GPO_INACTIVE_STATE
+    out (GPIO_OUT),a
+    pop bc
+    pop af
+    ret
+
+; read_data:
+
+; read_reg:  
