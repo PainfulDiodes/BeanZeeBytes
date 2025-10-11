@@ -124,6 +124,7 @@ _ra8875_read_bit_done:
     ret
 
 ; Write a command to RA8875
+; A = command parameter
 ra8875_write_command:
     push af
     push bc
@@ -154,4 +155,11 @@ ra8875_read_data:
     out (GPIO_OUT),a
     ld a,b ; restore data
     pop bc
+    ret
+
+; read from RA8875 register
+; A = register number to read
+ra8875_read_reg:
+    call ra8875_write_command
+    call ra8875_read_data
     ret

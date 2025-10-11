@@ -8,10 +8,8 @@ start:
     call ra8875_setstate_inactive
 
     ld a,0x00 ; register number
-    call ra8875_write_command
+    call ra8875_read_reg
 
-    call ra8875_read_data
-    
     call putchar_hex
 
     cp 0x75 ; TODO: replace magic number
