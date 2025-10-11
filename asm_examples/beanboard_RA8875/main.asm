@@ -3,7 +3,7 @@ start:
     ld hl,message
     call puts
     call getchar
-    call ra8875_set_init_state
+    call ra8875_setstate_init
 
     call ra8875_set_selected_state
     ld a,RA8875_CMDWRITE

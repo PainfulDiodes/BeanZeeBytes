@@ -39,7 +39,7 @@ ra8875_setstate_reset:
 
 ; Initial state
 ; Destroys: AF
-ra8875_set_init_state:
+ra8875_setstate_init:
     ld a,GPO_INIT_STATE
     out (GPIO_OUT),a
     ret
