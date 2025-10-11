@@ -1,11 +1,11 @@
 start:
     ; reset needs to be held for a short time, hence getchar before moving on
     ; in reality we may want a delay
-    call ra8875_setstate_reset
+    call ra8875_start_reset
     ld hl,start_message
     call puts
     call getchar
-    call ra8875_setstate_inactive
+    call ra8875_end_reset
 
     ld a,0x00 ; register number
     call ra8875_read_reg

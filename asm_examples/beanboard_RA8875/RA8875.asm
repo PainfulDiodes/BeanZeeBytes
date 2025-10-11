@@ -31,20 +31,20 @@ GPO_LOW_STATE    equ 1 << RA8875_RESET
 ; RESET inactive/high, CS active/low, MOSI high
 GPO_HIGH_STATE   equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
-; Reset state
-; Destroys: AF
-ra8875_setstate_reset:
-    ; Set initial pin states (RESET high, CS high, CLK low, MOSI low)
+; Reset active
+ra8875_start_reset:
+    push af
     ld a,GPO_RESET_STATE
     out (GPIO_OUT),a
+    pop af
     ret
 
-; Inactive state
-; Deselect RA8875 SPI device (CS high)
-; Destroys: AF
-ra8875_setstate_inactive:
+; Reset inactive
+ra8875_end_reset:
+    push af
     ld a,GPO_INACTIVE_STATE
     out (GPIO_OUT),a
+    pop af
     ret
 
 ; Write a byte over SPI without readback
