@@ -18,15 +18,17 @@ RA8875_RESET      equ 2
 RA8875_CS         equ 3
 
 ; GPI
-; WAIT
-RA8875_WAIT       equ 0
-; Master In Slave Out
 RA8875_MISO       equ 1
 
+; RESET active/low, CS inactive/high
 GPO_RESET_STATE  equ 1 << RA8875_CS
+; RESET inactive/high, CS inactive/high
 GPO_INIT_STATE   equ 1 << RA8875_CS | 1 << RA8875_RESET
+; RESET inactive/high, CS active/low
 GPO_SELECT_STATE equ 1 << RA8875_RESET
+; RESET inactive/high, CS active/low, MOSI low
 GPO_LOW_STATE    equ 1 << RA8875_RESET
+; RESET inactive/high, CS active/low, MOSI high
 GPO_HIGH_STATE   equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
 ; Reset state

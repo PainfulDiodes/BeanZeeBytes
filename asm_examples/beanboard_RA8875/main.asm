@@ -1,4 +1,6 @@
 start:
+    ; reset needs to be held for a short time, hence getchar before moving on
+    ; in reality we may want a delay
     call ra8875_setstate_reset
     ld hl,message
     call puts
