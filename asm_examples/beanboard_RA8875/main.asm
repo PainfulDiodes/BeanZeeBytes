@@ -7,17 +7,20 @@ start:
     call getchar
     call ra8875_end_reset
 
+    ; check status
+    ld a,0x00 ; register number
+    call ra8875_read_reg
+    cp 0x75 ; TODO: replace magic number - 0x75 = OK
+    ; error: expected 0x75
+    jp nz,error_0
+    ld hl,init_success_message
+    call puts
+
     call dump_registers
 
-    ; cp 0x75 ; TODO: replace magic number
-    ; jp nz,error_0
-
-    ; ld hl,init_success_message
-    ; call puts
-
-    ;call ra8875_pll_init
-
-    ; call ra8875_display_on
+    call ra8875_display_on
+    
+    call dump_registers
 
     jp done
 
@@ -31,7 +34,7 @@ done:
 start_message:
     db "RA8875 test\nHit any key to continue...\n",0
 init_error_message:
-    db "\nRA8875 init fail - expected 0x75\n",0
+    db "\nRA8875 init fail - expected status 0x75\n",0
 
 init_success_message:
     db "\nRA8875 init success\n",0
