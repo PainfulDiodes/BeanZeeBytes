@@ -10,16 +10,20 @@ start:
     ; check status
     ld a,0x00 ; register number
     call ra8875_read_reg
-    cp 0x75 ; TODO: replace magic number - 0x75 = OK
-    ; error: expected 0x75
+    cp RA8875_REG_0_VAL
+    ; error: not expected value
     jp nz,error_0
     ld hl,init_success_message
     call puts
 
     call dump_registers
 
+    call ra8875_pll_init
+
+    call dump_registers
+
     call ra8875_display_on
-    
+
     call dump_registers
 
     jp done

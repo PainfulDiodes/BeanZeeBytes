@@ -1,3 +1,5 @@
+RA8875_REG_0_VAL equ 0x75
+
 ; commands
 RA8875_DATAWRITE equ 0x00
 RA8875_DATAREAD equ 0x40
