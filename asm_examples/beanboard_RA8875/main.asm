@@ -7,16 +7,17 @@ start:
     call getchar
     call ra8875_end_reset
 
-    ld a,0x00 ; register number
-    call ra8875_read_reg
+    call dump_registers
 
-    call putchar_hex
+    ; cp 0x75 ; TODO: replace magic number
+    ; jp nz,error_0
 
-    cp 0x75 ; TODO: replace magic number
-    jp nz,error_0
+    ; ld hl,init_success_message
+    ; call puts
 
-    ld hl,init_success_message
-    call puts
+    ;call ra8875_pll_init
+
+    ; call ra8875_display_on
 
     jp done
 
@@ -34,3 +35,17 @@ init_error_message:
 
 init_success_message:
     db "\nRA8875 init success\n",0
+
+
+dump_registers:
+    ld b,0x00
+    ld c,0x00
+_dump_registers_loop:
+    ld a,c ; register number
+    call ra8875_read_reg
+    call putchar_hex
+    inc c
+    djnz _dump_registers_loop    
+    ld a,'\n'
+    call putchar
+    ret

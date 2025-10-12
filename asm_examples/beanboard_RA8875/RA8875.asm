@@ -1,9 +1,37 @@
-; RA8875 (SPI)
-
+; commands
 RA8875_DATAWRITE equ 0x00
 RA8875_DATAREAD equ 0x40
 RA8875_CMDWRITE equ 0x80
 RA8875_CMDREAD equ 0xC0
+
+; registers
+RA8875_PLLC1 equ 0x88
+RA8875_PLLC2 equ 0x89
+RA8875_PWRR equ 0x01
+
+; config data
+RA8875_PLLC1_PLLDIV1 equ 0x00
+RA8875_PLLC1_PLLDIV2 equ 0x80
+RA8875_PLLC2_DIV1 equ 0x00
+RA8875_PLLC2_DIV2 equ 0x01
+RA8875_PLLC2_DIV4 equ 0x02
+RA8875_PLLC2_DIV8 equ 0x03
+RA8875_PLLC2_DIV16 equ 0x04
+RA8875_PLLC2_DIV32 equ 0x05
+RA8875_PLLC2_DIV64 equ 0x06
+RA8875_PLLC2_DIV128 equ 0x07
+
+RA8875_PLLC1_800x480 equ RA8875_PLLC1_PLLDIV1 + 11
+RA8875_PLLC2_800x480 equ RA8875_PLLC2_DIV4
+
+RA8875_PLLC1_VAL equ RA8875_PLLC1_800x480
+RA8875_PLLC2_VAL equ RA8875_PLLC2_800x480
+
+RA8875_PWRR_DISPON equ 0x80
+RA8875_PWRR_DISPOFF equ 0x00
+RA8875_PWRR_SLEEP equ 0x02
+RA8875_PWRR_NORMAL equ 0x00
+RA8875_PWRR_SOFTRESET equ 0x01
 
 ; Pin definitions for RA8875 SPI on GPIO port
 
@@ -134,6 +162,24 @@ ra8875_write_command:
     pop af
     ret
 
+; Write data to RA8875
+; A = data
+ra8875_write_data:
+    push af
+    push bc
+    ld c,a ; stash the data
+    ld a,GPO_ACTIVE_STATE
+    out (GPIO_OUT),a
+    ld a,RA8875_DATAWRITE
+    call ra8875_write
+    ld a,c ; recover the data to send
+    call ra8875_write
+    ld a,GPO_INACTIVE_STATE
+    out (GPIO_OUT),a
+    pop bc
+    pop af
+    ret
+
 ; read data from RA8875
 ; returns data in A
 ra8875_read_data:
@@ -155,4 +201,37 @@ ra8875_read_data:
 ra8875_read_reg:
     call ra8875_write_command
     call ra8875_read_data
+    ret
+
+; A = register number
+; B = data
+ra8875_write_reg:
+    push af
+    call ra8875_write_command ; A = register number
+    ld a,b
+    call ra8875_write_data
+    pop af
+    ret
+
+ra8875_pll_init:
+    push af
+    push bc
+    ld a,RA8875_PLLC1
+    ld b,RA8875_PLLC1_VAL
+    call ra8875_write_reg
+    ld a,RA8875_PLLC2
+    ld b,RA8875_PLLC2_VAL
+    call ra8875_write_reg
+    pop bc
+    pop af
+    ret
+
+ra8875_display_on:
+    push af
+    push bc
+    ld a,RA8875_PWRR
+    ld b,RA8875_PWRR_NORMAL | RA8875_PWRR_DISPON
+    call ra8875_write_reg
+    pop bc
+    pop af
     ret
