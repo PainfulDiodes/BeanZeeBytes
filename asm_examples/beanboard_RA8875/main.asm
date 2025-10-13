@@ -18,9 +18,14 @@ start:
 
     call dump_registers
 
-    call ra8875_pll_init
+    call ra8875_pllc1_init
     call ra8875_wait
-    
+
+    call dump_registers
+
+    call ra8875_pllc2_init
+    call ra8875_wait
+
     call dump_registers
 
     call ra8875_display_on
