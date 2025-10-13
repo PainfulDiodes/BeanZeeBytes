@@ -237,3 +237,13 @@ ra8875_display_on:
     pop bc
     pop af
     ret
+
+ra8875_wait:
+    push af
+_ra8875_wait_loop:
+    ld a,0x00
+    call ra8875_read_reg
+    cp RA8875_REG_0_VAL
+    jp nz,_ra8875_wait_loop
+    pop af
+    ret
