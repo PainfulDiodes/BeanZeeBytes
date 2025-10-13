@@ -24,6 +24,7 @@ start:
     call dump_registers
 
     call ra8875_pllc2_init
+    call dump_registers
     call ra8875_wait
 
     call dump_registers
