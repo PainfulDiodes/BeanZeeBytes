@@ -258,12 +258,20 @@ ra8875_display_on:
     pop af
     ret
 
-ra8875_wait:
-    push af
-_ra8875_wait_loop:
-    ld a,0x00
+; Check RA8875 register 0 for expected value
+; Z flag set if matched, reset if not  
+; destroys A
+ra8875_reg_0_check:
+    ld a,0x00 ; register number
     call ra8875_read_reg
-    cp RA8875_REG_0_VAL
-    jp nz,_ra8875_wait_loop
-    pop af
+    cp RA8875_REG_0_VAL ; sets Z flag if matched
+    ret
+
+ra8875_delay:
+    push bc
+    ld b,0x0e*4 ; 0x0e was the minimum needed for PLLC1/2 init
+_ra8875_delay_loop:
+    nop
+    djnz _ra8875_delay_loop
+    pop bc
     ret

@@ -7,27 +7,20 @@ start:
     call getchar
     call ra8875_end_reset
 
-    ; check status
-    ld a,0x00 ; register number
-    call ra8875_read_reg
-    cp RA8875_REG_0_VAL
-    ; error: not expected value
+    call ra8875_reg_0_check
     jp nz,error_0
-    ld hl,init_success_message
-    call puts
 
     call dump_registers
 
     call ra8875_pllc1_init
-    call ra8875_wait
-
-    call dump_registers
+    call ra8875_delay
+    call ra8875_reg_0_check
+    jp nz,error_0
 
     call ra8875_pllc2_init
-    call dump_registers
-    call ra8875_wait
-
-    call dump_registers
+    call ra8875_delay
+    call ra8875_reg_0_check
+    jp nz,error_0
 
     call ra8875_display_on
 
@@ -36,7 +29,7 @@ start:
     jp done
 
 error_0:
-    ld hl,init_error_message
+    ld hl,ra8875_controller_error_message
     call puts
 
 done:
@@ -44,11 +37,8 @@ done:
 
 start_message:
     db "RA8875 test\nHit any key to continue...\n",0
-init_error_message:
-    db "\nRA8875 init fail - expected status 0x75\n",0
-
-init_success_message:
-    db "\nRA8875 init success\n",0
+ra8875_controller_error_message:
+    db "\nRA8875 error: did not get 0x75 from reg 0\n",0
 
 
 dump_registers:
