@@ -1,5 +1,7 @@
 RA8875_REG_0_VAL equ 0x75
 
+RA8875_PLLC_DELAY_VAL equ 0x0e*4 ; 0x0e was the minimum needed for PLLC1/2 init with a 10MHz Z80 clock
+
 ; commands
 RA8875_DATAWRITE equ 0x00
 RA8875_DATAREAD equ 0x40
@@ -267,11 +269,11 @@ ra8875_reg_0_check:
     cp RA8875_REG_0_VAL ; sets Z flag if matched
     ret
 
-ra8875_delay:
+ra8875_plcc_delay:
     push bc
-    ld b,0x0e*4 ; 0x0e was the minimum needed for PLLC1/2 init
-_ra8875_delay_loop:
+    ld b,RA8875_PLLC_DELAY_VAL
+_ra8875_plcc_delay_loop:
     nop
-    djnz _ra8875_delay_loop
+    djnz _ra8875_plcc_delay_loop
     pop bc
     ret
