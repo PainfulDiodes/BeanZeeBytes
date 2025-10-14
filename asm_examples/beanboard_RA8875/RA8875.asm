@@ -202,19 +202,6 @@ ra8875_write_reg:
     pop af
     ret
 
-ra8875_pll_init:
-    push af
-    push bc
-    ld a,RA8875_PLLC1
-    ld b,RA8875_PLLC1_VAL
-    call ra8875_write_reg
-    ld a,RA8875_PLLC2
-    ld b,RA8875_PLLC2_VAL
-    call ra8875_write_reg
-    pop bc
-    pop af
-    ret
-
 ra8875_pllc1_init:
     push af
     push bc
