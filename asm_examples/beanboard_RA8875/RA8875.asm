@@ -66,6 +66,41 @@ GPO_LOW_STATE    equ 1 << RA8875_RESET
 ; RESET inactive/high, CS active/low, MOSI high
 GPO_HIGH_STATE   equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
+
+; low level utilities
+ra8875_plcc_delay:
+    push bc
+    ld b,RA8875_PLLC_DELAY_VAL
+_ra8875_plcc_delay_loop:
+    nop
+    djnz _ra8875_plcc_delay_loop
+    pop bc
+    ret
+
+ra8875_reset_delay:
+    push bc
+    ld b,RA8875_RESET_DELAY_VAL
+_ra8875_reset_delay_loop:
+    nop
+    djnz _ra8875_reset_delay_loop
+    pop bc
+    ret
+
+
+; hardware reset of RA8875
+ra8875_reset:
+    push af
+    ld a,GPO_RESET_STATE
+    out (GPIO_OUT),a
+    call ra8875_reset_delay
+    ld a,GPO_INACTIVE_STATE
+    out (GPIO_OUT),a
+    pop af
+    ret
+
+
+; low level RA8875 SPI routines
+
 ; Write a byte over SPI without readback
 ; Input: A = byte to send
 ; Destroys: AF, B
@@ -135,6 +170,9 @@ _ra8875_read_bit_done:
     djnz _ra8875_read_loop
     ret
 
+
+; basic RA8875 routines
+
 ; Write a command to RA8875
 ; A = command parameter
 ra8875_write_command:
@@ -187,6 +225,9 @@ ra8875_read_data:
     pop bc
     ret
 
+
+; register access routines
+
 ; read from RA8875 register
 ; A = register number to read
 ra8875_read_reg:
@@ -203,6 +244,8 @@ ra8875_write_reg:
     call ra8875_write_data
     pop af
     ret
+
+; higher level RA8875 routines
 
 ra8875_pllc1_init:
     push af
@@ -243,32 +286,4 @@ ra8875_reg_0_check:
     ld a,0x00 ; register number
     call ra8875_read_reg
     cp RA8875_REG_0_VAL ; sets Z flag if matched
-    ret
-
-ra8875_plcc_delay:
-    push bc
-    ld b,RA8875_PLLC_DELAY_VAL
-_ra8875_plcc_delay_loop:
-    nop
-    djnz _ra8875_plcc_delay_loop
-    pop bc
-    ret
-
-ra8875_reset_delay:
-    push bc
-    ld b,RA8875_RESET_DELAY_VAL
-_ra8875_reset_delay_loop:
-    nop
-    djnz _ra8875_reset_delay_loop
-    pop bc
-    ret
-
-ra8875_reset:
-    push af
-    ld a,GPO_RESET_STATE
-    out (GPIO_OUT),a
-    call ra8875_reset_delay
-    ld a,GPO_INACTIVE_STATE
-    out (GPIO_OUT),a
-    pop af
     ret
