@@ -13,12 +13,10 @@ start:
     call dump_registers
 
     call ra8875_pllc1_init
-    call ra8875_plcc_delay
     call ra8875_reg_0_check
     jp nz,error_0
 
     call ra8875_pllc2_init
-    call ra8875_plcc_delay
     call ra8875_reg_0_check
     jp nz,error_0
 

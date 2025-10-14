@@ -236,6 +236,7 @@ ra8875_pllc1_init:
     ld a,RA8875_PLLC1
     ld b,RA8875_PLLC1_VAL
     call ra8875_write_reg
+    call ra8875_plcc_delay
     pop bc
     pop af
     ret
@@ -246,6 +247,7 @@ ra8875_pllc2_init:
     ld a,RA8875_PLLC2
     ld b,RA8875_PLLC2_VAL
     call ra8875_write_reg
+    call ra8875_plcc_delay
     pop bc
     pop af
     ret
