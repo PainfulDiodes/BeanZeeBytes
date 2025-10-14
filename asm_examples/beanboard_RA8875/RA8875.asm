@@ -247,6 +247,15 @@ ra8875_write_reg:
 
 ; higher level RA8875 routines
 
+; Check RA8875 register 0 for expected value
+; Z flag set if matched, reset if not  
+; destroys A
+ra8875_reg_0_check:
+    ld a,0x00 ; register number
+    call ra8875_read_reg
+    cp RA8875_REG_0_VAL ; sets Z flag if matched
+    ret
+
 ra8875_pllc1_init:
     push af
     push bc
@@ -269,6 +278,7 @@ ra8875_pllc2_init:
     pop af
     ret
 
+
 ra8875_display_on:
     push af
     push bc
@@ -277,13 +287,4 @@ ra8875_display_on:
     call ra8875_write_reg
     pop bc
     pop af
-    ret
-
-; Check RA8875 register 0 for expected value
-; Z flag set if matched, reset if not  
-; destroys A
-ra8875_reg_0_check:
-    ld a,0x00 ; register number
-    call ra8875_read_reg
-    cp RA8875_REG_0_VAL ; sets Z flag if matched
     ret
