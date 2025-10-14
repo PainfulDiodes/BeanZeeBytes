@@ -64,22 +64,6 @@ GPO_LOW_STATE    equ 1 << RA8875_RESET
 ; RESET inactive/high, CS active/low, MOSI high
 GPO_HIGH_STATE   equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
-; Reset active
-ra8875_start_reset:
-    push af
-    ld a,GPO_RESET_STATE
-    out (GPIO_OUT),a
-    pop af
-    ret
-
-; Reset inactive
-ra8875_end_reset:
-    push af
-    ld a,GPO_INACTIVE_STATE
-    out (GPIO_OUT),a
-    pop af
-    ret
-
 ; Write a byte over SPI without readback
 ; Input: A = byte to send
 ; Destroys: AF, B
@@ -291,8 +275,11 @@ _ra8875_reset_delay_loop:
     ret
 
 ra8875_reset:
-    call ra8875_start_reset
+    push af
+    ld a,GPO_RESET_STATE
+    out (GPIO_OUT),a
     call ra8875_reset_delay
-    call ra8875_end_reset
+    ld a,GPO_INACTIVE_STATE
+    out (GPIO_OUT),a
+    pop af
     ret
-    
