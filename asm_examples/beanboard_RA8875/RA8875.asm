@@ -9,6 +9,14 @@ RA8875_PWRR_SLEEP equ 0x02
 RA8875_PWRR_NORMAL equ 0x00
 RA8875_PWRR_SOFTRESET equ 0x01
 
+
+; REG[10h] System Configuration Register (SYSR)
+RA8875_SYSR equ 0x10
+RA8875_SYSR_8BPP equ 0x00  ; 8-bpp generic TFT, i.e. 256 colors.
+RA8875_SYSR_16BPP equ 0x0C ; 16-bpp generic TFT, i.e. 65K colors.
+RA8875_SYSR_MCU8 equ 0x00  ; 8-bit MCU Interface
+RA8875_SYSR_MCU16 equ 0x03 ; 16-bit MCU Interface
+
 ; REG[88h] PLL Control Register 1 (PLLC1)
 RA8875_PLLC1 equ 0x88 
 RA8875_PLLC1_PLLDIV1 equ 0x00
@@ -278,6 +286,15 @@ ra8875_pllc2_init:
     pop af
     ret
 
+ra8875_sysr_init:
+    push af
+    push bc
+    ld a,RA8875_SYSR
+    ld b,RA8875_SYSR_16BPP | RA8875_SYSR_MCU8
+    call ra8875_write_reg
+    pop bc
+    pop af
+    ret
 
 ra8875_display_on:
     push af
