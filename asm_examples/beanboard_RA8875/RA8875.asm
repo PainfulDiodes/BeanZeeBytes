@@ -9,6 +9,16 @@ RA8875_PWRR_SLEEP equ 0x02
 RA8875_PWRR_NORMAL equ 0x00
 RA8875_PWRR_SOFTRESET equ 0x01
 
+; REG[04h] Pixel Clock Setting Register (PCSR)
+RA8875_PCSR equ 0x04
+RA8875_PCSR_PDATR equ 0x00
+RA8875_PCSR_PDATL equ 0x80
+RA8875_PCSR_CLK equ 0x00
+RA8875_PCSR_2CLK equ 0x01
+RA8875_PCSR_4CLK equ 0x02
+RA8875_PCSR_8CLK equ 0x03
+RA8875_PCSR_800x480 equ RA8875_PCSR_PDATL | RA8875_PCSR_2CLK
+RA8875_PCSR_VAL equ RA8875_PCSR_800x480
 
 ; REG[10h] System Configuration Register (SYSR)
 RA8875_SYSR equ 0x10
@@ -47,8 +57,8 @@ RA8875_CMDWRITE equ 0x80
 RA8875_CMDREAD equ 0xC0
 
 ; delays 
-RA8875_RESET_DELAY_VAL equ 0xff
-RA8875_PLLC_DELAY_VAL equ 0x0e*4 ; 0x0e was the minimum needed for PLLC1/2 init with a 10MHz Z80 clock
+; 0x0e was the minimum needed for PLLC1/2 init with a 10MHz Z80 clock
+RA8875_DELAY_VAL equ 0xff
 
 ; Pin definitions for RA8875 SPI on GPIO port
 ; GPO
@@ -76,21 +86,12 @@ GPO_HIGH_STATE   equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
 
 ; low level utilities
-ra8875_plcc_delay:
+ra8875_delay:
     push bc
-    ld b,RA8875_PLLC_DELAY_VAL
-_ra8875_plcc_delay_loop:
+    ld b,RA8875_DELAY_VAL
+_ra8875_delay_loop:
     nop
-    djnz _ra8875_plcc_delay_loop
-    pop bc
-    ret
-
-ra8875_reset_delay:
-    push bc
-    ld b,RA8875_RESET_DELAY_VAL
-_ra8875_reset_delay_loop:
-    nop
-    djnz _ra8875_reset_delay_loop
+    djnz _ra8875_delay_loop
     pop bc
     ret
 
@@ -100,7 +101,7 @@ ra8875_reset:
     push af
     ld a,GPO_RESET_STATE
     out (GPIO_OUT),a
-    call ra8875_reset_delay
+    call ra8875_delay
     ld a,GPO_INACTIVE_STATE
     out (GPIO_OUT),a
     pop af
@@ -270,7 +271,7 @@ ra8875_pllc1_init:
     ld a,RA8875_PLLC1
     ld b,RA8875_PLLC1_VAL
     call ra8875_write_reg
-    call ra8875_plcc_delay
+    call ra8875_delay
     pop bc
     pop af
     ret
@@ -281,7 +282,7 @@ ra8875_pllc2_init:
     ld a,RA8875_PLLC2
     ld b,RA8875_PLLC2_VAL
     call ra8875_write_reg
-    call ra8875_plcc_delay
+    call ra8875_delay
     pop bc
     pop af
     ret
@@ -292,6 +293,17 @@ ra8875_sysr_init:
     ld a,RA8875_SYSR
     ld b,RA8875_SYSR_16BPP | RA8875_SYSR_MCU8
     call ra8875_write_reg
+    pop bc
+    pop af
+    ret
+
+ra8875_pcsr_init:
+    push af
+    push bc
+    ld a,RA8875_PCSR
+    ld b,RA8875_PCSR_VAL
+    call ra8875_write_reg
+    call ra8875_delay
     pop bc
     pop af
     ret

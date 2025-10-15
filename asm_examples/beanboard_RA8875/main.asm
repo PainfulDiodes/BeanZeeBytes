@@ -18,9 +18,13 @@ start:
 
     call dump_registers
 
-    call ra8875_display_on
+    call ra8875_pcsr_init
+    call ra8875_reg_0_check
+    jp nz,error_0
 
     call dump_registers
+
+    ; call ra8875_display_on
 
     jp done
 
