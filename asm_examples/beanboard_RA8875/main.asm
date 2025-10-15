@@ -24,6 +24,10 @@ start:
 
     call dump_registers
 
+    call ra8875_horizontal_settings_init
+    
+    call dump_registers
+
     ; call ra8875_display_on
 
     jp done

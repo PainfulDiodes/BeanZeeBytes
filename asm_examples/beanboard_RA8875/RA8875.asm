@@ -27,6 +27,13 @@ RA8875_SYSR_16BPP equ 0x0C ; 16-bpp generic TFT, i.e. 65K colors.
 RA8875_SYSR_MCU8 equ 0x00  ; 8-bit MCU Interface
 RA8875_SYSR_MCU16 equ 0x03 ; 16-bit MCU Interface
 
+; REG[14h] LCD Horizontal Display Width Register (HDWR)
+RA8875_HDWR equ 0x14
+; LCD panel display width in 8 pixel units
+; width(pixels) = (HDWR+1)x8
+RA8875_HDWR_800x480 equ (800 / 8) - 1
+RA8875_HDWR_VAL equ RA8875_HDWR_800x480
+
 ; REG[88h] PLL Control Register 1 (PLLC1)
 RA8875_PLLC1 equ 0x88 
 RA8875_PLLC1_PLLDIV1 equ 0x00
@@ -308,6 +315,25 @@ ra8875_pcsr_init:
     pop af
     ret
 
+ra8875_horizontal_settings_init:
+    push af
+    push bc
+    ld a,RA8875_HDWR
+    ld b,RA8875_HDWR_VAL
+    call ra8875_write_reg
+    pop bc
+    pop af
+    ret
+
+
+
+
+
+
+
+
+
+
 ra8875_display_on:
     push af
     push bc
@@ -317,3 +343,4 @@ ra8875_display_on:
     pop bc
     pop af
     ret
+
