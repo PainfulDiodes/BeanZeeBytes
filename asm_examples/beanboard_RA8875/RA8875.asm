@@ -34,6 +34,13 @@ RA8875_HDWR equ 0x14
 RA8875_HDWR_800x480 equ (800 / 8) - 1
 RA8875_HDWR_VAL equ RA8875_HDWR_800x480
 
+; REG[15h] Horizontal Non-Display Period Fine Tuning Option Register (HNDFTR)
+RA8875_HNDFTR equ 0x15
+RA8875_HNDFTR_DE_HIGH equ 0x00
+RA8875_HNDFTR_DE_LOW equ 0x80
+RA8875_HNDFTR_800x480 equ RA8875_HNDFTR_DE_HIGH + 0 ; polarity + fine tuning value
+RA8875_HNDFTR_VAL equ RA8875_HNDFTR_800x480
+
 ; REG[88h] PLL Control Register 1 (PLLC1)
 RA8875_PLLC1 equ 0x88 
 RA8875_PLLC1_PLLDIV1 equ 0x00
@@ -320,6 +327,9 @@ ra8875_horizontal_settings_init:
     push bc
     ld a,RA8875_HDWR
     ld b,RA8875_HDWR_VAL
+    call ra8875_write_reg
+    ld a,RA8875_HNDFTR
+    ld b,RA8875_HNDFTR_VAL
     call ra8875_write_reg
     pop bc
     pop af
