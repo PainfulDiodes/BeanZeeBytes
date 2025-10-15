@@ -57,11 +57,14 @@ RA8875_HSTR equ 0x17
 RA8875_HSTR_800x480 equ 32 / 8 - 1 ; =3
 RA8875_HSTR_VAL equ RA8875_HSTR_800x480 
 
-
+; REG[18h] HSYNC Pulse Width Register (HPWR)
 RA8875_HPWR equ 0x18
 RA8875_HPWR_LOW equ 0x00
 RA8875_HPWR_HIGH equ 0x80
-
+; HSYNC Pulse Width(HPW) [4:0]
+; Pulse Width(pixels) = (HPW + 1)x8
+RA8875_HPWR_800x480 equ RA8875_HPWR_LOW + 96 / 8 - 1 ; hsync_pw / 8 - 1  =11 =0x0b
+RA8875_HPWR_VAL equ RA8875_HPWR_800x480
 
 ; REG[88h] PLL Control Register 1 (PLLC1)
 RA8875_PLLC1 equ 0x88 
@@ -358,6 +361,9 @@ ra8875_horizontal_settings_init:
     call ra8875_write_reg
     ld a,RA8875_HSTR
     ld b,RA8875_HSTR_VAL
+    call ra8875_write_reg
+    ld a,RA8875_HPWR
+    ld b,RA8875_HPWR_VAL
     call ra8875_write_reg
     pop bc
     pop af
