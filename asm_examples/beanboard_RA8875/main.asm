@@ -16,15 +16,15 @@ start:
 
     call ra8875_sysr_init
 
-    call dump_registers
-
     call ra8875_pcsr_init
     call ra8875_reg_0_check
     jp nz,error_0
 
+    call ra8875_horizontal_settings_init
+    
     call dump_registers
 
-    call ra8875_horizontal_settings_init
+    call ra8875_vertical_settings_init
     
     call dump_registers
 
