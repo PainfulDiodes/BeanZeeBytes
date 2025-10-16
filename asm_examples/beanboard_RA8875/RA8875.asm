@@ -216,6 +216,25 @@ RA8875_PLLC2_DIV128 equ 0x07
 RA8875_PLLC2_800x480 equ RA8875_PLLC2_DIV4
 RA8875_PLLC2_VAL equ RA8875_PLLC2_800x480
 
+; REG[8Eh] Memory Clear Control Register (MCLR)
+; Bit 7
+; Memory Clear Function
+; 0 : End or Stop. When write 0 to this bit RA8875 will stop the Memory clear function. 
+; Or if read back this bit is 0, it indicates that Memory clear function is complete.
+; 1 : Start the memory clear function.
+; Bit 6
+; Memory Clear Area Setting
+; 0 : Clear the full window. (Please refer to the setting of REG[14h], [19h], [1Ah])
+; 1 : Clear the active window(Please refer to the setting of REG[30h~37h]). 
+; The layer to be cleared is according to the setting REG[41h] Bit0.
+RA8875_MCLR equ 0x8E
+RA8875_MCLR_START equ 0x80
+RA8875_MCLR_STOP equ 0x00
+RA8875_MCLR_READSTATUS equ 0x80
+RA8875_MCLR_FULL equ 0x00
+RA8875_MCLR_ACTIVE equ 0x40
+
+
 ; expected value in register 0 - validates presence of RA8875
 RA8875_REG_0_VAL equ 0x75
 
@@ -561,6 +580,22 @@ ra8875_vertical_active_window_init:
     ld a,RA8875_VEAW1
     ld b,RA8875_VEAW1_VAL
     call ra8875_write_reg
+    pop bc
+    pop af
+    ret
+
+ra8875_clear_window:
+    push af
+    push bc
+    ld a,RA8875_MCLR
+    ld b,RA8875_MCLR_START | RA8875_MCLR_FULL
+    call ra8875_write_reg
+    ; wait for clear to complete
+_ra8875_clear_wait:
+    call ra8875_delay
+    call ra8875_read_reg
+    cp RA8875_MCLR_READSTATUS
+    jr z,_ra8875_clear_wait
     pop bc
     pop af
     ret

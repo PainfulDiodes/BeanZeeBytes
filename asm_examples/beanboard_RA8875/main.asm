@@ -23,11 +23,13 @@ start:
     call ra8875_horizontal_settings_init
 
     call ra8875_vertical_settings_init
-    
-    call dump_registers
 
     call ra8875_horizontal_active_window_init
     call ra8875_vertical_active_window_init
+
+    call dump_registers
+
+    call ra8875_clear_window
 
     call dump_registers
 
