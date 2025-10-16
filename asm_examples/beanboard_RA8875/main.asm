@@ -21,11 +21,14 @@ start:
     jp nz,error_0
 
     call ra8875_horizontal_settings_init
-    
-    call dump_registers
 
     call ra8875_vertical_settings_init
     
+    call dump_registers
+
+    call ra8875_horizontal_active_window_init
+    call ra8875_vertical_active_window_init
+
     call dump_registers
 
     ; call ra8875_display_on

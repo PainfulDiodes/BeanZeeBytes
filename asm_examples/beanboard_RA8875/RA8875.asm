@@ -77,8 +77,8 @@ RA8875_HPWR_VAL equ RA8875_HPWR_800x480
 ; REG[19h] LCD Vertical Display Height Register (VDHR0)
 ; Vertical Display Height Bit[7:0] 
 ; Vertical Display Height(Line) = VDHR + 1
-RA8875_VDHR0 equ 0x19
 ; lower byte of line_height-1
+RA8875_VDHR0 equ 0x19
 RA8875_VDHR0_800x480 equ 0x00ff & (480 - 1)
 RA8875_VDHR0_VAL equ RA8875_VDHR0_800x480
 
@@ -86,24 +86,24 @@ RA8875_VDHR0_VAL equ RA8875_VDHR0_800x480
 ; Vertical Display Height Bit[8]
 ; Vertical Display Height(Line) = VDHR + 1
 ; (only bit 0 is used)
-RA8875_VDHR1 equ 0x1A
 ; upper byte of line_height-1
+RA8875_VDHR1 equ 0x1A
 RA8875_VDHR1_800x480 equ (0xff00 & (480 - 1)) / 0x100
 RA8875_VDHR1_VAL equ RA8875_VDHR1_800x480
 
 ; REG[1Bh] LCD Vertical Non-Display Period Register (VNDR0)
 ; Vertical Non-Display Period Bit[7:0]
 ; Vertical Non-Display Period(Line) = (VNDR + 1)
-RA8875_VNDR0 equ 0x1B
 ; lower byte of val-1
+RA8875_VNDR0 equ 0x1B
 RA8875_VNDR0_800x480 equ 32-1
 RA8875_VNDR0_VAL equ RA8875_VNDR0_800x480
 
 ; REG[1Ch] LCD Vertical Non-Display Period Register (VNDR1)
 ; Vertical Non-Display Period Bit[8]
 ; Vertical Non-Display Period(Line) = (VNDR + 1)
-RA8875_VNDR1 equ 0x1C
 ; upper byte of val-1
+RA8875_VNDR1 equ 0x1C
 RA8875_VNDR1_800x480 equ 0
 RA8875_VNDR1_VAL equ RA8875_VNDR1_800x480
 
@@ -111,8 +111,8 @@ RA8875_VNDR1_VAL equ RA8875_VNDR1_800x480
 ; VSYNC Start Position[7:0]
 ; The starting position from the end of display area to the beginning of VSYNC.
 ; VSYNC Start Position(Line) = (VSTR + 1)
-RA8875_VSTR0 equ 0x1D
 ; lower byte of val-1
+RA8875_VSTR0 equ 0x1D
 RA8875_VSTR0_800x480 equ 23-1
 RA8875_VSTR0_VAL equ RA8875_VSTR0_800x480
 
@@ -120,8 +120,8 @@ RA8875_VSTR0_VAL equ RA8875_VSTR0_800x480
 ; VSYNC Start Position[8]
 ; The starting from the end of display area to the beginning of VSYNC.
 ; VSYNC Start Position(Line) = (VSTR + 1)
-RA8875_VSTR1 equ 0x1E
 ; upper byte of val-1
+RA8875_VSTR1 equ 0x1E
 RA8875_VSTR1_800x480 equ 0
 RA8875_VSTR1_VAL equ RA8875_VSTR1_800x480
 
@@ -135,6 +135,66 @@ RA8875_VPWR_LOW equ 0x00
 RA8875_VPWR_HIGH equ 0x80
 RA8875_VPWR_800x480 equ RA8875_VPWR_LOW + (2 - 1) ; polarity + pulse_width_val-1
 RA8875_VPWR_VAL equ RA8875_VPWR_800x480
+
+; REG[30h] Horizontal Start Point 0 of Active Window (HSAW0)
+; Horizontal Start Point of Active Window [7:0] 
+; (lower byte)
+RA8875_HSAW0 equ 0x30
+RA8875_HSAW0_800x480 equ 0
+RA8875_HSAW0_VAL equ RA8875_HSAW0_800x480
+
+; REG[31h] Horizontal Start Point 1 of Active Window (HSAW1)
+; Horizontal Start Point of Active Window [9:8] 
+; (upper byte, only 2 bits are significant)
+RA8875_HSAW1 equ 0x31
+RA8875_HSAW1_800x480 equ 0
+RA8875_HSAW1_VAL equ RA8875_HSAW1_800x480
+
+
+; REG[32h] Vertical Start Point 0 of Active Window (VSAW0)
+; Vertical Start Point of Active Window [7:0]
+; (lower byte)
+RA8875_VSAW0 equ 0x32
+RA8875_VSAW0_800x480 equ 0
+RA8875_VSAW0_VAL equ RA8875_VSAW0_800x480
+
+
+; REG[33h] Vertical Start Point 1 of Active Window (VSAW1)
+; Vertical Start Point of Active Window [8]
+; (upper byte, only 1 bit is significant)
+RA8875_VSAW1 equ 0x33
+RA8875_VSAW1_800x480 equ 0
+RA8875_VSAW1_VAL equ RA8875_VSAW1_800x480
+
+; REG[34h] Horizontal End Point 0 of Active Window (HEAW0)
+; Horizontal End Point of Active Window [7:0]
+; (lower byte)
+; NOTE: datasheet does not mention an offset of 1
+RA8875_HEAW0 equ 0x34
+RA8875_HEAW0_800x480 equ 0x00ff & (800 - 1)
+RA8875_HEAW0_VAL equ RA8875_HEAW0_800x480
+
+; REG[35h] Horizontal End Point 1 of Active Window (HEAW1)
+; Horizontal End Point of Active Window [9:8]
+; (upper byte, only 2 bits are significant)
+; NOTE: datasheet does not mention an offset of 1
+RA8875_HEAW1 equ 0x35
+RA8875_HEAW1_800x480 equ (0xff00 & (800 - 1)) / 0x100
+RA8875_HEAW1_VAL equ RA8875_HEAW1_800x480
+
+; REG[36h] Vertical End Point of Active Window 0 (VEAW0)
+; Vertical End Point of Active Window [7:0]
+; (lower byte)
+RA8875_VEAW0 equ 0x36
+RA8875_VEAW0_800x480 equ 0x00ff & (480 - 1)
+RA8875_VEAW0_VAL equ RA8875_VEAW0_800x480
+
+; REG[37h] Vertical End Point of Active Window 1 (VEAW1)
+; Vertical End Point of Active Window [8]
+; (upper byte, only 1 bit is significant)
+RA8875_VEAW1 equ 0x37
+RA8875_VEAW1_800x480 equ  (0xff00 & (480 - 1)) / 0x100
+RA8875_VEAW1_VAL equ RA8875_VEAW1_800x480
 
 ; REG[88h] PLL Control Register 1 (PLLC1)
 RA8875_PLLC1 equ 0x88 
@@ -467,9 +527,43 @@ ra8875_vertical_settings_init:
     pop af
     ret
 
+ra8875_horizontal_active_window_init:
+    push af
+    push bc
+    ld a,RA8875_HSAW0
+    ld b,RA8875_HSAW0_VAL
+    call ra8875_write_reg
+    ld a,RA8875_HSAW1
+    ld b,RA8875_HSAW1_VAL
+    call ra8875_write_reg
+    ld a,RA8875_HEAW0
+    ld b,RA8875_HEAW0_VAL
+    call ra8875_write_reg
+    ld a,RA8875_HEAW1
+    ld b,RA8875_HEAW1_VAL
+    call ra8875_write_reg
+    pop bc
+    pop af
+    ret
 
-
-
+ra8875_vertical_active_window_init:
+    push af
+    push bc
+    ld a,RA8875_VSAW0
+    ld b,RA8875_VSAW0_VAL
+    call ra8875_write_reg
+    ld a,RA8875_VSAW1
+    ld b,RA8875_VSAW1_VAL
+    call ra8875_write_reg
+    ld a,RA8875_VEAW0
+    ld b,RA8875_VEAW0_VAL
+    call ra8875_write_reg
+    ld a,RA8875_VEAW1
+    ld b,RA8875_VEAW1_VAL
+    call ra8875_write_reg
+    pop bc
+    pop af
+    ret
 
 ra8875_display_on:
     push af
