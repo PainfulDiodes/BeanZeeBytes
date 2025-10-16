@@ -300,8 +300,8 @@ ra8875_reset:
 
 ; Write a byte over SPI without readback
 ; Input: A = byte to send
-; Destroys: AF, B
-ra8875_write:
+; Destroys: AF, B, D
+_ra8875_write:
     ; bit counter
     ld b,8
 _ra8875_write_loop:
@@ -329,8 +329,8 @@ _ra8875_write_bit:
 ; Read a byte over SPI (receive from MISO)
 ; Sends a dummy byte (0x00) during the read
 ; Output: A = byte received
-; Destroys: AF, B
-ra8875_read:
+; Destroys: AF, B, D
+_ra8875_read:
     ; bit counter
     ld b,8
     ; Initialize received byte
@@ -379,9 +379,9 @@ ra8875_write_command:
     ld a,GPO_ACTIVE_STATE
     out (GPIO_OUT),a
     ld a,RA8875_CMDWRITE
-    call ra8875_write
+    call _ra8875_write
     ld a,c ; recover the data to send
-    call ra8875_write
+    call _ra8875_write
     ld a,GPO_INACTIVE_STATE
     out (GPIO_OUT),a
     pop bc
@@ -397,9 +397,9 @@ ra8875_write_data:
     ld a,GPO_ACTIVE_STATE
     out (GPIO_OUT),a
     ld a,RA8875_DATAWRITE
-    call ra8875_write
+    call _ra8875_write
     ld a,c ; recover the data to send
-    call ra8875_write
+    call _ra8875_write
     ld a,GPO_INACTIVE_STATE
     out (GPIO_OUT),a
     pop bc
@@ -413,8 +413,8 @@ ra8875_read_data:
     ld a,GPO_ACTIVE_STATE
     out (GPIO_OUT),a
     ld a,RA8875_DATAREAD
-    call ra8875_write
-    call ra8875_read
+    call _ra8875_write
+    call _ra8875_read
     ld b,a ; stash data
     ld a,GPO_INACTIVE_STATE
     out (GPIO_OUT),a
