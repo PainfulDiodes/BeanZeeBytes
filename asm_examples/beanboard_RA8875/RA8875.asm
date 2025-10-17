@@ -216,6 +216,50 @@ RA8875_PLLC2_DIV128 equ 0x07
 RA8875_PLLC2_800x480 equ RA8875_PLLC2_DIV4
 RA8875_PLLC2_VAL equ RA8875_PLLC2_800x480
 
+; REG[8Ah] PWM1 Control Register (P1CR)
+; Bit 7
+; PWM1 Enable 
+; 0 : Disable, PWM1_OUT level depends on P1CR bit6. 
+; 1 : Enable.
+; Bit 6
+; PWM1 Disable Level
+; 0 : PWM1_OUT is Normal L when PWM disable or Sleep mode. 1 : PWM1_OUT is Normal H when PWM disable or Sleep mode
+; The bit is only usable when P1CR bit 4 is 0
+; Bit 4
+; PWM1 Function Selection
+; 0 : PWM1 function
+; 1 : PWM1 output a fixed frequency signal and it is equal to 1 /16 oscillator clock. PWM1 = FOSC / 16
+; Bit 0-3
+; PWM1 Clock Source Divide Ratio:
+; 1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768
+RA8875_P1CR equ 0x8A
+RA8875_P1CR_ENABLE equ 0x80
+RA8875_P1CR_DISABLE equ 0x00
+RA8875_P1CR_CLKOUT equ 0x10
+RA8875_P1CR_PWMOUT equ 0x00
+RA8875_PWM_CLK_DIV1 equ 0x00
+RA8875_PWM_CLK_DIV2 equ 0x01
+RA8875_PWM_CLK_DIV4 equ 0x02
+RA8875_PWM_CLK_DIV8 equ 0x03
+RA8875_PWM_CLK_DIV16 equ 0x04
+RA8875_PWM_CLK_DIV32 equ 0x05
+RA8875_PWM_CLK_DIV64 equ 0x06
+RA8875_PWM_CLK_DIV128 equ 0x07
+RA8875_PWM_CLK_DIV256 equ 0x08
+RA8875_PWM_CLK_DIV512 equ 0x09
+RA8875_PWM_CLK_DIV1024 equ 0x0A
+RA8875_PWM_CLK_DIV2048 equ 0x0B
+RA8875_PWM_CLK_DIV4096 equ 0x0C
+RA8875_PWM_CLK_DIV8192 equ 0x0D
+RA8875_PWM_CLK_DIV16384 equ 0x0E
+RA8875_PWM_CLK_DIV32768 equ 0x0F
+RA8875_P1CR_VAL equ RA8875_P1CR_ENABLE | RA8875_P1CR_PWMOUT | RA8875_PWM_CLK_DIV1024
+
+; REG[8Bh] PWM1 Duty Cycle Register (P1DCR)
+; PWM Cycle Duty Selection Bits[7:0]
+; 0x00 = 1/256, 0xff = 256/256
+RA8875_P1DCR equ 0x8B
+
 ; REG[8Eh] Memory Clear Control Register (MCLR)
 ; Bit 7
 ; Memory Clear Function
@@ -234,6 +278,14 @@ RA8875_MCLR_READSTATUS equ 0x80
 RA8875_MCLR_FULL equ 0x00
 RA8875_MCLR_ACTIVE equ 0x40
 
+
+
+; REG[C7h] Extra General Purpose IO Register (GPIOX)
+; Bit 0
+; The GPIX/GPOX Data Bit
+; Read: Input data from GPIX pin. Write: Output data to GPOX pin.
+; On the Adafruit board, TFT display enable is tied to GPIOX
+RA8875_GPIOX equ 0xC7
 
 ; expected value in register 0 - validates presence of RA8875
 RA8875_REG_0_VAL equ 0x75
@@ -610,3 +662,27 @@ ra8875_display_on:
     pop af
     ret
 
+; GPIOX wired to enable TFT display
+ra8875_adafruit_tft_enable:
+    push af
+    push bc
+    ld a,RA8875_GPIOX
+    ld b,0x01
+    call ra8875_write_reg
+    pop bc
+    pop af
+    ret
+
+; PWM1 wired for backlight control
+ra8875_backlight_init:
+    push af
+    push bc
+    ld a,RA8875_P1CR
+    ld b,RA8875_P1CR_VAL
+    call ra8875_write_reg
+    ld a,RA8875_P1DCR
+    ld b,0xff
+    call ra8875_write_reg
+    pop bc
+    pop af
+    ret

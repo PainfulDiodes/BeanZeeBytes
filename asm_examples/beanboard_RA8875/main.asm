@@ -36,6 +36,8 @@ start:
 
     ; activate display
     call ra8875_display_on
+    call ra8875_adafruit_tft_enable
+    call ra8875_backlight_init
 
     call dump_registers
 
