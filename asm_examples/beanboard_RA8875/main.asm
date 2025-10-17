@@ -1,4 +1,7 @@
 start:
+
+    ; initialise ra8875
+
     call ra8875_reset
 
     call ra8875_reg_0_check
@@ -27,13 +30,14 @@ start:
     call ra8875_horizontal_active_window_init
     call ra8875_vertical_active_window_init
 
-    call dump_registers
-
     call ra8875_clear_window
 
     call dump_registers
 
-    ; call ra8875_display_on
+    ; activate display
+    call ra8875_display_on
+
+    call dump_registers
 
     jp done
 
