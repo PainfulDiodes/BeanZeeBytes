@@ -39,6 +39,9 @@ start:
     call ra8875_adafruit_tft_enable
     call ra8875_backlight_init
 
+    ; set text mode
+    call ra8875_text_mode
+
     call dump_registers
 
     jp done

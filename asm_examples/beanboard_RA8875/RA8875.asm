@@ -136,6 +136,28 @@ RA8875_VPWR_HIGH equ 0x80
 RA8875_VPWR_800x480 equ RA8875_VPWR_LOW + (2 - 1) ; polarity + pulse_width_val-1
 RA8875_VPWR_VAL equ RA8875_VPWR_800x480
 
+; REG[21h] Font Control Register 0 (FNCR0)
+RA8875_FNCR0 equ 0x21
+; Bit 7 - CGRAM/CGROM Font Selection Bit in Text Mode
+; 0 : CGROM font is selected.
+; 1 : CGRAM font is selected.
+; Note:
+; 1. The bit is used to select the bit-map source when text-mode is active
+; (REG[40h] bit 7 is 1), when CGRAM is writing (REG[41h] bit 3-2 =01b), 
+; the bit must be set as “0”. 
+; 2. When CGRAM font is select, REG[21h] bit 5 must be set as 1.
+; Bit 5 - External/Internal CGROM Selection Bit
+; 0 : Internal CGROM is selected.(REG[2Fh] must be set 00h )
+; 1 : External CGROM is selected. (REG[2Eh] bit6 &bit7 must be set 0)
+; Bit 1-0 - Font Selection for internal CGROM
+; When FNCR0 B7 = 0 and B5 = 0, Internal CGROM supports the 8x16 character sets 
+; with the standard coding of ISO/IEC 8859- 1~4, which supports English 
+; and most of European country languages.
+; 00b : ISO/IEC 8859-1. 
+; 01b : ISO/IEC 8859-2. 
+; 10b : ISO/IEC 8859-3. 
+; 11b : ISO/IEC 8859-4.
+
 ; REG[30h] Horizontal Start Point 0 of Active Window (HSAW0)
 ; Horizontal Start Point of Active Window [7:0] 
 ; (lower byte)
@@ -195,6 +217,33 @@ RA8875_VEAW0_VAL equ RA8875_VEAW0_800x480
 RA8875_VEAW1 equ 0x37
 RA8875_VEAW1_800x480 equ  (0xff00 & (480 - 1)) / 0x100
 RA8875_VEAW1_VAL equ RA8875_VEAW1_800x480
+
+; REG[40h] Memory Write Control Register 0 (MWCR0)
+; Bit 7 - Text Mode Enable
+; 0 : Graphic mode. 
+; 1 : Text mode.
+; Bit 6 - Font Write Cursor/ Memory Write Cursor Enable
+; 0 : Font write cursor/ Memory Write Cursor is not visible.
+; 1 : Font write cursor/ Memory Write Cursor is visible.
+; Bit 5 - Font Write Cursor/ Memory Write Cursor Blink Enable
+; 0 : Normal display.
+; 1 : Blink display.
+; Bit 3-2 - Memory Write Direction (Only for Graphic Mode)
+; 00b : Left>Right then Top>Down.
+; 01b : Right>Left then Top>Down.
+; 10b : Top>Down then Left>Right.
+; 11b : Down>Top then Left>Right.
+; Bit 1 - Memory Write Cursor Auto-Increase Disable
+; 0 : Cursor auto-increases when memory write.
+; 1 : Cursor doesn’t auto-increases when memory write.
+; Bit 0 - Memory Read Cursor Auto-Increase Disable
+; 0 : Cursor auto-increases when memory read.
+; 1 : Cursor doesn’t auto-increases when memory read.
+RA8875_MWCR0 equ 0x40
+RA8875_MWCR0_GFXMODE equ 0x00
+RA8875_MWCR0_TXTMODE equ 0x80
+RA8875_MWCR0_CURSOR equ 0x40
+RA8875_MWCR0_BLINK equ 0x20
 
 ; REG[88h] PLL Control Register 1 (PLLC1)
 RA8875_PLLC1 equ 0x88 
@@ -277,8 +326,6 @@ RA8875_MCLR_STOP equ 0x00
 RA8875_MCLR_READSTATUS equ 0x80
 RA8875_MCLR_FULL equ 0x00
 RA8875_MCLR_ACTIVE equ 0x40
-
-
 
 ; REG[C7h] Extra General Purpose IO Register (GPIOX)
 ; Bit 0
@@ -686,3 +733,22 @@ ra8875_backlight_init:
     pop bc
     pop af
     ret
+
+; TODO this could be simpler if we just need to initialise for text mode
+ra8875_text_mode:
+    push af
+    ; Set text mode
+    ld a,RA8875_MWCR0
+    call ra8875_write_command
+    call ra8875_read_data
+    or RA8875_MWCR0_TXTMODE ; set text mode bit
+    call ra8875_write_data
+    ; Select the internal (ROM) font
+    ld a,RA8875_FNCR0
+    call ra8875_write_command
+    call ra8875_read_data
+    and 0b01011111 ; Clear bits 7 and 5
+    call ra8875_write_data
+    pop af
+    ret
+
