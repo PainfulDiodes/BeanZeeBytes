@@ -245,6 +245,10 @@ RA8875_MWCR0_TXTMODE equ 0x80
 RA8875_MWCR0_CURSOR equ 0x40
 RA8875_MWCR0_BLINK equ 0x20
 
+; REG[44h] Blink Time Control Register (BTCR)
+; Text Blink Time Setting (Unit: Frame)
+RA8875_BTCR equ 0x44
+
 ; REG[88h] PLL Control Register 1 (PLLC1)
 RA8875_PLLC1 equ 0x88 
 RA8875_PLLC1_PLLDIV1 equ 0x00
@@ -752,3 +756,28 @@ ra8875_text_mode:
     pop af
     ret
 
+; TODO compress/rationalise this function and check it still works!
+; A = blink rate (0-255)
+ra8875_cursor_blink:
+    push af
+    push bc
+    ld b,a ; stash blink rate in B
+    ld a,RA8875_MWCR0
+    call ra8875_write_command
+    call ra8875_read_data
+    or RA8875_MWCR0_CURSOR ; set cursor visible bit
+    call ra8875_write_data
+
+    ld a,RA8875_MWCR0
+    call ra8875_write_command
+    call ra8875_read_data
+    or RA8875_MWCR0_BLINK ; set blink bit
+    call ra8875_write_data
+
+    ld a,RA8875_BTCR
+    call ra8875_write_command
+    ld a,b ; restore blink rate
+    call ra8875_write_data
+    pop bc
+    pop af
+    ret
