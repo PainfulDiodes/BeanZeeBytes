@@ -33,6 +33,13 @@ start:
     ld a,'X'
     call ra8875_putchar
 
+    ld hl,0
+    call ra8875_cursor_x
+    ld hl,0
+    call ra8875_cursor_y
+    ld hl,test_message
+    call ra8875_puts
+    
     jp WARMSTART
 
 ra8875_controller_error:
