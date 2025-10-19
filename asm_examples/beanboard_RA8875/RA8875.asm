@@ -1,5 +1,16 @@
-; RA8875registers and their values
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ra8875 commands
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+RA8875_DATAWRITE equ 0x00 
+RA8875_DATAREAD equ 0x40
+RA8875_CMDWRITE equ 0x80
+RA8875_CMDREAD equ 0xC0
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; RA8875 registers and their values
 ; based on RA8875 datasheet and Adafruit RA8875 library
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; REG[01h] Power and Display Control Register (PWRR)
 RA8875_PWRR equ 0x01
@@ -355,15 +366,13 @@ RA8875_REG_0_VAL equ 0x75
 RA8875_CURSOR_BLINK_RATE equ 0x20
 
 
-; commands
-RA8875_DATAWRITE equ 0x00
-RA8875_DATAREAD equ 0x40
-RA8875_CMDWRITE equ 0x80
-RA8875_CMDREAD equ 0xC0
-
-; delays 
+; delay
 ; 0x0e was the minimum needed for PLLC1/2 init with a 10MHz Z80 clock
 RA8875_DELAY_VAL equ 0xff
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; GPIO
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Pin definitions for RA8875 SPI on GPIO port
 ; GPO
@@ -390,7 +399,9 @@ GPO_LOW_STATE    equ 1 << RA8875_RESET
 GPO_HIGH_STATE   equ 1 << RA8875_MOSI | 1 << RA8875_RESET
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; low level utilities
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ra8875_delay:
     push bc
     ld b,RA8875_DELAY_VAL
@@ -413,7 +424,9 @@ ra8875_reset:
     ret
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; low level RA8875 SPI routines
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Write a byte over SPI without readback
 ; Input: A = byte to send
@@ -485,7 +498,9 @@ _ra8875_read_bit_done:
     ret
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; basic RA8875 routines
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Write a command to RA8875
 ; A = command parameter
@@ -540,7 +555,9 @@ ra8875_read_data:
     ret
 
 
-; register access routines
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ra8875 register access routines
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; read from RA8875 register
 ; A = register number to read
@@ -559,7 +576,9 @@ ra8875_write_reg:
     pop af
     ret
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; higher level RA8875 routines
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Check RA8875 register 0 for expected value
 ; Z flag set if matched, reset if not  
@@ -750,6 +769,42 @@ ra8875_backlight_init:
     call ra8875_write_reg
     pop bc
     pop af
+    ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; top level RA8875 routines
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+ra8875_initialise:
+    call ra8875_reset
+    call ra8875_reg_0_check
+    ret nz ; error
+
+    call ra8875_pllc1_init
+    call ra8875_reg_0_check
+    ret nz ; error
+
+    call ra8875_pllc2_init
+    call ra8875_reg_0_check
+    ret nz ; error
+
+    call ra8875_sysr_init
+
+    call ra8875_pcsr_init
+    call ra8875_reg_0_check
+    ret nz ; error
+
+    call ra8875_horizontal_settings_init
+    call ra8875_vertical_settings_init
+    call ra8875_horizontal_active_window_init
+    call ra8875_vertical_active_window_init
+    call ra8875_clear_window
+
+    call ra8875_display_on
+    call ra8875_adafruit_tft_enable
+    call ra8875_backlight_init
+
+    cmp a ; clear error flag
     ret
 
 ; TODO this could be simpler if we just need to initialise for text mode
