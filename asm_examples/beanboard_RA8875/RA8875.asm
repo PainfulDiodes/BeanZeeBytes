@@ -796,6 +796,7 @@ ra8875_cursor_blink:
     pop af
     ret
 
+; A = character to write
 ra8875_putchar:
     push af
     push bc
@@ -804,6 +805,23 @@ ra8875_putchar:
     call ra8875_write_command
     ld a,b ; restore char to A
     call ra8875_write_data
+    pop bc
+    pop af
+    ret
+
+; HL = pointer to null-terminated string
+; TODO could be improved by calling ra8875_write_data directly
+ra8875_puts:
+    push af
+    push bc
+_ra8875_puts_loop:
+    ld a,(hl)
+    cp 0
+    jr z,_ra8875_puts_done
+    call ra8875_putchar
+    inc hl
+    jr _ra8875_puts_loop
+_ra8875_puts_done:
     pop bc
     pop af
     ret

@@ -48,14 +48,8 @@ start:
     call dump_registers
 
     ld hl,test_message
-_test_message_loop:
-    ld a,(hl)
-    cp 0
-    jr z,_test_message_done
-    call ra8875_putchar
-    inc hl
-    jr _test_message_loop
-_test_message_done:
+    call ra8875_puts
+
     jp done
 
 error_0:
