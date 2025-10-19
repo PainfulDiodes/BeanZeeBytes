@@ -42,7 +42,7 @@ start:
     ; set text mode
     call ra8875_text_mode
 
-    ld a,32
+    ld a,RA8875_CURSOR_BLINK_RATE
     call ra8875_cursor_blink
 
     call dump_registers

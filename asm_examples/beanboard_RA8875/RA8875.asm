@@ -341,6 +341,10 @@ RA8875_GPIOX equ 0xC7
 ; expected value in register 0 - validates presence of RA8875
 RA8875_REG_0_VAL equ 0x75
 
+; default cursor blink rate
+RA8875_CURSOR_BLINK_RATE equ 0x20
+
+
 ; commands
 RA8875_DATAWRITE equ 0x00
 RA8875_DATAREAD equ 0x40
