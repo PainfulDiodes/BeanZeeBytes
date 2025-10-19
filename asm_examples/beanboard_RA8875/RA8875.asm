@@ -179,6 +179,26 @@ RA8875_FNCR0 equ 0x21
 ; 10b : ISO/IEC 8859-3. 
 ; 11b : ISO/IEC 8859-4.
 
+; REG[2Ah] Font Write Cursor Horizontal Position Register 0 (F_CURXL)
+; Font Write Cursor Horizontal Position[7:0]
+; The setting of the horizontal cursor position for font writing.
+RA8875_F_CURXL equ 0x2a
+
+; REG[2Bh] Font Write Cursor Horizontal Position Register 1 (F_CURXH)
+; Font Write Cursor Horizontal Position[9:8]
+; The setting of the horizontal cursor position for font writing.
+RA8875_F_CURXH equ 0x2b
+
+; REG[2Ch] Font Write Cursor Vertical Position Register 0 (F_CURYL)
+; Font Write Cursor Vertical Position[7:0]
+; The setting of the vertical cursor position for font writing.
+RA8875_F_CURYL equ 0x2c
+
+; REG[2Dh] Font Write Cursor Vertical Position Register 1 (F_CURYH)
+; Font Write Cursor Vertical Position[8]
+; The setting of the vertical cursor position for font writing.
+RA8875_F_CURYH equ 0x2d
+
 ; REG[30h] Horizontal Start Point 0 of Active Window (HSAW0)
 ; Horizontal Start Point of Active Window [7:0] 
 ; (lower byte)
@@ -849,6 +869,30 @@ ra8875_cursor_blink:
     call ra8875_write_data
     pop bc
     pop af
+    ret
+
+; HL = x position
+ra8875_cursor_x:
+    ld a,RA8875_F_CURXL
+    call ra8875_write_command
+    ld a,l
+    call ra8875_write_data
+    ld a,RA8875_F_CURXH
+    call ra8875_write_command
+    ld a,h
+    call ra8875_write_data
+    ret
+
+; HL = y position
+ra8875_cursor_y:
+    ld a,RA8875_F_CURYL
+    call ra8875_write_command
+    ld a,l
+    call ra8875_write_data
+    ld a,RA8875_F_CURYH
+    call ra8875_write_command
+    ld a,h
+    call ra8875_write_data
     ret
 
 ; A = character to write

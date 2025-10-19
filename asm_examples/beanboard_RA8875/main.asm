@@ -11,6 +11,28 @@ start:
 
     call print_all_chars
 
+    ; bottom-right corner
+    ld hl,800-8
+    call ra8875_cursor_x
+    ld hl,480-16
+    call ra8875_cursor_y
+    ld a,'X'
+    call ra8875_putchar
+
+    ld hl,10*8
+    call ra8875_cursor_x
+    ld hl,10*16
+    call ra8875_cursor_y
+    ld a,'X'
+    call ra8875_putchar
+
+    ld hl,10*8+4
+    call ra8875_cursor_x
+    ld hl,10*16
+    call ra8875_cursor_y
+    ld a,'X'
+    call ra8875_putchar
+
     jp WARMSTART
 
 ra8875_controller_error:
