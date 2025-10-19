@@ -47,6 +47,15 @@ start:
 
     call dump_registers
 
+    ld hl,test_message
+_test_message_loop:
+    ld a,(hl)
+    cp 0
+    jr z,_test_message_done
+    call ra8875_putchar
+    inc hl
+    jr _test_message_loop
+_test_message_done:
     jp done
 
 error_0:
@@ -61,6 +70,8 @@ start_message:
 ra8875_controller_error_message:
     db "\nRA8875 error: did not get 0x75 from reg 0\n",0
 
+test_message:
+    db "Hello, world!",0
 
 dump_registers:
     ld b,0x00

@@ -9,6 +9,16 @@ RA8875_PWRR_SLEEP equ 0x02
 RA8875_PWRR_NORMAL equ 0x00
 RA8875_PWRR_SOFTRESET equ 0x01
 
+; REG[02h] Memory Read/Write Command (MRWC)
+; Write Function : Memory Write Data
+; Data to write in memory corresponding to the setting of MWCR1[3:2]. 
+; Continuous data write cycle can be accepted in bulk data write case.
+; Read Function : Memory Read Data
+; Data to read from memory corresponding to the setting of MWCR1[3:2]. 
+; Continuous data read cycle can be accepted in bulk data read case. 
+; Note that the first data read cycle is dummy read and need to be ignored.
+RA8875_MRWC equ 0x02
+
 ; REG[04h] Pixel Clock Setting Register (PCSR)
 RA8875_PCSR equ 0x04
 RA8875_PCSR_PDATR equ 0x00
@@ -781,6 +791,18 @@ ra8875_cursor_blink:
     ld a,RA8875_BTCR
     call ra8875_write_command
     ld a,b ; restore blink rate
+    call ra8875_write_data
+    pop bc
+    pop af
+    ret
+
+ra8875_putchar:
+    push af
+    push bc
+    ld b,a ; stash char in B
+    ld a,RA8875_MRWC
+    call ra8875_write_command
+    ld a,b ; restore char to A
     call ra8875_write_data
     pop bc
     pop af
