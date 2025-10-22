@@ -873,6 +873,8 @@ ra8875_cursor_blink:
 
 ; HL = x position
 ra8875_cursor_x:
+    push af
+    push hl
     ld a,RA8875_F_CURXL
     call ra8875_write_command
     ld a,l
@@ -881,10 +883,14 @@ ra8875_cursor_x:
     call ra8875_write_command
     ld a,h
     call ra8875_write_data
+    pop hl
+    pop af
     ret
 
 ; HL = y position
 ra8875_cursor_y:
+    push af
+    push hl
     ld a,RA8875_F_CURYL
     call ra8875_write_command
     ld a,l
@@ -893,6 +899,8 @@ ra8875_cursor_y:
     call ra8875_write_command
     ld a,h
     call ra8875_write_data
+    pop hl
+    pop af
     ret
 
 ; A = character to write
