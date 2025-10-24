@@ -1,5 +1,3 @@
-include "RA8875.inc"
-
 ; expected value in register 0 - validates presence of RA8875
 RA8875_REG_0_VAL equ 0x75
 
