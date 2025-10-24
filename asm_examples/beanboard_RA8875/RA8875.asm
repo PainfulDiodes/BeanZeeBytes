@@ -363,7 +363,6 @@ ra8875_clear_window:
     call ra8875_write_reg
     ; wait for clear to complete
 _ra8875_clear_wait:
-    call ra8875_delay
     call ra8875_read_reg
     cp RA8875_MCLR_READSTATUS
     jr z,_ra8875_clear_wait
