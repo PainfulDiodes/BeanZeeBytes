@@ -903,6 +903,13 @@ ra8875_cursor_y:
     pop af
     ret
 
+ra8875_memory_read_write_command:
+    push af
+    ld a,RA8875_MRWC
+    call ra8875_write_command
+    pop af
+    ret
+
 ; A = character to write
 ra8875_putchar:
     push af

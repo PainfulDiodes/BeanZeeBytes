@@ -37,13 +37,30 @@ start:
 
     call getchar
 
+fill_screen:
     ld hl,0
     call ra8875_cursor_x
     call ra8875_cursor_y
     ld b,12
-_print_loop:
+fill_screen_loop:
     call print_all_chars
-    djnz _print_loop
+    djnz fill_screen_loop
+
+    call getchar
+
+    call ra8875_clear_window
+
+    call getchar
+fill_screen_fast:
+    ld hl,0
+    call ra8875_cursor_x
+    call ra8875_cursor_y
+    call getchar
+    ld b,12
+fill_screen_fast_loop:
+    call print_all_chars_fast
+    djnz fill_screen_fast_loop
+
 
     jp WARMSTART
 
@@ -73,6 +90,16 @@ _print_all_chars_loop:
     cp 0
     ret z
     jr _print_all_chars_loop
+
+print_all_chars_fast:
+    call ra8875_memory_read_write_command
+    ld a,0
+_print_all_chars_fast_loop:
+    call ra8875_write_data
+    inc a
+    cp 0
+    ret z
+    jr _print_all_chars_fast_loop
 
 ra8875_controller_error_message:
     db "\nRA8875 error\n",0
