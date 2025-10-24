@@ -1,4 +1,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ra8875 definitions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; NOTE: this file only includes settings for an 800x480 display
+; Settings for other display resolutions may be added
+; Typically a resolution-specific setting is provided with a further
+; alias  which is what the library will use, e.g.
+; RA8875_PCSR_800x480 defines the setting for 800x480 resolution
+; which is assigned to RA8875_PCSR_VAL 
+; the library will use RA8875_PCSR_VAL
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ra8875 commands
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
