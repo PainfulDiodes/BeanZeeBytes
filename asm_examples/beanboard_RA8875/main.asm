@@ -9,9 +9,104 @@ start:
 
     call dump_registers
 
-    call print_all_chars
-
+    call test_print_all_chars
     call getchar
+
+    call test_cursor_positioning    
+    call getchar
+
+    call test_fill_screen
+    call getchar
+
+    call ra8875_clear_window
+    call getchar
+
+    call test_fill_screen_fast
+    call getchar
+
+end:
+    jp WARMSTART
+
+ra8875_controller_error:
+    ld hl,ra8875_controller_error_message
+    call puts
+    jp WARMSTART
+
+; diagnostic functions
+
+dump_registers:
+    push af
+    push bc
+    ld b,0x00
+    ld c,0x00
+_dump_registers_loop:
+    ld a,c ; register number
+    call ra8875_read_reg
+    call putchar_hex
+    inc c
+    djnz _dump_registers_loop    
+    ld a,'\n'
+    call putchar
+    pop bc
+    pop af 
+    ret
+
+; test functions
+
+test_print_all_chars:
+    push af
+    ld a,0
+_print_all_chars_loop:
+    call ra8875_putchar
+    inc a
+    cp 0
+    jr nz,_print_all_chars_loop
+    pop af
+    ret
+
+test_print_all_chars_fast:
+    push af
+    call ra8875_memory_read_write_command
+    ld a,0
+_test_print_all_chars_fast_loop:
+    call ra8875_write_data
+    inc a
+    cp 0
+    jr nz,_test_print_all_chars_fast_loop
+    pop af
+    ret
+
+test_fill_screen:
+    push hl
+    push bc
+    ld hl,0
+    call ra8875_cursor_x
+    call ra8875_cursor_y
+    ld b,12
+_test_fill_screen_loop:
+    call test_print_all_chars
+    djnz _test_fill_screen_loop
+    pop bc
+    pop hl
+    ret
+
+test_fill_screen_fast:
+    push hl
+    push bc
+    ld hl,0
+    call ra8875_cursor_x
+    call ra8875_cursor_y
+    ld b,12
+_test_fill_screen_fast_loop:
+    call test_print_all_chars_fast
+    djnz _test_fill_screen_fast_loop
+    pop bc
+    pop hl
+    ret
+
+test_cursor_positioning:
+    push af
+    push hl
 
     ; bottom-right corner
     ld hl,800-8
@@ -34,70 +129,12 @@ start:
     call ra8875_cursor_y
     ld a,'X'
     call ra8875_putchar
-
-    call getchar
-
-fill_screen:
-    ld hl,0
-    call ra8875_cursor_x
-    call ra8875_cursor_y
-    ld b,12
-fill_screen_loop:
-    call print_all_chars
-    djnz fill_screen_loop
-
-    call getchar
-
-    call ra8875_clear_window
-
-    call getchar
-fill_screen_fast:
-    ld hl,0
-    call ra8875_cursor_x
-    call ra8875_cursor_y
-    ld b,12
-fill_screen_fast_loop:
-    call print_all_chars_fast
-    djnz fill_screen_fast_loop
-
-    jp WARMSTART
-
-ra8875_controller_error:
-    ld hl,ra8875_controller_error_message
-    call puts
-    jp WARMSTART
-
-dump_registers:
-    ld b,0x00
-    ld c,0x00
-_dump_registers_loop:
-    ld a,c ; register number
-    call ra8875_read_reg
-    call putchar_hex
-    inc c
-    djnz _dump_registers_loop    
-    ld a,'\n'
-    call putchar
+    
+    pop hl
+    pop af
     ret
 
-print_all_chars:
-    ld a,0
-_print_all_chars_loop:
-    call ra8875_putchar
-    inc a
-    cp 0
-    ret z
-    jr _print_all_chars_loop
-
-print_all_chars_fast:
-    call ra8875_memory_read_write_command
-    ld a,0
-_print_all_chars_fast_loop:
-    call ra8875_write_data
-    inc a
-    cp 0
-    ret z
-    jr _print_all_chars_fast_loop
+; strings
 
 ra8875_controller_error_message:
     db "\nRA8875 error\n",0
