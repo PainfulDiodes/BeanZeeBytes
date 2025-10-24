@@ -55,12 +55,10 @@ fill_screen_fast:
     ld hl,0
     call ra8875_cursor_x
     call ra8875_cursor_y
-    call getchar
     ld b,12
 fill_screen_fast_loop:
     call print_all_chars_fast
     djnz fill_screen_fast_loop
-
 
     jp WARMSTART
 
