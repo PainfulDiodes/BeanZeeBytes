@@ -20,6 +20,7 @@ RA8875_RESET      equ 2
 ; Chip Select - active LOW
 RA8875_CS         equ 3
 ; GPI
+RA8875_WAIT       equ 0
 RA8875_MISO       equ 1
 
 ; RESET active/low, CS inactive/high
