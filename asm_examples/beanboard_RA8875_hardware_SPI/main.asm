@@ -1,4 +1,10 @@
 start:
+    call ra8875_reg_0_check
+    call putchar_hex
+    ld a,'\n'
+    call putchar
+    jr end
+
 
     call ra8875_initialise
     jp nz,ra8875_controller_error
