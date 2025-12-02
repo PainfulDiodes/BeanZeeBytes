@@ -30,6 +30,7 @@ _ra8875_delay_loop:
 _ra8875_write:
     out (GPIO_OUT),a
     call ra8875_delay
+    call ra8875_delay
     ret
 
 ; Read a byte over SPI
@@ -39,7 +40,9 @@ _ra8875_read:
     ld a,0
     out (GPIO_OUT),a
     call ra8875_delay
+    call ra8875_delay
     in a,(GPIO_IN)
+    call ra8875_delay
     call ra8875_delay
     ret
 
