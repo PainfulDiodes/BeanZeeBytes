@@ -1,7 +1,6 @@
 start:
     call ra8875_delay
     call ra8875_reg_0_check
-    jr nz,start
     call putchar_hex
     ld a,'\n'
     call putchar
