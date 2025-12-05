@@ -1,38 +1,36 @@
 start:
-    call ra8875_delay
-    call ra8875_reg_0_check
+    ; call gpio_echo
+
+    ld a,0x00 ; register number
+    call ra8875_read_reg
+
     call putchar_hex
     ld a,'\n'
     call putchar
-    jr end
 
-
-    call ra8875_initialise
-    jp nz,ra8875_controller_error
-
-    call ra8875_text_mode
-    ld a,RA8875_CURSOR_BLINK_RATE
-    call ra8875_cursor_blink
-
-    call dump_registers
-
-    call test_print_all_chars
-    call getchar
-
-    call test_cursor_positioning    
-    call getchar
-
-    call test_fill_screen
-    call getchar
-
-    call ra8875_clear_window
-    call getchar
-
-    call test_fill_screen_fast
-    call getchar
 
 end:
     jp WARMSTART
+
+
+gpio_echo:
+    ; get a character from USB - will wait for a character
+    call getchar
+    ; escape?
+    cp '\e'
+    ; yes - end
+    ret z
+    ; echo to console
+    call putchar
+    out (GPIO_OUT),a
+
+    call ra8875_long_delay
+    
+    in a,(GPIO_IN)
+    ; echo to console
+    call putchar
+    ; repeat
+    jr gpio_echo
 
 ra8875_controller_error:
     ld hl,ra8875_controller_error_message
