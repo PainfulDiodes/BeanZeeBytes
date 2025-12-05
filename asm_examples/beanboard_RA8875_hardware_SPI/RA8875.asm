@@ -6,6 +6,7 @@
 
 ; 0x0e was the minimum needed for PLLC1/2 init with a 10MHz Z80 clock
 RA8875_DELAY_VAL equ 0xff
+RA8875_LONG_DELAY_VAL equ 50
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; low level utilities
@@ -21,6 +22,16 @@ _ra8875_delay_loop:
     pop bc
     ret
 
+ra8875_long_delay: 
+    push bc
+    ld b,RA8875_LONG_DELAY_VAL
+_ra8875_long_delay_loop: 
+    call ra8875_delay
+    djnz _ra8875_long_delay_loop
+    pop bc
+ret
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; low level RA8875 SPI routines
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -29,8 +40,7 @@ _ra8875_delay_loop:
 ; Input: A = byte to send
 _ra8875_write:
     out (GPIO_OUT),a
-    call ra8875_delay
-    call ra8875_delay
+    call ra8875_long_delay
     ret
 
 ; Read a byte over SPI
@@ -39,11 +49,9 @@ _ra8875_write:
 _ra8875_read:
     ld a,0
     out (GPIO_OUT),a
-    call ra8875_delay
-    call ra8875_delay
+    call ra8875_long_delay
     in a,(GPIO_IN)
-    call ra8875_delay
-    call ra8875_delay
+    call ra8875_long_delay
     ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
