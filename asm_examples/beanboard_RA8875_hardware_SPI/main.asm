@@ -3,7 +3,7 @@ start:
     call ra8875_test;
 
 end:
-    jp WARMSTART
+    jp PROMPT
 
 ra8875_test:
     ld a,0x00 ; register number
