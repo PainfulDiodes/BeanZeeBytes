@@ -1,6 +1,6 @@
 start:
-    ; call gpio_echo
-    call ra8875_test;
+    call gpio_echo
+    ; call ra8875_test;
 
 end:
     jp PROMPT
