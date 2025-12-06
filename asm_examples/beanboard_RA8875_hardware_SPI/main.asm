@@ -1,17 +1,17 @@
 start:
     ; call gpio_echo
-
-    ld a,0x00 ; register number
-    call ra8875_read_reg
-
-    call putchar_hex
-    ld a,'\n'
-    call putchar
-
+    call ra8875_test;
 
 end:
     jp WARMSTART
 
+ra8875_test:
+    ld a,0x00 ; register number
+    call ra8875_read_reg
+    call putchar_hex
+    ld a,'\n'
+    call putchar
+    ret
 
 gpio_echo:
     ; get a character from USB - will wait for a character
