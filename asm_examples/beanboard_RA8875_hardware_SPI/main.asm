@@ -24,11 +24,11 @@ gpio_echo:
     call putchar
     out (GPIO_OUT),a
 
-    call ra8875_long_delay
-    
-    in a,(GPIO_IN)
+    ; call ra8875_long_delay    
+    ; in a,(GPIO_IN)
     ; echo to console
-    call putchar
+    ; call putchar
+
     ; repeat
     jr gpio_echo
 
