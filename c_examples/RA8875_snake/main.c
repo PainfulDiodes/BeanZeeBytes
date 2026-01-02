@@ -51,7 +51,7 @@ int seed,length,score,motion,fruit_x,fruit_y;
 
 int main()
 {
-  ra8875_test();  
+  ra8875_setup();  
   char k;
     clearScreen();
     hideCursor();

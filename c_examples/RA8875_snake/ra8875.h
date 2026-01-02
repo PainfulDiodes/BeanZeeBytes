@@ -1,1 +1,1 @@
-void ra8875_test(void);
+void ra8875_setup(void);

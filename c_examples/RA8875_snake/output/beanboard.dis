@@ -20,8 +20,8 @@ __printf_format_table:
                     nop                                     ;[901b] 00
 __printf_format_table64:
                     nop                                     ;[901c] 00
-_ra8875_test:
-                    call      $8085                         ;[901d] cd 85 80
+_ra8875_setup:
+                    call      $8032                         ;[901d] cd 32 80
                     ret                                     ;[9020] c9
 
 _fputc_cons:
@@ -557,7 +557,7 @@ _showCursor:
                     ret                                     ;[9256] c9
 
 _main:
-                    call      _ra8875_test                  ;[9257] cd 1d 90
+                    call      _ra8875_setup                 ;[9257] cd 1d 90
                     dec       sp                            ;[925a] 3b
                     call      _clearScreen                  ;[925b] cd f9 91
                     call      _hideCursor                   ;[925e] cd 41 92

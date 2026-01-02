@@ -27,6 +27,19 @@ start:
 end:
     jp WARMSTART
 
+ra8875_setup:
+    call ra8875_initialise
+    jp nz,ra8875_controller_error
+
+    call ra8875_text_mode
+    ld a,RA8875_CURSOR_BLINK_RATE
+    call ra8875_cursor_blink
+
+    call test_fill_screen_fast
+    
+    call ra8875_clear_window
+    ret
+
 ra8875_controller_error:
     ld hl,ra8875_controller_error_message
     call puts

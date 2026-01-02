@@ -1,12 +1,12 @@
-test_fill_screen_fast           = $8085 ; addr, local, , beanboard, , main.asm:93
+ra8875_lib_setup = $8032
 
 
-PUBLIC ra8875_test
-PUBLIC _ra8875_test
+PUBLIC ra8875_setup
+PUBLIC _ra8875_setup
 
-ra8875_test:
-_ra8875_test:
-    call test_fill_screen_fast
+ra8875_setup:
+_ra8875_setup:
+    call ra8875_lib_setup
     ret
 
 
