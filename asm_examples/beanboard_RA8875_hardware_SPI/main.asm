@@ -36,10 +36,14 @@ ra8875_setup:
     call ra8875_cursor_blink
 
     call test_fill_screen_fast
-    
+
     call ra8875_clear_window
     ret
 
+ra8875_test_print_char:
+    ld a,'A'
+    call ra8875_putchar
+    ret
 ra8875_controller_error:
     ld hl,ra8875_controller_error_message
     call puts
