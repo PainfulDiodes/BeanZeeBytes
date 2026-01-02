@@ -1,1 +1,1 @@
-void ra8875_setup(void);
+void tft_setup(void);

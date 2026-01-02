@@ -1,12 +1,14 @@
-ra8875_lib_setup = $8032
+ra8875_setup                    = $8032 ; addr, local, , beanboard, , main.asm:30
+ra8875_cursor_x                 = $8330 ; addr, local, , beanboard, , RA8875.asm:472
+ra8875_cursor_y                 = $8347 ; addr, local, , beanboard, , RA8875.asm:488
+ra8875_putchar                  = $8366 ; addr, local, , beanboard, , RA8875.asm:511
 
+PUBLIC tft_setup
+PUBLIC _tft_setup
 
-PUBLIC ra8875_setup
-PUBLIC _ra8875_setup
-
-ra8875_setup:
-_ra8875_setup:
-    call ra8875_lib_setup
+tft_setup:
+_tft_setup:
+    call ra8875_setup
     ret
 
 
