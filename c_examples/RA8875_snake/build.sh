@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-../lib/build.sh beanboard $@
-../lib/build.sh beanzee $@
+../lib/build.sh beanboard 0x9000 $@
