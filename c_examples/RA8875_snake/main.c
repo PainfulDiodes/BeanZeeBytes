@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "terminal.h"
+#include "ra8875.h"
 #include "../lib/marvin.h"
 
 // function prototypes
@@ -50,7 +51,8 @@ int seed,length,score,motion,fruit_x,fruit_y;
 
 int main()
 {
-    char k;
+  ra8875_test();  
+  char k;
     clearScreen();
     hideCursor();
     splash();
