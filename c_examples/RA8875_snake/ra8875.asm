@@ -1,44 +1,47 @@
-ra8875_adafruit_tft_enable      = $82B8 ; addr, local, , beanboard, , RA8875.asm:368
-ra8875_backlight_init           = $82C4 ; addr, local, , beanboard, , RA8875.asm:379
-ra8875_clear_window             = $8299 ; addr, local, , beanboard, , RA8875.asm:342
-ra8875_controller_error         = $806A ; addr, local, , beanboard, , main.asm:60
-ra8875_controller_error_message = $810A ; addr, local, , beanboard, , main.asm:169
-ra8875_cursor_blink             = $832A ; addr, local, , beanboard, , RA8875.asm:447
-ra8875_cursor_x                 = $8353 ; addr, local, , beanboard, , RA8875.asm:472
-ra8875_cursor_y                 = $836A ; addr, local, , beanboard, , RA8875.asm:488
-ra8875_deselect                 = $814E ; addr, local, , beanboard, , RA8875.asm:94
-ra8875_display_on               = $82AC ; addr, local, , beanboard, , RA8875.asm:357
-ra8875_horizontal_active_window_init = $8257 ; addr, local, , beanboard, , RA8875.asm:304
-ra8875_horizontal_settings_init = $81F9 ; addr, local, , beanboard, , RA8875.asm:254
-ra8875_initialise               = $82D7 ; addr, local, , beanboard, , RA8875.asm:396
-ra8875_memory_read_write_command = $8381 ; addr, local, , beanboard, , RA8875.asm:503
-ra8875_pcsr_init                = $81EA ; addr, local, , beanboard, , RA8875.asm:243
-ra8875_pllc1_init               = $81C0 ; addr, local, , beanboard, , RA8875.asm:211
-ra8875_pllc2_init               = $81CF ; addr, local, , beanboard, , RA8875.asm:222
-ra8875_putchar                  = $8389 ; addr, local, , beanboard, , RA8875.asm:511
-ra8875_puts                     = $8398 ; addr, local, , beanboard, , RA8875.asm:525
-ra8875_read_data                = $8196 ; addr, local, , beanboard, , RA8875.asm:167
-ra8875_read_reg                 = $81A7 ; addr, local, , beanboard, , RA8875.asm:183
-ra8875_reg_0_check              = $81B8 ; addr, local, , beanboard, , RA8875.asm:205
-ra8875_reset                    = $8155 ; addr, local, , beanboard, , RA8875.asm:101
-ra8875_reset_delay              = $8127 ; addr, local, , beanboard, , RA8875.asm:29
-ra8875_select                   = $8147 ; addr, local, , beanboard, , RA8875.asm:87
+ra8875_adafruit_tft_enable      = $82B0 ; addr, local, , beanboard, , RA8875.asm:376
+ra8875_backlight_init           = $82BC ; addr, local, , beanboard, , RA8875.asm:387
+ra8875_clear_window             = $8291 ; addr, local, , beanboard, , RA8875.asm:350
+ra8875_controller_error         = $8050 ; addr, local, , beanboard, , main.asm:46
+ra8875_controller_error_message = $80F0 ; addr, local, , beanboard, , main.asm:155
+ra8875_cursor_blink             = $8322 ; addr, local, , beanboard, , RA8875.asm:455
+ra8875_cursor_x                 = $834B ; addr, local, , beanboard, , RA8875.asm:480
+ra8875_cursor_y                 = $8362 ; addr, local, , beanboard, , RA8875.asm:496
+ra8875_delay                    = $810D ; addr, local, , beanboard, , RA8875.asm:30
+ra8875_deselect                 = $8146 ; addr, local, , beanboard, , RA8875.asm:102
+ra8875_display_on               = $82A4 ; addr, local, , beanboard, , RA8875.asm:365
+ra8875_hardware_spi_end         = $8035 ; addr, local, , beanboard, , main.asm:29
+ra8875_hardware_spi_start       = $8000 ; addr, local, , beanboard, , main.asm:1
+ra8875_horizontal_active_window_init = $824F ; addr, local, , beanboard, , RA8875.asm:312
+ra8875_horizontal_settings_init = $81F1 ; addr, local, , beanboard, , RA8875.asm:262
+ra8875_initialise               = $82CF ; addr, local, , beanboard, , RA8875.asm:404
+ra8875_long_delay               = $8135 ; addr, local, , beanboard, , RA8875.asm:81
+ra8875_memory_read_write_command = $8379 ; addr, local, , beanboard, , RA8875.asm:511
+ra8875_pcsr_init                = $81E2 ; addr, local, , beanboard, , RA8875.asm:251
+ra8875_pllc1_init               = $81B8 ; addr, local, , beanboard, , RA8875.asm:219
+ra8875_pllc2_init               = $81C7 ; addr, local, , beanboard, , RA8875.asm:230
+ra8875_putchar                  = $8381 ; addr, local, , beanboard, , RA8875.asm:519
+ra8875_puts                     = $8390 ; addr, local, , beanboard, , RA8875.asm:533
+ra8875_read_data                = $818E ; addr, local, , beanboard, , RA8875.asm:175
+ra8875_read_reg                 = $819F ; addr, local, , beanboard, , RA8875.asm:191
+ra8875_reg_0_check              = $81B0 ; addr, local, , beanboard, , RA8875.asm:213
+ra8875_reset                    = $814D ; addr, local, , beanboard, , RA8875.asm:109
+ra8875_reset_delay              = $8115 ; addr, local, , beanboard, , RA8875.asm:37
+ra8875_select                   = $813F ; addr, local, , beanboard, , RA8875.asm:95
 ra8875_setup                    = $8038 ; addr, local, , beanboard, , main.asm:32
-ra8875_sysr_init                = $81DE ; addr, local, , beanboard, , RA8875.asm:233
-ra8875_test_print_char          = $8064 ; addr, local, , beanboard, , main.asm:56
-ra8875_text_mode                = $830D ; addr, local, , beanboard, , RA8875.asm:428
-ra8875_vertical_active_window_init = $8278 ; addr, local, , beanboard, , RA8875.asm:323
-ra8875_vertical_settings_init   = $8221 ; addr, local, , beanboard, , RA8875.asm:276
-ra8875_write_command            = $816C ; addr, local, , beanboard, , RA8875.asm:135
-ra8875_write_data               = $8181 ; addr, local, , beanboard, , RA8875.asm:151
-ra8875_write_reg                = $81AE ; addr, local, , beanboard, , RA8875.asm:190
+ra8875_sysr_init                = $81D6 ; addr, local, , beanboard, , RA8875.asm:241
+ra8875_text_mode                = $8305 ; addr, local, , beanboard, , RA8875.asm:436
+ra8875_vertical_active_window_init = $8270 ; addr, local, , beanboard, , RA8875.asm:331
+ra8875_vertical_settings_init   = $8219 ; addr, local, , beanboard, , RA8875.asm:284
+ra8875_write_command            = $8164 ; addr, local, , beanboard, , RA8875.asm:143
+ra8875_write_data               = $8179 ; addr, local, , beanboard, , RA8875.asm:159
+ra8875_write_reg                = $81A6 ; addr, local, , beanboard, , RA8875.asm:198
+test_cursor_positioning         = $80B8 ; addr, local, , beanboard, , main.asm:123
+test_fill_screen                = $808E ; addr, local, , beanboard, , main.asm:95
+test_fill_screen_fast           = $80A3 ; addr, local, , beanboard, , main.asm:109
+test_message                    = $80FF ; addr, local, , beanboard, , main.asm:158
+test_print_all_chars            = $8071 ; addr, local, , beanboard, , main.asm:72
+test_print_all_chars_fast       = $807E ; addr, local, , beanboard, , main.asm:83
 
-test_cursor_positioning         = $80D2 ; addr, local, , beanboard, , main.asm:137
-test_fill_screen                = $80A8 ; addr, local, , beanboard, , main.asm:109
-test_fill_screen_fast           = $80BD ; addr, local, , beanboard, , main.asm:123
-test_message                    = $8119 ; addr, local, , beanboard, , main.asm:172
-test_print_all_chars            = $808B ; addr, local, , beanboard, , main.asm:86
-test_print_all_chars_fast       = $8098 ; addr, local, , beanboard, , main.asm:97
 
 PUBLIC tft_setup
 PUBLIC _tft_setup
@@ -82,7 +85,7 @@ _tft_putchar:
     push    hl
     push    bc
     ld a,l
-    call ra8875_test_print_char ;ra8875_putchar
+    call ra8875_putchar
     ret
 
 ; PUBLIC marvin_gpio_in

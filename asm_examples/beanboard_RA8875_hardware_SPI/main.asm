@@ -1,4 +1,4 @@
-start:
+ra8875_hardware_spi_start:
     call ra8875_reset
     call ra8875_reset_delay
 
@@ -26,7 +26,7 @@ start:
     call test_fill_screen_fast
     call getchar
 
-end:
+ra8875_hardware_spi_end:
     jp WARMSTART
 
 ra8875_setup:
@@ -40,23 +40,9 @@ ra8875_setup:
     ld a,RA8875_CURSOR_BLINK_RATE
     call ra8875_cursor_blink
 
-    call test_fill_screen_fast
-
-    call ra8875_clear_window
-
-    ld hl,10*8
-    call ra8875_cursor_x
-    ld hl,10*16
-    call ra8875_cursor_y
-    ld a,'X'
-    call ra8875_putchar
-
+    call ra8875_long_delay
     ret
 
-ra8875_test_print_char:
-    ld a,'A'
-    call ra8875_putchar
-    ret
 ra8875_controller_error:
     ld hl,ra8875_controller_error_message
     call puts

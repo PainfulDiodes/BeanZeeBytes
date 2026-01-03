@@ -51,16 +51,17 @@ int seed,length,score,motion,fruit_x,fruit_y;
 
 int main()
 {
-  tft_setup();  
-  // exit(0);
+  tft_setup();
+  tft_cursor_x(100);
+  tft_cursor_y(100);
+  tft_putchar('P');
+  exit(0);
+
   char k;
   clearScreen();
   hideCursor();
   splash();
   
-  tft_cursor_x(100);
-  tft_cursor_y(100);
-  tft_putchar('X');
 
   while(true) {
         setupGame();

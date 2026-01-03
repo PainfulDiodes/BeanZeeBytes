@@ -4,6 +4,7 @@
 
 ; delay
 ; calibrated for 10MHz Z80 clock, Pico SPI clock
+RA8875_DEFAULT_DELAY_VAL equ 0xff
 RA8875_RESET_DELAY_VAL equ 0xff
 RA8875_PLL_DELAY_VAL equ 0xff ; 0x0E min for PLLC1/2
 RA8875_PCSR_DELAY_VAL equ 0xff
@@ -25,6 +26,13 @@ RA8875_CTRL_DESELECT equ 0x03
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; delays
+
+ra8875_delay:
+    push bc
+    ld b,RA8875_DEFAULT_DELAY_VAL
+    call _ra8875_delay_loop
+    pop bc
+    ret
 
 ra8875_reset_delay:
     push bc
@@ -70,14 +78,14 @@ _ra8875_delay_loop:
     djnz _ra8875_delay_loop
     ret
 
-; ra8875_long_delay: 
-;     push bc
-;     ld b,RA8875_LONG_DELAY_VAL
-; _ra8875_long_delay_loop: 
-;     call _ra8875_pll_delay
-;     djnz _ra8875_long_delay_loop
-;     pop bc
-; ret
+ra8875_long_delay: 
+    push bc
+    ld b,255
+_ra8875_long_delay_loop: 
+    call ra8875_delay
+    djnz _ra8875_long_delay_loop
+    pop bc
+ret
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
