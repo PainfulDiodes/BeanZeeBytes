@@ -40,7 +40,6 @@ ra8875_setup:
     ld a,RA8875_CURSOR_BLINK_RATE
     call ra8875_cursor_blink
 
-    call ra8875_long_delay
     ret
 
 ra8875_controller_error:

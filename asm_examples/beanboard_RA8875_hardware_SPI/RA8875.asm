@@ -78,12 +78,12 @@ _ra8875_delay_loop:
     djnz _ra8875_delay_loop
     ret
 
-ra8875_long_delay: 
+ra8875_init_delay: 
     push bc
     ld b,255
-_ra8875_long_delay_loop: 
+_ra8875_init_delay_loop: 
     call ra8875_delay
-    djnz _ra8875_long_delay_loop
+    djnz _ra8875_init_delay_loop
     pop bc
 ret
 
@@ -429,6 +429,8 @@ ra8875_initialise:
     call ra8875_adafruit_tft_enable
     call ra8875_backlight_init
 
+    call ra8875_init_delay
+    
     cmp a ; clear error flag
     ret
 
