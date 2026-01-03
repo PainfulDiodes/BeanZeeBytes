@@ -52,9 +52,10 @@ int seed,length,score,motion,fruit_x,fruit_y;
 int main()
 {
   tft_setup();  
-  tft_cursor_x(200);
+  tft_cursor_x(100);
   tft_cursor_y(100);
   tft_putchar('X');
+  exit(0);
   char k;
     clearScreen();
     hideCursor();
