@@ -1,4 +1,6 @@
 start:
+    call ra8875_reset
+    call ra8875_reset_delay
 
     call ra8875_initialise
     jp nz,ra8875_controller_error
@@ -28,6 +30,9 @@ end:
     jp WARMSTART
 
 ra8875_setup:
+    call ra8875_reset
+    call ra8875_reset_delay
+
     call ra8875_initialise
     jp nz,ra8875_controller_error
 
@@ -38,6 +43,14 @@ ra8875_setup:
     call test_fill_screen_fast
 
     call ra8875_clear_window
+
+    ld hl,10*8
+    call ra8875_cursor_x
+    ld hl,10*16
+    call ra8875_cursor_y
+    ld a,'X'
+    call ra8875_putchar
+
     ret
 
 ra8875_test_print_char:
