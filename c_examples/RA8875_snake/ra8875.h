@@ -3,9 +3,14 @@ void tft_cursor_x(unsigned int);
 void tft_cursor_y(unsigned int);
 void tft_putchar(unsigned int);
 void tft_clear_screen(void);
+void tft_print(char*);
 
 void clearScreen() {
     tft_clear_screen();
+    for(unsigned long l=0; l<1000; l++) {
+        // delay
+    }
+
 }
 
 void setCursor(int x, int y) {
@@ -23,4 +28,11 @@ void hideCursor() {
 
 void showCursor() {
 }
+
+void tft_print(char* s) {
+    while(*s) {
+        tft_putchar(*s++);
+    }
+}
+
 

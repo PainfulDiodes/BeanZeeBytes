@@ -23,7 +23,6 @@ void printScore(void);
 void gameLoop(void);
 void move(void);
 void gameOver(void);
-void print(char*);
     
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 24
@@ -83,27 +82,30 @@ void gameOver() {
     drawSnake();
     printScore();
     setCursor(20,10);
-    print("Game Over");
+    tft_print("Game Over");
     setCursor(20,12);
-    print("Press q to quit");
+    tft_print("Press q to quit");
     setCursor(20,13);
-    print("or p to play again");
+    tft_print("or p to play again");
 }
 
 void splash() {
+    printf("Snake!\n");
+    printf("Press any key to start");
+    printf("z and x to change direction");
     seed=0;
     setCursor(35,13);
-    print("Snake!");
+    tft_print("Snake!");
     setCursor(28,16);
-    print("Press any key to start");
+    tft_print("Press any key to start");
     setCursor(28,18);
-    print("z and x to change direction");
+    tft_print("z and x to change direction");
     setCursorHome();
     for(int r=0; r<12; r++) {
         if(splashBox(1+r,SCREEN_WIDTH-r,1+r,SCREEN_HEIGHT-r)) break;
     }
     setCursor(35,13);
-    print("Snake!");
+    tft_print("Snake!");
     srand(seed);
 }
 
@@ -242,7 +244,6 @@ void gameLoop() {
 
 void setCell(int x, int y, char c) {
     setCursor(x,y);
-    putchar(c);
     tft_putchar(c);
 }
 
@@ -281,14 +282,7 @@ void printScore() {
     setCursor(35, 24);
     char buf[16];
     snprintf(buf, sizeof(buf), "Score: %d", score);
-    print(buf);
-}
-
-void print(char* s) {
-    while(*s) {
-        putchar(*s);
-        tft_putchar(*s++);
-    }
+    tft_print(buf);
 }
 
 void delay(unsigned long d) {
