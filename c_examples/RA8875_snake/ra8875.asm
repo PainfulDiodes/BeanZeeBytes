@@ -51,6 +51,14 @@ _tft_setup:
     call ra8875_setup
     ret
 
+PUBLIC tft_clear_screen
+PUBLIC _tft_clear_screen
+
+tft_clear_screen:
+_tft_clear_screen:
+    call ra8875_clear_window
+    ret
+
 PUBLIC tft_cursor_x
 PUBLIC _tft_cursor_x
 

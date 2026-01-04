@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "terminal.h"
 #include "ra8875.h"
 #include "../lib/marvin.h"
 
@@ -24,6 +23,7 @@ void printScore(void);
 void gameLoop(void);
 void move(void);
 void gameOver(void);
+void print(char*);
     
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 24
@@ -52,16 +52,11 @@ int seed,length,score,motion,fruit_x,fruit_y;
 int main()
 {
   tft_setup();
-  tft_cursor_x(100);
-  tft_cursor_y(100);
-  tft_putchar('P');
-  exit(0);
-
+  
   char k;
   clearScreen();
   hideCursor();
   splash();
-  
 
   while(true) {
         setupGame();
@@ -88,27 +83,27 @@ void gameOver() {
     drawSnake();
     printScore();
     setCursor(20,10);
-    printf("Game Over");
+    print("Game Over");
     setCursor(20,12);
-    printf("Press q to quit");
+    print("Press q to quit");
     setCursor(20,13);
-    printf("or p to play again");
+    print("or p to play again");
 }
 
 void splash() {
     seed=0;
     setCursor(35,13);
-    printf("Snake!");
+    print("Snake!");
     setCursor(28,16);
-    printf("Press any key to start");
+    print("Press any key to start");
     setCursor(28,18);
-    printf("z and x to change direction");
+    print("z and x to change direction");
     setCursorHome();
     for(int r=0; r<12; r++) {
         if(splashBox(1+r,SCREEN_WIDTH-r,1+r,SCREEN_HEIGHT-r)) break;
     }
     setCursor(35,13);
-    printf("Snake!");
+    print("Snake!");
     srand(seed);
 }
 
@@ -248,6 +243,7 @@ void gameLoop() {
 void setCell(int x, int y, char c) {
     setCursor(x,y);
     putchar(c);
+    tft_putchar(c);
 }
 
 void drawSnake() {
@@ -283,9 +279,18 @@ bool isWithinSnake(int x, int y) {
 
 void printScore() {
     setCursor(35, 24);
-    printf("Score: %d",score);
+    char buf[16];
+    snprintf(buf, sizeof(buf), "Score: %d", score);
+    print(buf);
 }
-  
+
+void print(char* s) {
+    while(*s) {
+        putchar(*s);
+        tft_putchar(*s++);
+    }
+}
+
 void delay(unsigned long d) {
     for(unsigned long l=0; l<d; l++) {
         //
