@@ -90,9 +90,8 @@ void gameOver() {
 }
 
 void splash() {
-    printf("Snake!\n");
-    printf("Press any key to start");
-    printf("z and x to change direction");
+    printf("\nSnake!\n");
+    printf("z=left x=right\n");
     seed=0;
     setCursor(35,13);
     tft_print("Snake!");
