@@ -4,8 +4,9 @@ ra8875_clear_window             = $828E ; addr, local, , beanboard, , RA8875.asm
 ra8875_controller_error         = $804D ; addr, local, , beanboard, , main.asm:45
 ra8875_controller_error_message = $80ED ; addr, local, , beanboard, , main.asm:154
 ra8875_cursor_blink             = $8322 ; addr, local, , beanboard, , RA8875.asm:457
-ra8875_cursor_x                 = $834B ; addr, local, , beanboard, , RA8875.asm:482
-ra8875_cursor_y                 = $8362 ; addr, local, , beanboard, , RA8875.asm:498
+ra8875_cursor_off               = $834B ; addr, local, , beanboard, , RA8875.asm:481
+ra8875_cursor_x                 = $835B ; addr, local, , beanboard, , RA8875.asm:492
+ra8875_cursor_y                 = $8372 ; addr, local, , beanboard, , RA8875.asm:508
 ra8875_delay                    = $810A ; addr, local, , beanboard, , RA8875.asm:30
 ra8875_deselect                 = $8143 ; addr, local, , beanboard, , RA8875.asm:102
 ra8875_display_on               = $82A1 ; addr, local, , beanboard, , RA8875.asm:365
@@ -15,12 +16,12 @@ ra8875_horizontal_active_window_init = $824C ; addr, local, , beanboard, , RA887
 ra8875_horizontal_settings_init = $81EE ; addr, local, , beanboard, , RA8875.asm:262
 ra8875_init_delay               = $8132 ; addr, local, , beanboard, , RA8875.asm:81
 ra8875_initialise               = $82CC ; addr, local, , beanboard, , RA8875.asm:404
-ra8875_memory_read_write_command = $8379 ; addr, local, , beanboard, , RA8875.asm:513
+ra8875_memory_read_write_command = $8389 ; addr, local, , beanboard, , RA8875.asm:523
 ra8875_pcsr_init                = $81DF ; addr, local, , beanboard, , RA8875.asm:251
 ra8875_pllc1_init               = $81B5 ; addr, local, , beanboard, , RA8875.asm:219
 ra8875_pllc2_init               = $81C4 ; addr, local, , beanboard, , RA8875.asm:230
-ra8875_putchar                  = $8381 ; addr, local, , beanboard, , RA8875.asm:521
-ra8875_puts                     = $8390 ; addr, local, , beanboard, , RA8875.asm:535
+ra8875_putchar                  = $8391 ; addr, local, , beanboard, , RA8875.asm:531
+ra8875_puts                     = $83A0 ; addr, local, , beanboard, , RA8875.asm:545
 ra8875_read_data                = $818B ; addr, local, , beanboard, , RA8875.asm:175
 ra8875_read_reg                 = $819C ; addr, local, , beanboard, , RA8875.asm:191
 ra8875_reg_0_check              = $81AD ; addr, local, , beanboard, , RA8875.asm:213
@@ -57,6 +58,22 @@ PUBLIC _tft_clear_screen
 tft_clear_screen:
 _tft_clear_screen:
     call ra8875_clear_window
+    ret
+
+PUBLIC tft_cursor_on
+PUBLIC _tft_cursor_on
+
+tft_cursor_on:
+_tft_cursor_on:
+    call ra8875_cursor_blink
+    ret
+
+PUBLIC tft_cursor_off
+PUBLIC _tft_cursor_off
+
+tft_cursor_off:
+_tft_cursor_off:
+    call ra8875_cursor_off
     ret
 
 PUBLIC tft_cursor_x

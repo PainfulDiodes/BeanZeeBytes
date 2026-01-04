@@ -4,6 +4,9 @@ void tft_cursor_y(unsigned int);
 void tft_putchar(unsigned int);
 void tft_clear_screen(void);
 void tft_print(char*);
+void tft_clear_screen(void);
+void tft_cursor_off(void);
+void tft_cursor_on(void);
 
 void clearScreen() {
     tft_clear_screen();
@@ -24,9 +27,11 @@ void setCursorHome() {
 }
 
 void hideCursor() {
+    tft_cursor_off();
 }
 
 void showCursor() {
+    tft_cursor_on();
 }
 
 void tft_print(char* s) {

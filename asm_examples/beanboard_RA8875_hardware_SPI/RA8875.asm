@@ -430,7 +430,7 @@ ra8875_initialise:
     call ra8875_backlight_init
 
     call ra8875_init_delay
-    
+
     cmp a ; clear error flag
     ret
 
@@ -475,6 +475,16 @@ ra8875_cursor_blink:
     ld a,b ; restore blink rate
     call ra8875_write_data
     pop bc
+    pop af
+    ret
+
+ra8875_cursor_off:
+    push af
+    ld a,RA8875_MWCR0
+    call ra8875_write_command
+    call ra8875_read_data
+    and ~RA8875_MWCR0_CURSOR ; clear cursor visible bit
+    call ra8875_write_data
     pop af
     ret
 
