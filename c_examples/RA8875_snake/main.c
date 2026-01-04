@@ -29,7 +29,8 @@ void setCursorHome(void);
 void hideCursor(void);
 void showCursor(void);
 void tft_print(char*);
-    
+void drawFrame(void);
+
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 24
 #define X_MAX_CELL 80
@@ -134,6 +135,11 @@ bool splashBox(int x1, int x2, int y1, int y2) {
     return false;
 }
 
+void drawFrame() {
+    for(int y=0; y<=SCREEN_HEIGHT-1; y++) setCell(SCREEN_WIDTH,y,'|');
+    for(int x=SCREEN_WIDTH; x>=0; x--) setCell(x,SCREEN_HEIGHT-1,'-');
+}
+
 void splashDot(int x, int y) {
     setCell(x,y,'*');
     delay(3);
@@ -145,15 +151,15 @@ void setupGame() {
     length = 5;
     motion = MOTION_RIGHT;
     alive = true;
-
+    
     for(int i=0; i<=length; i++) // use <= as the position after the length is used to clean up the prior position of the snake
     {
-        x_cell_pos[i] = X_START_CELL-i;
-        y_cell_pos[i] = Y_START_CELL;
+      x_cell_pos[i] = X_START_CELL-i;
+      y_cell_pos[i] = Y_START_CELL;
     }
-
-    clearScreen();
-
+    
+    clearScreen();    
+    drawFrame();
     drawSnake();
     dropFruit();
     printScore();
