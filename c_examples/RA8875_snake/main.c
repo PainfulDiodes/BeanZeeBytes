@@ -23,6 +23,12 @@ void printScore(void);
 void gameLoop(void);
 void move(void);
 void gameOver(void);
+void clearScreen(void);
+void setCursor(int,int);
+void setCursorHome(void);
+void hideCursor(void);
+void showCursor(void);
+void tft_print(char*);
     
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 24
@@ -287,5 +293,34 @@ void printScore() {
 void delay(unsigned long d) {
     for(unsigned long l=0; l<d; l++) {
         //
+    }
+}
+
+void clearScreen() {
+    tft_clear_screen();
+    delay(1000);
+}
+
+void setCursor(int x, int y) {
+    tft_cursor_x(x*8);
+    tft_cursor_y(y*16);
+}
+
+void setCursorHome() {
+    tft_cursor_x(0);
+    tft_cursor_y(0);
+}
+
+void hideCursor() {
+    tft_cursor_off();
+}
+
+void showCursor() {
+    tft_cursor_on();
+}
+
+void tft_print(char* s) {
+    while(*s) {
+        tft_putchar(*s++);
     }
 }
