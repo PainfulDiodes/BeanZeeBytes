@@ -1,6 +1,11 @@
+include "marvin.inc"
+include "ports.inc"
+
+    ORG ORGDEF
+
 start:
     ld hl,start_message
-	call puts
+    call MARVIN_PUTS
     ld hl,gpio_message
 loop:
     ld a,(hl)
@@ -10,10 +15,10 @@ loop:
     inc hl
     jr loop
 end:
-    ; jump to the reset address - will jump back to the monitor
-    jp WARMSTART
+    ; jump back to the monitor
+    jp MARVIN_WARMSTART
 
-start_message: 
+start_message:
     db "String to GPO\n",0
-gpio_message: 
+gpio_message:
     db "0123456789",0

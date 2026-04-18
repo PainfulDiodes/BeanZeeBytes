@@ -1,9 +1,10 @@
 # BeanZeeBytes
+
 Example programs for the [BeanZee](https://github.com/PainfulDiodes/BeanZee) Z80 development board, running [Marvin](https://github.com/PainfulDiodes/marvin) monitor.
 
-Written for BeanZee v1, BeanBoard v1 and Marvin v1.2.1
+Written for BeanZee v1, BeanBoard v1, BeanBoardSPI v1 and Marvin v1.3.
 
-Marvin can interpret Intel HEX format inputs to load machine code programs into RAM. 
+Marvin can interpret Intel HEX format inputs to load machine code programs into RAM.
 
 BeanZeeBytes example programs have been prepared using the [Z88DK](https://github.com/z88dk/z88dk):
 
@@ -11,12 +12,48 @@ BeanZeeBytes example programs have been prepared using the [Z88DK](https://githu
 
 Examples are provided in C and Z80 assembly.
 
-The easiest way to build these programs is to install an use the Z88DK toolchain and generate Intel HEX files. MacOS shell scripts are provided to build the programs using Z88DK (but may give some indication of what is needed for other environments).
+## Building
 
-Intel HEX files (with an .ihx extension) are also provided so that you can load and run them on BeanZee "as is" without needing to build them. These will be different for each hardware target, and  ihx files are provided for the beanzee and beanboard Marvin builds.
+Install the Z88DK toolchain, then:
 
-Use your terminal emulator to send the ihx file to BeanZee, and then run the program using the Marvin eXecute command, providing the load address (which defaults to 0x8000), e.g. 
+```bash
+./build.sh          # build all examples
+./clean.sh          # remove build outputs
+```
 
-    x8000
+Or build a single example:
 
-You may omit the 8000, as eXecute without an address will execute from the beginning of user RAM (RAMSTART) which is 0x8000, the default for loading programs into RAM.
+```bash
+cd asm_examples/console_helloworld
+./build.sh
+```
+
+## Assembly examples
+
+Each assembly example is self-contained. It includes `marvin.inc` (Marvin ABI — fixed ROM addresses for I/O functions) and optionally `ports.inc` (BeanBoard port assignments). The example builds a single binary that runs on all hardware targets.
+
+```text
+asm_examples/console_helloworld/
+├── main.asm        # program logic
+├── marvin.inc      # Marvin ABI constants
+├── build.sh        # complete build, no external dependencies
+└── output/
+    ├── main.ihx    # Intel HEX — load and run on hardware
+    └── ...
+```
+
+To use an example independently, copy its directory anywhere and run `./build.sh` — no other files needed.
+
+## C examples
+
+C examples use a shared library in `c_examples/lib/` for the z88dk interface to Marvin I/O. Each example's `build.sh` is self-contained.
+
+## Running on hardware
+
+Use your terminal emulator to send the `.ihx` file to BeanZee, then run the program using the Marvin eXecute command:
+
+```text
+x8000
+```
+
+`x` without an address executes from RAMSTART (0x8000), which is the default load address.

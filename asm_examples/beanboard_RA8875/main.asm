@@ -1,3 +1,9 @@
+include "marvin.inc"
+include "ports.inc"
+include "RA8875.inc"
+
+    ORG ORGDEF
+
 start:
 
     call ra8875_initialise
@@ -10,27 +16,27 @@ start:
     call dump_registers
 
     call test_print_all_chars
-    call getchar
+    call MARVIN_GETCHAR
 
-    call test_cursor_positioning    
-    call getchar
+    call test_cursor_positioning
+    call MARVIN_GETCHAR
 
     call test_fill_screen
-    call getchar
+    call MARVIN_GETCHAR
 
     call ra8875_clear_window
-    call getchar
+    call MARVIN_GETCHAR
 
     call test_fill_screen_fast
-    call getchar
+    call MARVIN_GETCHAR
 
 end:
-    jp WARMSTART
+    jp MARVIN_WARMSTART
 
 ra8875_controller_error:
     ld hl,ra8875_controller_error_message
-    call puts
-    jp WARMSTART
+    call MARVIN_PUTS
+    jp MARVIN_WARMSTART
 
 ; diagnostic functions
 
@@ -42,13 +48,13 @@ dump_registers:
 _dump_registers_loop:
     ld a,c ; register number
     call ra8875_read_reg
-    call putchar_hex
+    call MARVIN_PUTCHAR_HEX
     inc c
-    djnz _dump_registers_loop    
+    djnz _dump_registers_loop
     ld a,'\n'
-    call putchar
+    call MARVIN_PUTCHAR
     pop bc
-    pop af 
+    pop af
     ret
 
 ; test functions
@@ -129,7 +135,7 @@ test_cursor_positioning:
     call ra8875_cursor_y
     ld a,'X'
     call ra8875_putchar
-    
+
     pop hl
     pop af
     ret
@@ -141,3 +147,5 @@ ra8875_controller_error_message:
 
 test_message:
     db "Hello, world!",0
+
+include "RA8875.asm"
