@@ -30,24 +30,27 @@ cd asm_examples/console_helloworld
 
 ## Assembly examples
 
-Each assembly example is self-contained. It includes `marvin.inc` (Marvin ABI — fixed ROM addresses for I/O functions) and optionally `ports.inc` (BeanBoard port assignments). The example builds a single binary that runs on all hardware targets.
+Each assembly example is self-contained. It includes `marvin.inc` (Marvin ABI — fixed ROM addresses for I/O functions) and `ports.inc` (BeanBoard port assignments). The example builds a single binary that runs on all hardware targets.
 
 ```text
-lib
-├── marvin.inc      # Marvin ABI constants
 asm_examples/console_helloworld/
-├── main.asm        # the example program
 ├── build.sh        # build script
+├── clean.sh        # clean script - removes build output files
+├── main.asm        # the example program
+├── marvin.inc      # Marvin ABI constants
+├── ports.inc       # Hardware port constants
 └── output/
     ├── main.ihx    # Intel HEX — load and run on BeanZee
     └── ...
 ```
 
-To use an example independently, copy its directory anywhere, copy in marvin.inc from the lib directory and run `./build.sh`
+To use an example independently, copy the directory contents to your desired directory and run `./build.sh`
 
 ## C examples
 
-C examples use a shared library in `c_examples/lib/` for the z88dk interface to Marvin I/O. Each example's `build.sh` is self-contained.
+Each C example is self-contained. It includes the same `marvin.inc` and `ports.inc` as the assembly examples, but also a `marvin.asm` file which patches the monitor into the z88dk C environment, and an accompanying `marvin.h` header.
+
+Again, to use an example independently, copy the directory contents to your desired directory and run `./build.sh`
 
 ## Running on hardware
 
