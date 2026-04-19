@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 for dir in ${PWD}/*; do  
-    if [ -d "$dir/output" ]; then
+    if [ -f "$dir/clean.sh" ]; then
         echo $dir
-        rm -f $dir/output/*
+        cd $dir && ./clean.sh
     fi
 done
