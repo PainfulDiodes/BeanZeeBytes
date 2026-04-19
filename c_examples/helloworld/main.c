@@ -4,7 +4,7 @@
 // tested on BeanBoard v1, BeanZee v1 and Marvin v1.2.1-beanzee / v1.2.1-beanboard
 
 #include <stdio.h>
-#include "../lib/marvin.h"
+#include "marvin.h"
 
 int main()
 {
