@@ -6,11 +6,11 @@ start:
     ; load the message address into HL
     ld hl,message
 print:
-    ; call the monitor puts routine, which will print the message pointed to by HL
+    ; call the monitor puts routine, which will print to the console the message pointed to by HL
     call MARVIN_PUTS
 wait:
     ; call the monitor getchar to get a character from the console input
-    ; it will wait until a character is received
+    ; this will wait until a character is received
     call MARVIN_GETCHAR
 end:
     ; jump back to the monitor

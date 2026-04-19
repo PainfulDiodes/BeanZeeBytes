@@ -3,7 +3,6 @@ include "marvin.inc"
     ORG ORGDEF
 
 start:
-    call MARVIN_LCD_INIT
     ; print instructions to console
     ld hl,start_message
     call MARVIN_PUTS
@@ -15,13 +14,14 @@ loop:
     ; yes - end
     jp z,end
     ; no - echo to LCD
-    call MARVIN_LCD_PUTCHAR
+    call MARVIN_PUTCHAR
     ; repeat
     jr loop
 
 end:
-    call MARVIN_LCD_INIT
+    ld a, '\n'
+    call MARVIN_PUTCHAR
     jp MARVIN_WARMSTART
 
 start_message:
-    db "Echoing from console\nto the LCD\n'Esc' to quit\n",0
+    db "Echoing from console input to console output. 'Esc' to quit\n",0
