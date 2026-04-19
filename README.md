@@ -2,7 +2,7 @@
 
 Example programs for the [BeanZee](https://github.com/PainfulDiodes/BeanZee) Z80 development board, running [Marvin](https://github.com/PainfulDiodes/marvin) monitor.
 
-Written for BeanZee v1, BeanBoard v1, BeanBoardSPI v1 and Marvin v1.3.
+Written for Marvin v1.3 with BeanZee v1, BeanBoard v1, BeanBoardSPI v1.
 
 Marvin can interpret Intel HEX format inputs to load machine code programs into RAM, making it possible to load an machine code program via a console emulator over the BeanZee USB interface.
 
@@ -30,7 +30,7 @@ cd asm_examples/console_helloworld
 
 ## Assembly examples
 
-Each assembly example is self-contained. It includes `marvin.inc` (Marvin ABI — fixed ROM addresses for I/O functions) and `ports.inc` (BeanBoard port assignments). The example builds a single binary that runs on all hardware targets.
+Each assembly example is self-contained. It includes `marvin.inc` (Marvin ABI — fixed ROM addresses for I/O functions) and `ports.inc` (hardware port assignments). The example builds a single binary that runs on all hardware targets.
 
 ```text
 asm_examples/console_helloworld/
@@ -54,7 +54,7 @@ Again, to use an example independently, copy the directory contents to your desi
 
 ## Running on hardware
 
-Use your terminal emulator to send the `.ihx` file to BeanZee, then run the program using the Marvin eXecute command:
+Use your terminal emulator to copy and paste the `.ihx` file content to BeanZee, then run the program using the Marvin eXecute command:
 
 ```text
 x8000
