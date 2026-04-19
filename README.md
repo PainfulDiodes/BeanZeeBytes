@@ -4,7 +4,7 @@ Example programs for the [BeanZee](https://github.com/PainfulDiodes/BeanZee) Z80
 
 Written for BeanZee v1, BeanBoard v1, BeanBoardSPI v1 and Marvin v1.3.
 
-Marvin can interpret Intel HEX format inputs to load machine code programs into RAM.
+Marvin can interpret Intel HEX format inputs to load machine code programs into RAM, making it possible to load an machine code program via a console emulator over the BeanZee USB interface.
 
 BeanZeeBytes example programs have been prepared using the [Z88DK](https://github.com/z88dk/z88dk):
 
@@ -33,16 +33,17 @@ cd asm_examples/console_helloworld
 Each assembly example is self-contained. It includes `marvin.inc` (Marvin ABI — fixed ROM addresses for I/O functions) and optionally `ports.inc` (BeanBoard port assignments). The example builds a single binary that runs on all hardware targets.
 
 ```text
-asm_examples/console_helloworld/
-├── main.asm        # program logic
+lib
 ├── marvin.inc      # Marvin ABI constants
-├── build.sh        # complete build, no external dependencies
+asm_examples/console_helloworld/
+├── main.asm        # the example program
+├── build.sh        # build script
 └── output/
-    ├── main.ihx    # Intel HEX — load and run on hardware
+    ├── main.ihx    # Intel HEX — load and run on BeanZee
     └── ...
 ```
 
-To use an example independently, copy its directory anywhere and run `./build.sh` — no other files needed.
+To use an example independently, copy its directory anywhere, copy in marvin.inc from the lib directory and run `./build.sh`
 
 ## C examples
 
