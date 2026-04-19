@@ -1,10 +1,7 @@
 ; MARVIN ABI addresses
-MARVIN_PUTCHAR  EQU 0x0043
-MARVIN_GETCHAR  EQU 0x004C
-MARVIN_READCHAR EQU 0x004F
+include "marvin.inc"
 
 ; MARVIN stdio overrides
-
 PUBLIC fputc_cons_native
 PUBLIC _fputc_cons_native
 
