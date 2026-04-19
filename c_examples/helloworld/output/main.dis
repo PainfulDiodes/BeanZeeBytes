@@ -7,7 +7,7 @@ start:
                     call      _main                         ;[800b] cd 50 81
 __Exit:
                     call      crt0_exit                     ;[800e] cd 49 80
-                    jp        MARVIN_WARMSTART              ;[8011] c3 40 00
+                    jp        $0040                         ;[8011] c3 40 00
 l_dcal:
                     jp        (hl)                          ;[8014] e9
 _fputc_cons:
@@ -16,17 +16,17 @@ _fputc_cons:
                     push      hl                            ;[8017] e5
                     push      bc                            ;[8018] c5
                     ld        a,l                           ;[8019] 7d
-                    call      MARVIN_PUTCHAR_cha            ;[801a] cd 43 00
+                    call      $0043                         ;[801a] cd 43 00
                     ret                                     ;[801d] c9
 
 _fgetc_cons:
-                    call      MARVIN_GETCHAR_rea            ;[801e] cd 4c 00
+                    call      $004c                         ;[801e] cd 4c 00
                     ld        l,a                           ;[8021] 6f
                     ld        h,$00                         ;[8022] 26 00
                     ret                                     ;[8024] c9
 
 _marvin_readchar:
-                    call      MARVIN_READCHAR_non-blockin   ;[8025] cd 4f 00
+                    call      $004f                         ;[8025] cd 4f 00
                     ld        h,$00                         ;[8028] 26 00
                     ld        l,a                           ;[802a] 6f
                     ret                                     ;[802b] c9
