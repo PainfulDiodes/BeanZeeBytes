@@ -2,7 +2,7 @@
 
 Example programs for the [BeanZee](https://github.com/PainfulDiodes/BeanZee) Z80 development board, running [Marvin](https://github.com/PainfulDiodes/marvin) monitor.
 
-Written for Marvin v1.3 with BeanZee v1, BeanBoard v1, BeanBoardSPI v1.
+Written for Marvin v1.5 with BeanZee v1, BeanBoard v1, BeanBoardSPI v1.
 
 Marvin can interpret Intel HEX format inputs to load machine code programs into RAM, making it possible to load an machine code program via a console emulator over the BeanZee USB interface.
 

@@ -50,4 +50,35 @@ MARVIN_RA8875_CONSOLE_SET_BG_COLOUR    EQU 0x0082 ; in: A=colour  set console ba
 MARVIN_RA8875_CONSOLE_CURSOR_HIDE      EQU 0x0085 ; hide software cursor
 MARVIN_RA8875_CONSOLE_CURSOR_SHOW      EQU 0x0088 ; show software cursor
 
+; Flash cartridge  (beandeck)
+MARVIN_FLASH_READ         EQU 0x008B  ; in: A=addr[23:16] HL=addr[15:0] DE=dest BC=len  read from flash
+MARVIN_FLASH_PAGE_PROGRAM EQU 0x008E  ; in: A=addr[23:16] HL=addr[15:0] DE=src BC=len   Z=ok NZ=timeout  write page
+MARVIN_FLASH_SECTOR_ERASE EQU 0x0091  ; in: HL=sector number   Z=ok NZ=timeout  erase 4KB sector
+MARVIN_FLASH_SELECT_SLOT  EQU 0x0094  ; in: A=slot (1-6)  caches JEDEC ID to W25Q_ID_MFR/TYPE/CAP
+MARVIN_FLASH_READ_JEDEC_ID EQU 0x0097 ; out: A=mfr B=type C=cap           read JEDEC ID from current slot
+MARVIN_FLASH_HAS_DEVICE       EQU 0x009A  ; out: Z=device present NZ=no device
+MARVIN_FLASH_GET_DEVICE_ID    EQU 0x009D  ; out: A=mfr B=type C=cap         get cached JEDEC ID
+MARVIN_FLASH_GET_DEVICE_NAME  EQU 0x00A0  ; out: HL=ptr to name string
+MARVIN_FLASH_GET_CAPACITY_MB  EQU 0x00A3  ; out: A=capacity in MB
+MARVIN_FLASH_GET_SECTOR_COUNT EQU 0x00A6  ; out: HL=total 4KB sector count
+MARVIN_FLASH_BYTES_TO_SECTORS EQU 0x00A9  ; in: HL=byte count  out: A=sector count (ceiling)
+MARVIN_FLASH_SECTOR_TO_ADDR   EQU 0x00AC  ; in: HL=sector number  out: A=addr[23:16] HL=addr[15:0]
+
+; BDFS file system  (beandeck)
+MARVIN_BDFS_INIT              EQU 0x00AF  ; initialise BDFS RAM state
+MARVIN_BDFS_SET_DRIVE         EQU 0x00B2  ; in: A=drive letter ('A'-'F')
+MARVIN_BDFS_GET_DRIVE         EQU 0x00B5  ; out: Z=ok A=drive letter; NZ A=BDFS_ERR_NO_DRIVE
+MARVIN_BDFS_SELECT_DRIVE      EQU 0x00B8  ; in: A=drive letter  out: Z=ok NZ=BDFS_ERR_NO_DEVICE
+MARVIN_BDFS_FORMAT            EQU 0x00BB  ; in: HL=vol name (0=default)  out: Z=ok NZ=BDFS_ERR_*
+MARVIN_BDFS_DIR_OPEN          EQU 0x00BE  ; out: Z=ok HL=vol name ptr; NZ=BDFS_ERR_NOT_FORMATTED
+MARVIN_BDFS_DIR_NEXT          EQU 0x00C1  ; out: Z=ok HL=entry ptr; NZ=BDFS_ERR_END_OF_DIR C=active count
+MARVIN_BDFS_FILE_WRITE        EQU 0x00C4  ; in: HL=filename DE=src BC=len  out: Z=ok NZ=BDFS_ERR_*
+MARVIN_BDFS_GET_ERR_MSG       EQU 0x00C7  ; in: A=BDFS_ERR_*  out: HL=message string (0 if unknown)
+MARVIN_BDFS_FILE_READ         EQU 0x00CA  ; in: HL=filename DE=dest  out: Z=ok BC=bytes NZ=BDFS_ERR_*  read file into RAM
+MARVIN_BDFS_FILE_DELETE       EQU 0x00CD  ; in: HL=filename  out: Z=ok NZ=BDFS_ERR_*  soft-delete file
+
+; String utilities  (all targets)
+MARVIN_PUTCHAR_DEC            EQU 0x00D0  ; in: A=value               print byte as decimal (no leading zeros)
+MARVIN_HEX_BYTE_VAL           EQU 0x00D3  ; in: HL=hex_str  out: A=byte HL=advanced  parse 2 hex chars to byte
+
 ENDIF ; _MARVIN_INC
