@@ -1,0 +1,8 @@
+main.asm:
+     1                              ORG 0x8000
+     2                          
+     3                          start:
+     4                              ; load the message address into HL
+     5  0000  00                    nop
+     6  0001  c30000                jp start
+     7                          
