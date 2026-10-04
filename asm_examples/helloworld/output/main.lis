@@ -1,0 +1,26 @@
+main.asm:
+     1                          
+     2                              ORG 0x8000
+     3                          
+     4                          start:
+     5                              ; load the message address into HL
+     6  0000  210c00                ld hl,message
+     7                          print:
+     8                              ; call the monitor puts routine, which will print to the console the message pointed to by HL
+     9  0003  cd0000                call MARVIN_PUTS
+    10                          wait:
+    11                              ; call the monitor getchar to get a character from the console input
+    12                              ; this will wait until a character is received
+    13  0006  cd0000                call MARVIN_GETCHAR
+    14                          end:
+    15                              ; jump back to the monitor
+    16  0009  c30000                jp MARVIN_WARMSTART
+    17                          
+    18                          message:
+    19                              ; message to be printed
+    20                              ; must be terminated by a 0
+    21  000c  48656c6c6f20776f      db "Hello world!\n"
+              726c64210a        
+    22  0019  2868697420616e79      db "(hit any key)\n",0
+              206b6579290a00    
+    23                          

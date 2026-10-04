@@ -1,0 +1,4 @@
+__head                          = $8000 ; const, public, def, , ,
+__size                          = $0004 ; const, public, def, , ,
+__tail                          = $8004 ; const, public, def, , ,
+start                           = $8000 ; addr, local, , main, , main.asm:3
