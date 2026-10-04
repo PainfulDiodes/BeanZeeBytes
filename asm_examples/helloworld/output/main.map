@@ -1,0 +1,12 @@
+MARVIN_GETCHAR                  = $004C ; const, local, , main, , marvin.inc:23
+MARVIN_PUTS                     = $0049 ; const, local, , main, , marvin.inc:22
+MARVIN_WARMSTART                = $0040 ; const, local, , main, , marvin.inc:15
+ORGDEF                          = $8000 ; const, local, , main, , main.asm:0
+__head                          = $8000 ; const, public, def, , ,
+__size                          = $0028 ; const, public, def, , ,
+__tail                          = $8028 ; const, public, def, , ,
+end                             = $8009 ; addr, local, , main, , main.asm:15
+message                         = $800C ; addr, local, , main, , main.asm:19
+print                           = $8003 ; addr, local, , main, , main.asm:8
+start                           = $8000 ; addr, local, , main, , main.asm:5
+wait                            = $8006 ; addr, local, , main, , main.asm:11

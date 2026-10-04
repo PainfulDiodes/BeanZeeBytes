@@ -8,8 +8,10 @@ start:
 __Exit:
                     call      crt0_exit                     ;[800e] cd 49 80
                     jp        MARVIN_WARMSTART              ;[8011] c3 40 00
+
 l_dcal:
                     jp        (hl)                          ;[8014] e9
+
 _fputc_cons:
                     pop       bc                            ;[8015] c1
                     pop       hl                            ;[8016] e1
@@ -169,6 +171,7 @@ l_eat_ws:
                     ret       c                             ;[80ba] d8
                     inc       hl                            ;[80bb] 23
                     jr        l_eat_ws                      ;[80bc] 18 f8
+
 l_num2char:
                     cp        $0a                           ;[80be] fe 0a
                     jr        nc,alpha                      ;[80c0] 30 03
@@ -239,6 +242,7 @@ l_neg_hl:
 l_long_mod_u:
                     and       a                             ;[8105] a7
                     jr        common                        ;[8106] 18 01
+
 l_long_div_u:
                     scf                                     ;[8108] 37
 common:
@@ -272,6 +276,7 @@ l_ge:
                     cp        l                             ;[812b] bd
                     ccf                                     ;[812c] 3f
                     jp        l_compare_result              ;[812d] c3 30 81
+
 l_compare_result:
                     ld        hl,$0000                      ;[8130] 21 00 00
                     ret       nc                            ;[8133] d0
@@ -280,6 +285,7 @@ l_compare_result:
 
 l_jphl:
                     jp        (hl)                          ;[8136] e9
+
                     pop       hl                            ;[8137] e1
                     pop       hl                            ;[8138] e1
                     pop       hl                            ;[8139] e1
@@ -310,6 +316,7 @@ l_uge:
                     cp        l                             ;[814b] bd
                     ccf                                     ;[814c] 3f
                     jp        l_compare_result              ;[814d] c3 30 81
+
 _main:
                     ld        hl,$8791                      ;[8150] 21 91 87
                     push      hl                            ;[8153] e5
@@ -349,9 +356,10 @@ ___fgetc:
                     ld        l,(ix+$03)                    ;[818a] dd 6e 03
                     ld        h,$00                         ;[818d] 26 00
                     jp        fgetc_end                     ;[818f] c3 02 82
+
 no_ungetc:
                     bit       7,a                           ;[8192] cb 7f
-                    jr        z,no_string_stdio_fgetc_c     ;[8194] 28 28
+                    jr        z,no_string_classic_stdio_fgetc_c;[8194] 28 28
                     ld        l,(ix+$04)                    ;[8196] dd 6e 04
                     ld        h,(ix+$05)                    ;[8199] dd 66 05
                     ld        a,h                           ;[819c] 7c
@@ -371,7 +379,8 @@ no_ungetc:
                     ld        l,a                           ;[81b9] 6f
                     ld        h,$00                         ;[81ba] 26 00
                     jr        fgetc_end                     ;[81bc] 18 44
-no_string_stdio_fgetc_c:
+
+no_string_classic_stdio_fgetc_c:
                     bit       5,a                           ;[81be] cb 6f
                     and       $20                           ;[81c0] e6 20
                     jr        z,not_extra_fp                ;[81c2] 28 0f
@@ -381,6 +390,7 @@ no_string_stdio_fgetc_c:
                     call      l_jphl                        ;[81cc] cd 36 81
                     jr        nc,fgetc_end                  ;[81cf] 30 31
                     jr        seteof                        ;[81d1] 18 27
+
 not_extra_fp:
                     push      ix                            ;[81d3] dd e5
                     call      ___fchkstd                    ;[81d5] cd 05 82
@@ -391,6 +401,7 @@ not_extra_fp:
                     call      _fputc_cons                   ;[81e0] cd 15 80
                     pop       hl                            ;[81e3] e1
                     jr        fgetc_end                     ;[81e4] 18 1c
+
 no_stdin:
                     ld        l,(ix+$00)                    ;[81e6] dd 6e 00
                     ld        h,(ix+$01)                    ;[81e9] dd 66 01
@@ -450,7 +461,7 @@ asm_fputc_callee:
                     ret       z                             ;[8232] c8
                     ld        a,(ix+$02)                    ;[8233] dd 7e 02
                     and       $80                           ;[8236] e6 80
-                    jr        z,no_string_stdio_fputc_callee_c;[8238] 28 26
+                    jr        z,no_string_classic_stdio_fputc_callee_c;[8238] 28 26
                     ld        e,(ix+$04)                    ;[823a] dd 5e 04
                     ld        d,(ix+$05)                    ;[823d] dd 56 05
                     ld        a,d                           ;[8240] 7a
@@ -474,7 +485,7 @@ print_char_to_buf:
                     ld        h,$00                         ;[825d] 26 00
                     ret                                     ;[825f] c9
 
-no_string_stdio_fputc_callee_c:
+no_string_classic_stdio_fputc_callee_c:
                     ld        a,(ix+$02)                    ;[8260] dd 7e 02
                     and       $20                           ;[8263] e6 20
                     jr        z,no_net                      ;[8265] 28 0e
@@ -576,6 +587,7 @@ cont:
 print_format_character:
                     call      __printf_doprint              ;[8301] cd 49 83
                     jr        __printf_loop                 ;[8304] 18 dd
+
 handle_percent:
                     ld        a,(hl)                        ;[8306] 7e
                     inc       hl                            ;[8307] 23
@@ -592,6 +604,7 @@ handle_percent:
                     cp        $68                           ;[831d] fe 68
                     jr        nz,no_long_qualifier          ;[831f] 20 0c
                     jr        get_next_char                 ;[8321] 18 08
+
 check_long_qualifier:
                     cp        $6c                           ;[8323] fe 6c
                     jr        nz,no_long_qualifier          ;[8325] 20 06
@@ -622,10 +635,12 @@ no_format_match:
                     inc       hl                            ;[8341] 23
                     inc       hl                            ;[8342] 23
                     jr        __printf_format_search_loop   ;[8343] 18 ed
+
 no_format_found:
                     pop       hl                            ;[8345] e1
                     ld        a,c                           ;[8346] 79
                     jr        print_format_character        ;[8347] 18 b8
+
 __printf_doprint:
                     push      hl                            ;[8349] e5
                     push      de                            ;[834a] d5
@@ -653,6 +668,7 @@ no_inc:
                     ld        l,(ix+$08)                    ;[836c] dd 6e 08
                     ld        h,(ix+$09)                    ;[836f] dd 66 09
                     jp        (hl)                          ;[8372] e9
+
 doprint_return:
                     ex        af,af'                        ;[8373] 08
                     pop       af                            ;[8374] f1
@@ -684,6 +700,7 @@ flag_loop:
                     ld        a,(hl)                        ;[8390] 7e
                     inc       hl                            ;[8391] 23
                     jr        flags_again                   ;[8392] 18 ee
+
 flags:
                     dec       l                             ;[8394] 2d
                     ld        bc,$022b                      ;[8395] 01 2b 02
@@ -707,6 +724,7 @@ starred_width:
                     ex        de,hl                         ;[83b5] eb
                     ex        (sp),hl                       ;[83b6] e3
                     jr        save_width                    ;[83b7] 18 0e
+
 check_width_from_format:
                     cp        $30                           ;[83b9] fe 30
                     jr        c,check_precision             ;[83bb] 38 13
@@ -736,6 +754,7 @@ check_precision:
                     ex        de,hl                         ;[83e6] eb
                     ex        (sp),hl                       ;[83e7] e3
                     jr        save_precision                ;[83e8] 18 05
+
 check_precision_from_format:
                     push      de                            ;[83ea] d5
                     call      asm_atoi                      ;[83eb] cd 40 87
@@ -754,12 +773,14 @@ __printf_handle_B:
                     res       1,(ix-$04)                    ;[83fd] dd cb fc 8e
                     ld        c,$00                         ;[8401] 0e 00
                     jp        __printf_number               ;[8403] c3 c3 84
+
 __printf_handle_X:
                     ld        (ix-$09),$10                  ;[8406] dd 36 f7 10
                     ld        (ix-$03),$e0                  ;[840a] dd 36 fd e0
                     res       1,(ix-$04)                    ;[840e] dd cb fc 8e
                     ld        c,$00                         ;[8412] 0e 00
                     jp        __printf_number               ;[8414] c3 c3 84
+
 __printf_handle_c:
                     push      hl                            ;[8417] e5
                     call      get_16bit_ap_parameter        ;[8418] cd 59 86
@@ -767,41 +788,50 @@ __printf_handle_c:
                     ld        a,l                           ;[841c] 7d
                     call      __printf_print_to_buf         ;[841d] cd 47 86
                     jp        __printf_print_the_buffer     ;[8420] c3 35 86
+
 __printf_handle_d:
                     ld        c,$01                         ;[8423] 0e 01
                     jp        __printf_number               ;[8425] c3 c3 84
+
 __printf_handle_ll:
                     ld        c,(hl)                        ;[8428] 4e
                     inc       hl                            ;[8429] 23
                     push      hl                            ;[842a] e5
                     ld        hl,$87d0                      ;[842b] 21 d0 87
                     jp        __printf_format_search_loop   ;[842e] c3 32 83
+
 __printf_handle_llB:
                     ld        c,$00                         ;[8431] 0e 00
                     ld        (ix-$09),$02                  ;[8433] dd 36 f7 02
                     res       1,(ix-$04)                    ;[8437] dd cb fc 8e
                     jp        __printf_number64             ;[843b] c3 5c 85
+
 __printf_handle_llX:
                     ld        c,$00                         ;[843e] 0e 00
                     ld        (ix-$09),$10                  ;[8440] dd 36 f7 10
                     ld        (ix-$03),$e0                  ;[8444] dd 36 fd e0
                     res       1,(ix-$04)                    ;[8448] dd cb fc 8e
                     jp        __printf_number64             ;[844c] c3 5c 85
+
 __printf_handle_lld:
                     ld        c,$01                         ;[844f] 0e 01
                     jp        __printf_number64             ;[8451] c3 5c 85
+
 __printf_handle_llo:
                     ld        c,$00                         ;[8454] 0e 00
                     ld        (ix-$09),$08                  ;[8456] dd 36 f7 08
                     jp        __printf_number64             ;[845a] c3 5c 85
+
 __printf_handle_llu:
                     ld        c,$00                         ;[845d] 0e 00
                     jp        __printf_number64             ;[845f] c3 5c 85
+
 __printf_handle_llx:
                     ld        c,$00                         ;[8462] 0e 00
                     ld        (ix-$09),$10                  ;[8464] dd 36 f7 10
                     res       1,(ix-$04)                    ;[8468] dd cb fc 8e
                     jp        __printf_number64             ;[846c] c3 5c 85
+
 __printf_handle_n:
                     push      hl                            ;[846f] e5
                     call      get_16bit_ap_parameter        ;[8470] cd 59 86
@@ -812,10 +842,12 @@ __printf_handle_n:
                     ld        (hl),a                        ;[847b] 77
                     pop       hl                            ;[847c] e1
                     jp        __printf_loop                 ;[847d] c3 e3 82
+
 __printf_handle_o:
                     ld        (ix-$09),$08                  ;[8480] dd 36 f7 08
                     ld        c,$00                         ;[8484] 0e 00
                     jp        __printf_number               ;[8486] c3 c3 84
+
 __printf_handle_s:
                     push      hl                            ;[8489] e5
                     call      get_16bit_ap_parameter        ;[848a] cd 59 86
@@ -842,14 +874,17 @@ printstr_end:
                     pop       de                            ;[84ac] d1
                     pop       hl                            ;[84ad] e1
                     jp        __printf_loop                 ;[84ae] c3 e3 82
+
 __printf_handle_u:
                     ld        c,$00                         ;[84b1] 0e 00
                     jp        __printf_number               ;[84b3] c3 c3 84
+
 __printf_handle_p:
                     ld        (ix-$09),$10                  ;[84b6] dd 36 f7 10
                     res       1,(ix-$04)                    ;[84ba] dd cb fc 8e
                     ld        c,$00                         ;[84be] 0e 00
                     jp        __printf_number               ;[84c0] c3 c3 84
+
 __printf_number:
                     push      hl                            ;[84c3] e5
                     bit       6,(ix-$04)                    ;[84c4] dd cb fc 76
@@ -860,6 +895,7 @@ printlong:
                     ld        l,a                           ;[84ce] 6f
                     ld        h,b                           ;[84cf] 60
                     jr        miniprintn                    ;[84d0] 18 0c
+
 printf_number16:
                     call      get_16bit_ap_parameter        ;[84d2] cd 59 86
                     push      de                            ;[84d5] d5
@@ -878,6 +914,7 @@ miniprintn:
 printsign___printf_number:
                     call      __printf_print_to_buf         ;[84ea] cd 47 86
                     jr        miniprintn_start_process      ;[84ed] 18 30
+
 noneg___printf_number:
                     ld        a,$20                         ;[84ef] 3e 20
                     bit       3,(ix-$04)                    ;[84f1] dd cb fc 5e
@@ -931,6 +968,7 @@ printloop:
 printloop1:
                     call      __printf_print_to_buf         ;[8548] cd 47 86
                     jr        printloop                     ;[854b] 18 ec
+
 pickup_sccz80_llong:
                     dec       de                            ;[854d] 1b
                     dec       de                            ;[854e] 1b
@@ -946,6 +984,7 @@ pickup_sccz80_llong:
                     ld        l,e                           ;[8558] 6b
                     ld        h,d                           ;[8559] 62
                     jr        continue                      ;[855a] 18 13
+
 __printf_number64:
                     push      hl                            ;[855c] e5
                     bit       0,(ix+$06)                    ;[855d] dd cb 06 46
@@ -974,6 +1013,7 @@ continue:
 printsign___printf_number64:
                     call      __printf_print_to_buf         ;[857d] cd 47 86
                     jr        number64_start_process        ;[8580] 18 30
+
 noneg___printf_number64:
                     ld        a,$20                         ;[8582] 3e 20
                     bit       3,(ix-$04)                    ;[8584] dd cb fc 5e
@@ -1015,6 +1055,7 @@ number64_start_process:
                     call      asm_strlen                    ;[85d3] cd 86 87
                     ld        (ix-$0a),l                    ;[85d6] dd 75 f6
                     jp        __printf_print_the_buffer     ;[85d9] c3 35 86
+
 __printf_get_buffer_address:
                     push      ix                            ;[85dc] dd e5
                     pop       hl                            ;[85de] e1
@@ -1036,6 +1077,7 @@ __printf_print_aligned:
                     jr        nc,adjust_width               ;[85f5] 30 05
                     ld        hl,$0000                      ;[85f7] 21 00 00
                     jr        width_done                    ;[85fa] 18 03
+
 adjust_width:
                     and       a                             ;[85fc] a7
                     sbc       hl,de                         ;[85fd] ed 52
@@ -1055,6 +1097,7 @@ print_buffer:
                     inc       bc                            ;[8617] 03
                     dec       de                            ;[8618] 1b
                     jr        print_buffer                  ;[8619] 18 ed
+
 buffer_done:
                     ld        c,$20                         ;[861b] 0e 20
 print_padding_loop:
@@ -1067,12 +1110,14 @@ print_padding_loop:
                     pop       bc                            ;[8625] c1
                     dec       hl                            ;[8626] 2b
                     jr        print_padding                 ;[8627] 18 00
+
 print_padding:
                     ld        c,$20                         ;[8629] 0e 20
                     bit       2,(ix-$04)                    ;[862b] dd cb fc 56
                     jr        z,print_padding_loop          ;[862f] 28 ec
                     ld        c,$30                         ;[8631] 0e 30
                     jr        print_padding_loop            ;[8633] 18 e8
+
 __printf_print_the_buffer:
                     ld        d,$00                         ;[8635] 16 00
                     ld        e,(ix-$0a)                    ;[8637] dd 5e f6
@@ -1083,6 +1128,7 @@ __printf_print_the_buffer:
                     pop       de                            ;[8642] d1
                     pop       hl                            ;[8643] e1
                     jp        __printf_loop                 ;[8644] c3 e3 82
+
 __printf_print_to_buf:
                     push      hl                            ;[8647] e5
                     push      bc                            ;[8648] c5
@@ -1223,6 +1269,7 @@ loop_1:
 divide_zero:
                     dec       de                            ;[86db] 1b
                     jp        error_divide_by_zero_mc       ;[86dc] c3 1e 87
+
 l_divu_64_64x8:
                     ld        a,c                           ;[86df] 79
                     or        a                             ;[86e0] b7
@@ -1254,6 +1301,7 @@ loop_03:
 divide_by_zero:
                     call      error_llmc                    ;[86ff] cd 31 87
                     jp        error_divide_by_zero_mc       ;[8702] c3 1e 87
+
                     pop       hl                            ;[8705] e1
                     pop       hl                            ;[8706] e1
                     pop       hl                            ;[8707] e1
@@ -1263,6 +1311,7 @@ errno_zc:
                     ld        h,$00                         ;[870a] 26 00
                     ld        (_errno),hl                   ;[870c] 22 ea 87
                     jp        error_zc                      ;[870f] c3 16 87
+
                     pop       hl                            ;[8712] e1
                     pop       hl                            ;[8713] e1
                     pop       hl                            ;[8714] e1
@@ -1281,6 +1330,7 @@ errno_mc:
                     ld        h,$00                         ;[8720] 26 00
                     ld        (_errno),hl                   ;[8722] 22 ea 87
                     jp        error_mc                      ;[8725] c3 2b 87
+
                     pop       hl                            ;[8728] e1
                     pop       hl                            ;[8729] e1
                     pop       hl                            ;[872a] e1
@@ -1295,10 +1345,12 @@ error_llmc:
                     call      error_lmc                     ;[8732] cd 3a 87
                     exx                                     ;[8735] d9
                     jp        error_lmc                     ;[8736] c3 3a 87
+
                     pop       hl                            ;[8739] e1
 error_lmc:
                     ld        de,$ffff                      ;[873a] 11 ff ff
                     jp        error_mc                      ;[873d] c3 2b 87
+
 asm_atoi:
                     call      l_eat_ws                      ;[8740] cd b6 80
 asm0_atoi:
